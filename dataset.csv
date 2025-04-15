@@ -1,0 +1,11 @@
+phrase,category
+"The car struggles to start and emits blue smoke from the exhaust when it runs. The spark plugs appear wet with oil when removed.",Ignition System Malfunctions
+"During braking, there's a vibration in the steering wheel and a metallic noise from the front wheels. The discs show signs of irregular wear.",Brake System Defects
+"The engine temperature rises rapidly to the red zone even on short trips. A green fluid leak is noticeable under the vehicle when parked.",Cooling System Anomalies
+"The engine misfires during acceleration and fuel consumption has increased. The injection warning light turns on intermittently.",Fuel System Problems
+"Sharp knocks are heard when changing gears and the transmission fluid appears dark with a burnt smell. The clutch seems to slip under strain.",Transmission Problems
+"The headlights dim when other electrical devices are turned on. The battery discharges after a few days of inactivity and the alternator emits a hissing sound.",Electrical/Electronic Failures
+"The brake pedal gradually sinks when kept pressed. Traces of clear fluid are noticed near the wheels and the ABS light is on.",Brake System Defects
+"The vehicle shows irregular idling and produces black smoke from the exhaust during acceleration. The injectors appear to be clogged.",Fuel System Problems
+"When starting the engine, a screeching noise is heard from the front. The timing belt shows signs of wear and its tension appears insufficient.",Ignition System Malfunctions
+"The car doesn't respond correctly to electronic commands and dashboard warning lights turn on randomly. The control unit resets frequently.",Electrical/Electronic Failures
