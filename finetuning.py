@@ -1,9 +1,14 @@
 import pandas as pd
 from transformers import AutoTokenizer, AutoModelForCausalLM
+from datetime import datetime
+import os
 import torch
 
-# switch between zero-shot and few-shot
-USE_FEW_SHOT = True
+USE_FEW_SHOT = True  # switch between zero-shot and few-shot
+
+EXAMPLE_POOL_SIZE = 10 # choose amount of examples used in the training
+
+CSV_RESULT_FILE = "./accuracy_example_pool_sizes.csv" # csv file for saving the results
 
 def build_few_shot_prompt(phrase, categories, examples):
     prompt = (
@@ -71,7 +76,24 @@ def evaluate_accuracy(df, predictions):
             correct += 1
 
     accuracy = correct / total * 100
-    print(f"\nModel Accuracy: {accuracy:.2f}% ({correct}/{total} correct)")
+    return accuracy, correct, total
+
+
+def log_results_to_csv(csv_filename, example_pool_size, accuracy):
+    new_row = {
+        "Timestamp": datetime.now().strftime("%Y-%m-%d/%H:%M:%S"),
+        "Example Pool Size": example_pool_size,
+        "Accuracy (%)": round(accuracy, 2)
+    }
+
+    if os.path.exists(csv_filename):
+        df = pd.read_csv(csv_filename)
+        df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
+    else:
+        df = pd.DataFrame([new_row])
+
+    df.to_csv(csv_filename, index=False)
+
 
 if __name__ == "__main__":
     categories = [
@@ -83,13 +105,14 @@ if __name__ == "__main__":
         "Electrical/Electronic Failures"
     ]
 
-    #csv contains (phrases and categories columns)
+    #csv dataset content (phrases and categories columns)
     df = pd.read_csv("dataset.csv")
 
     #select examples for training
-    few_shot_examples = df.head(10).to_dict(orient='records') if USE_FEW_SHOT else None
+    few_shot_examples = df.head(EXAMPLE_POOL_SIZE).to_dict(orient='records') if USE_FEW_SHOT else None
+
     #use the reamining examples (the ones used for training are not case of study)
-    test_df = df.iloc[10:].reset_index(drop=True)
+    test_df = df.iloc[EXAMPLE_POOL_SIZE:].reset_index(drop=True)
 
     model_id = "google/gemma-3-1b-it"
     model = AutoModelForCausalLM.from_pretrained(model_id, torch_dtype=torch.float32).to("mps").eval()
@@ -103,4 +126,6 @@ if __name__ == "__main__":
         predictions.append(category)
         print(f"{i+1}. \"{phrase}\" →  {category}")
 
-    evaluate_accuracy(test_df, predictions)
+    accuracy,correct,total = evaluate_accuracy(test_df, predictions)
+    print(f"\nModel Accuracy: {accuracy:.2f}% ({correct}/{total} correct) | EXAMPLE POOLS SIZE: {EXAMPLE_POOL_SIZE}\n")
+    log_results_to_csv(CSV_RESULT_FILE, EXAMPLE_POOL_SIZE, accuracy)
