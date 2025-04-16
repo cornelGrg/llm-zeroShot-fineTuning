@@ -9,3 +9,88 @@ phrase,category
 "The vehicle shows irregular idling and produces black smoke from the exhaust during acceleration. The injectors appear to be clogged.",Fuel System Problems
 "When starting the engine, a screeching noise is heard from the front. The timing belt shows signs of wear and its tension appears insufficient.",Ignition System Malfunctions
 "The car doesn't respond correctly to electronic commands and dashboard warning lights turn on randomly. The control unit resets frequently.",Electrical/Electronic Failures
+"The vehicle stalls when idling and hesitates before accelerating. The fuel gauge reading fluctuates and there's a strong gasoline smell around the car.",Fuel System Problems
+"The engine overheats in traffic jams and the radiator fan runs continuously. Steam occasionally escapes from under the hood and the coolant reservoir is empty despite recent filling.",Cooling System Anomalies
+"Gear shifts are rough and delayed, especially when cold. The transmission makes a whining noise at highway speeds and there's a red fluid leak under the vehicle.",Transmission Problems
+"Power windows operate slowly and the radio cuts out occasionally. Several fuses have blown repeatedly and there's a burning smell from the dashboard.",Electrical/Electronic Failures
+"The steering wheel requires more effort to turn and a continuous whining noise is heard when turning. The power steering fluid reservoir is below minimum level with dark, dirty fluid.",Transmission Problems
+"The vehicle pulls to one side during braking and the brake pedal feels spongy. The brake fluid appears contaminated with a dark color and small particles.",Brake System Defects
+"The engine runs roughly after reaching operating temperature and the check engine light is constantly on. Fuel efficiency has dropped by 30% in recent weeks.",Fuel System Problems
+"The radiator has visible corrosion and deposits. The heater doesn't provide warm air and the temperature gauge fluctuates erratically during operation.",Cooling System Anomalies
+"The engine backfires and hesitates during acceleration. The distributor cap shows carbon tracking and the ignition wires have visible cracks in the insulation.",Ignition System Malfunctions
+"The ABS warning light stays on after starting the vehicle. One wheel locks up during heavy braking and there's an audible grinding noise from that wheel.",Brake System Defects
+"Dashboard instruments work intermittently and exterior lights flash without reason. The battery terminals show severe corrosion and the starter motor sometimes fails to engage.",Electrical/Electronic Failures
+"The coolant mixes with oil, creating a milky substance visible on the dipstick. The exhaust emits white smoke and the engine temperature is consistently higher than normal.",Cooling System Anomalies
+"The automatic transmission shifts gears at the wrong speeds and sometimes doesn't shift at all. There's a burning smell after driving and the transmission warning light is on.",Transmission Problems
+"The engine cranks but doesn't start, especially in wet conditions. The distributor appears damp inside and spark plug wires show high resistance when tested.",Ignition System Malfunctions
+"The fuel pump makes a loud whining noise and the engine loses power at high speeds. Fuel pressure tests show readings below manufacturer specifications.",Fuel System Problems
+"The brake rotors have deep grooves and the pads are worn unevenly. The handbrake requires excessive movement before engaging and fails to hold on steeper inclines.",Brake System Defects
+"Multiple electrical components fail simultaneously and the battery requires frequent jump starts. The voltage regulator test shows inconsistent readings and the charging system is ineffective.",Electrical/Electronic Failures
+"The engine hesitates and stumbles during cold starts but improves after warming up. The fuel filter appears clogged and there's sediment in the fuel tank.",Fuel System Problems
+"When accelerating uphill, the engine knocks loudly. The spark plugs show abnormal gaps and the ignition timing is off by several degrees when checked.",Ignition System Malfunctions
+"The cooling fan doesn't activate even when the engine is hot. The thermostat appears to be stuck closed and the coolant hoses are soft and deteriorated.",Cooling System Anomalies
+"The vehicle lurches forward when shifting from park to drive. The transmission dipstick shows low fluid levels and metal particles are visible in the fluid.",Transmission Problems
+"Brake discs overheat after moderate use and there's a burning smell after stopping. The brake calipers don't release fully and remain partially engaged.",Brake System Defects
+"There's an audible clicking when turning the ignition key but the starter doesn't engage. The solenoid tests positive for failure and the starter wiring shows signs of heat damage.",Electrical/Electronic Failures
+"The car runs irregularly at highway speeds and the fuel pressure drops under load. The fuel injectors spray unevenly when tested and some are partially clogged.",Fuel System Problems
+"The automatic transmission leaks fluid from the pan gasket and shifts are becoming increasingly harsh. The transmission fluid smells burnt and has a dark color with metal particles.",Transmission Problems
+"The coolant reservoir boils over even in moderate temperatures. The water pump makes noise when rotating and the radiator cap fails to maintain proper pressure.",Cooling System Anomalies
+"The vehicle has difficulty maintaining a stable idle. Compression tests show uneven readings across cylinders and the spark plug electrodes are fouled with carbon deposits.",Ignition System Malfunctions
+"Multiple warning lights appear on the dashboard including check engine and battery. The main computer module shows signs of water damage and the wiring harness has corroded connectors.",Electrical/Electronic Failures
+"The brake pedal vibrates violently during emergency stopping. The brake fluid has not been changed in years and air is present in the hydraulic system.",Brake System Defects
+"The vehicle loses power when the air conditioning is turned on. The fuel pump cycles on and off audibly and the engine hesitates when under load.",Fuel System Problems
+"The engine exhibits a ticking noise that increases with RPM. Valve adjustments are out of specification and the ignition coils show signs of arcing.",Ignition System Malfunctions
+"The fuel gauge shows erratic readings and the engine sputters at high speeds. When the tank is nearly empty, the car stalls when turning corners.",Fuel System Problems
+"The ignition coil has visible cracks and the engine has a rough idle. Starting requires multiple attempts and there's a noticeable delay between turning the key and engine firing.",Ignition System Malfunctions
+"The driver's side floor mat is damp with coolant. The heater core is leaking and there's a sweet smell inside the cabin when the heating is on.",Cooling System Anomalies
+"The car makes a high-pitched squealing noise when braking. The brake pads are worn down to the metal and the rotors show heat discoloration.",Brake System Defects
+"The transmission is slow to engage when shifting from park to drive. There's a delay of several seconds before the vehicle moves and a clunking noise can be heard.",Transmission Problems
+"The power locks activate randomly and the alarm goes off without reason. The body control module shows error codes and the remote key fob works inconsistently.",Electrical/Electronic Failures
+"The vehicle hesitates when accelerating from a stop and the check engine light flashes during this hesitation. The fuel pressure regulator is leaking when examined.",Fuel System Problems
+"Engine knocking becomes louder as engine temperature increases. The timing chain is loose and has jumped several teeth, causing valve timing to be significantly off.",Ignition System Malfunctions
+"The water pump is making a grinding noise and the bearings have excessive play. Coolant is leaking where the pump meets the engine block.",Cooling System Anomalies
+"When making tight turns at low speeds, the brakes seem to grab unexpectedly. The ABS module has corrosion on its connectors and the wheel speed sensors are contaminated.",Brake System Defects
+"The transmission slips between second and third gear, especially under heavy acceleration. The transmission control module shows errors related to solenoid function.",Transmission Problems
+"The dashboard lights flicker at highway speeds and the alternator output is inconsistent when tested. The voltage regulator is failing intermittently.",Electrical/Electronic Failures
+"The exhaust emits a strong smell of unburned fuel and the oxygen sensor readings are outside normal parameters. The fuel injectors pulse irregularly when monitored.",Fuel System Problems
+"The spark plug wires are arcing visibly at night and there's a misfire that moves between different cylinders. The distributor rotor shows excessive wear.",Ignition System Malfunctions
+"The engine fan runs continuously even after the engine is turned off. The coolant temperature sensor provides incorrect readings and has corroded terminals.",Cooling System Anomalies
+"The brake lines have visible rust and are leaking at connection points. The master cylinder reservoir level drops gradually even when the vehicle is not used.",Brake System Defects
+"There's a loud clunk when engaging reverse gear and metal fragments are visible in the transmission pan when drained. The torque converter shudders at specific speeds.",Transmission Problems
+"Fuses blow frequently, particularly those related to the lighting system. The wiring harness shows signs of rodent damage with multiple exposed wires.",Electrical/Electronic Failures
+"The carburetor is flooding, causing the engine to run rich and stall frequently. The fuel pump delivers excessive pressure and the float needle valve doesn't seat properly.",Fuel System Problems
+"The engine has a severe vibration at idle which smooths out at higher RPMs. The motor mounts are broken and the ignition module overheats after extended operation.",Ignition System Malfunctions
+"The car overheats when stuck in traffic but maintains normal temperature on the highway. The cooling fan clutch is seized and doesn't engage properly.",Cooling System Anomalies
+"The car pulls strongly to the right when braking. The left front brake caliper is partially seized and the brake hose is swollen, restricting fluid return.",Brake System Defects
+"The CV joints make a clicking noise when turning and the transmission fluid is contaminated with metal particles. The differential bearings show abnormal wear patterns.",Transmission Problems
+"The battery won't hold a charge for more than a few days. There's a constant drain on the system even when the vehicle is off, and the alternator belt is loose.",Electrical/Electronic Failures
+"The vehicle runs extremely rich with black sooty residue around the tailpipe. The mass airflow sensor is contaminated and providing false readings.",Fuel System Problems
+"The engine stumbles specifically at 3000 RPM but runs smoothly above and below this speed. The ignition module cuts out when it reaches operating temperature.",Ignition System Malfunctions
+"The radiator fins are blocked with debris and many are bent or damaged. The coolant recovery tank is cracked and leaking when the system is under pressure.",Cooling System Anomalies
+"The pedal goes all the way to the floor before brakes engage. There's air in the brake lines and the proportioning valve is sticking when tested.",Brake System Defects
+"The automatic transmission fails to downshift when passing. The governor gear is stripped and the valve body passages are clogged with debris.",Transmission Problems
+"The horn sounds continuously without being pressed. The steering wheel clock spring is damaged and multiple electrical shorts are detected in the steering column.",Electrical/Electronic Failures
+"The car has significantly reduced power and black smoke comes from the exhaust. The fuel filter is completely clogged and the return line is kinked.",Fuel System Problems
+"The crankshaft position sensor is providing intermittent signals. The engine stalls unpredictably and is difficult to restart when hot.",Ignition System Malfunctions
+"The head gasket is leaking combustion gases into the cooling system. Bubbles are visible in the radiator and the oil has a milky appearance.",Cooling System Anomalies
+"The brake pedal gradually sinks to the floor during prolonged stops at traffic lights. The master cylinder internal seals are leaking past the primary cup.",Brake System Defects
+"The manual transmission grinds when shifting into third gear. The synchronizer rings are worn and the shift fork is bent from previous hard shifting.",Transmission Problems
+"The vehicle's electronics reset when going over bumps. There are loose connections at the main ground points and corrosion at the battery terminals.",Electrical/Electronic Failures
+"The engine hesitates specifically during cold weather starts. The fuel line has condensation freezing in it and the winter-grade fuel is inappropriate for the temperature.",Fuel System Problems
+"The camshaft lobes show excessive wear and the valve clearances are out of specification. The oil pressure is low at idle, affecting the variable valve timing system.",Ignition System Malfunctions
+"Coolant is mixing with the engine oil causing emulsion. The intake manifold gasket is deteriorated and allowing coolant to seep into the cylinders.",Cooling System Anomalies
+"There's a noticeable pulsation in the brake pedal during normal stopping. The rotors are warped from excessive heat and have developed hard spots.",Brake System Defects
+"The transfer case makes a howling noise in four-wheel drive mode. The fluid is contaminated and the chain has stretched beyond serviceable limits.",Transmission Problems
+"The power windows operate at different speeds and sometimes reverse direction. The window regulators have bent tracks and the motors draw excessive current.",Electrical/Electronic Failures
+"The fuel level sensor provides inaccurate readings. The gauge shows empty when the tank is a quarter full and the warning light remains on continuously.",Fuel System Problems
+"The engine exhibits detonation under load, particularly during hot weather. The EGR valve is stuck open and the knock sensor has failed to detect pre-ignition.",Ignition System Malfunctions
+"The engine cooling system has been contaminated with stop-leak products. The radiator tubes are partially blocked and flow is restricted through the core.",Cooling System Anomalies
+"The brake booster provides insufficient assistance, requiring much greater pedal force than normal. The vacuum line is cracked and the check valve is stuck.",Brake System Defects
+"The overdrive gear engages and disengages randomly during highway cruising. The overdrive solenoid has electrical issues and the speed sensor provides erratic signals.",Transmission Problems
+"The dashboard warning lights stay on after starting. The instrument cluster has faulty circuits and the data communication bus has intermittent faults.",Electrical/Electronic Failures
+"The fuel tank has a slow leak where the sending unit meets the tank. There's a persistent smell of fuel after parking and the ground shows wet spots.",Fuel System Problems
+"The camshaft timing is retarded due to a stretched timing chain. The engine lacks power at high RPM and has difficulty maintaining highway speeds on inclines.",Ignition System Malfunctions
+"The vehicle's cabin heater produces only cool air even when the engine is at operating temperature. The heater control valve is stuck closed and the thermostat is opening too early.",Cooling System Anomalies
+"The parking brake fails to hold the vehicle on modest inclines. The cables are stretched and the rear brake shoe adjusters are seized from corrosion.",Brake System Defects
+"The transmission fluid is leaking from the front pump seal. There's a red puddle under the vehicle after parking and the fluid needs frequent topping up.",Transmission Problems
+"The windshield wipers operate sporadically and sometimes mid-cycle. The wiper motor draws excessive current and the control module shows intermittent faults.",Electrical/Electronic Failures
