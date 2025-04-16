@@ -2,12 +2,27 @@ import pandas as pd
 from transformers import AutoTokenizer, AutoModelForCausalLM
 import torch
 
-def classify_phrase(phrase, categories, tokenizer, model):
-    prompt_text = (
-        f"Classify the following software vulnerability into one of these categories:\n"
+# switch between zero-shot and few-shot
+USE_FEW_SHOT = True
+
+def build_few_shot_prompt(phrase, categories, examples):
+    prompt = (
+        f"Classify the following automotive failure into one of these categories:\n"
         f"{', '.join(categories)}.\n\n"
-        f"Vulnerability: {phrase}\nCategory:"
+
+        f"Examples:\n"
     )
+    if USE_FEW_SHOT:
+        for example in examples:
+            ex_phrase = example['phrase']
+            ex_category = example['category']
+            prompt += f"Vulnerability: {ex_phrase}\nCategory: {ex_category}\n\n"
+
+    prompt += f"Vulnerability: {phrase}\nCategory:"
+    return prompt
+
+def classify_phrase(phrase, categories, tokenizer, model, examples):
+    prompt_text = build_few_shot_prompt(phrase, categories, examples)
 
     messages = [
         [
@@ -32,7 +47,7 @@ def classify_phrase(phrase, categories, tokenizer, model):
     inputs = {k: v.to("mps") for k, v in inputs.items()}
 
     with torch.inference_mode():
-        outputs = model.generate(**inputs, max_new_tokens=200)
+        outputs = model.generate(**inputs, max_new_tokens=1000)
 
     decoded = tokenizer.batch_decode(outputs, skip_special_tokens=True)
     result_text = decoded[0].strip()
@@ -69,7 +84,12 @@ if __name__ == "__main__":
     ]
 
     #csv contains (phrases and categories columns)
-    df = pd.read_csv("dataset.csv").head(10)
+    df = pd.read_csv("dataset.csv")
+
+    #select examples for training
+    few_shot_examples = df.head(10).to_dict(orient='records') if USE_FEW_SHOT else None
+    #use the reamining examples (the ones used for training are not case of study)
+    test_df = df.iloc[10:].reset_index(drop=True)
 
     model_id = "google/gemma-3-1b-it"
     model = AutoModelForCausalLM.from_pretrained(model_id, torch_dtype=torch.float32).to("mps").eval()
@@ -77,10 +97,10 @@ if __name__ == "__main__":
 
     print("Classification Results:\n")
     predictions = []
-    for i, row in df.iterrows():
+    for i, row in test_df.iterrows():
         phrase = row['phrase']
-        category = classify_phrase(phrase, categories, tokenizer, model)
+        category = classify_phrase(phrase, categories, tokenizer, model, few_shot_examples)
         predictions.append(category)
         print(f"{i+1}. \"{phrase}\" →  {category}")
 
-    evaluate_accuracy(df, predictions)
+    evaluate_accuracy(test_df, predictions)
