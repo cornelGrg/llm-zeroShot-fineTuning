@@ -10,14 +10,22 @@ import torch
 
 
 class FineTuningClassifier:
-    def __init__(self, model_id, dataset_path, csv_result_file, example_pool_size=0, device="mps", test_mode="zero"):
+    def __init__(self, model_id, dataset_path, csv_result_file, example_pool_size=0, test_mode="zero"):
         self.model_id = model_id
         self.dataset_path = dataset_path
         self.csv_result_file = csv_result_file
-        self.device = device
+
+        if torch.backends.mps.is_available():
+            self.device = torch.device("mps")
+        elif torch.cuda.is_available():
+            self.device = torch.device("cuda")
+        else:
+            self.device = torch.device("cpu")
+        print("Using {} device".format(self.device))
+
         self.test_mode = test_mode
 
-        self.model = AutoModelForCausalLM.from_pretrained(model_id, torch_dtype=torch.float32).to(device).eval()
+        self.model = AutoModelForCausalLM.from_pretrained(model_id, torch_dtype=torch.float32).to(self.device).eval()
         self.tokenizer = AutoTokenizer.from_pretrained(model_id)
 
         # load dataset and set categories
@@ -296,9 +304,8 @@ if __name__ == "__main__":
         model_id="google/gemma-3-1b-it",
         dataset_path="dataset.csv",
         csv_result_file="./accuracy_example_pool_sizes.csv",
-        example_pool_size=3, #number of examples used per category (if higher than available the maximum will be used), used for "zero" mode
-        device="mps",
-        test_mode="few" #choose testing mode: "zero"=zero-shot, "few"=few-shot, "def"=definitions-test
+        example_pool_size=0, #number of examples used per category (if higher than available the maximum will be used), used for "zero" mode
+        test_mode="zero" #choose testing mode: "zero"=zero-shot, "few"=few-shot, "def"=definitions-test
     )
 
     classifier.classify_and_evaluate()
