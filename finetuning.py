@@ -80,13 +80,14 @@ class FineTuningClassifier:
         prompt = (
             f"Classify the following automotive failure into one of these categories:\n"
             f"{', '.join(self.categories)}.\n\n"
-            f"Examples:\n"
         )
         if self.adjusted_example_pool_size > 0:
+            prompt += f"Examples:\n"
             for example in examples:
                 prompt += f"Failure: {example['phrase']}\nCategory: {example['category']}\n\n"
 
         prompt += f"Failure: {phrase}\nCategory:"
+        print(f"prompt FEW: {prompt}")
         return prompt
 
 
@@ -101,6 +102,8 @@ class FineTuningClassifier:
             f"{', '.join(self.categories)}.\n\n"
             f"Failure: {phrase}\nCategory:"
         )
+
+        print(f"prompt ZERO: {prompt}")
 
         return prompt
 
@@ -305,7 +308,7 @@ if __name__ == "__main__":
         dataset_path="dataset.csv",
         csv_result_file="./accuracy_example_pool_sizes.csv",
         example_pool_size=0, #number of examples used per category (if higher than available the maximum will be used), used for "zero" mode
-        test_mode="zero" #choose testing mode: "zero"=zero-shot, "few"=few-shot, "def"=definitions-test
+        test_mode="def" #choose testing mode: "zero"=zero-shot, "few"=few-shot, "def"=definitions-test
     )
 
     classifier.classify_and_evaluate()
