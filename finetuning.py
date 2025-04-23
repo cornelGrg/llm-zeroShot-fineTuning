@@ -10,7 +10,7 @@ import torch
 
 
 class FineTuningClassifier:
-    def __init__(self, model_id, dataset_path, csv_result_file, example_pool_size=0, test_mode="zero"):
+    def __init__(self, model_id, dataset_path, examples_path, csv_result_file, example_pool_size=0, test_mode="zero"):
         self.model_id = model_id
         self.dataset_path = dataset_path
         self.csv_result_file = csv_result_file
@@ -29,7 +29,8 @@ class FineTuningClassifier:
         self.tokenizer = AutoTokenizer.from_pretrained(model_id)
 
         # load dataset and set categories
-        self.df = pd.read_csv(dataset_path)
+        self.test_df = pd.read_csv(dataset_path)
+        self.df_examples = pd.read_csv(examples_path)
         self.categories = [
             "Fuel System Problems",
             "Ignition System Malfunctions",
@@ -44,7 +45,7 @@ class FineTuningClassifier:
             self.adjusted_example_pool_size = example_pool_size
 
             min_count_per_category = min(
-                self.df['category'].value_counts().get(cat, 0) for cat in self.categories
+                self.df_examples['category'].value_counts().get(cat, 0) for cat in self.categories
             )
 
             self.adjusted_example_pool_size = min(example_pool_size, min_count_per_category)
@@ -55,19 +56,16 @@ class FineTuningClassifier:
             # get x examples per category
             few_shot_rows = []
             for category in self.categories:
-                examples = self.df[self.df['category'] == category].head(self.adjusted_example_pool_size)
+                examples = self.df_examples[self.df_examples['category'] == category].head(self.adjusted_example_pool_size)
                 few_shot_rows.append(examples)
 
             few_shot_df = pd.concat(few_shot_rows).reset_index(drop=True)
             self.few_shot_examples = few_shot_df.to_dict(orient='records')
 
-            # Exclude few-shot examples from the test set
-            self.test_df = self.df.drop(few_shot_df.index).reset_index(drop=True)
         else:
             #Zero-shot test with no examples given or Definition-test with definitions
             self.adjusted_example_pool_size = 0
             self.few_shot_examples = 0
-            self.test_df = self.df.reset_index(drop=True)
 
 
     def build_few_shot_prompt(self, phrase, examples):
@@ -306,6 +304,7 @@ if __name__ == "__main__":
     classifier = FineTuningClassifier(
         model_id="google/gemma-3-1b-it",
         dataset_path="dataset.csv",
+        examples_path="examples.csv",
         csv_result_file="./accuracy_example_pool_sizes.csv",
         example_pool_size=0, #number of examples used per category (if higher than available the maximum will be used), used for "zero" mode
         test_mode="def" #choose testing mode: "zero"=zero-shot, "few"=few-shot, "def"=definitions-test
