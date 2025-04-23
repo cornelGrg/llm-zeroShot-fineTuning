@@ -15,6 +15,7 @@ class FineTuningClassifier:
         self.dataset_path = dataset_path
         self.csv_result_file = csv_result_file
 
+        #select best available device
         if torch.backends.mps.is_available():
             self.device = torch.device("mps")
         elif torch.cuda.is_available():
@@ -28,7 +29,7 @@ class FineTuningClassifier:
         self.model = AutoModelForCausalLM.from_pretrained(model_id, torch_dtype=torch.float32).to(self.device).eval()
         self.tokenizer = AutoTokenizer.from_pretrained(model_id)
 
-        # load dataset and set categories
+        # load dataset, examples and set categories
         self.test_df = pd.read_csv(dataset_path)
         self.df_examples = pd.read_csv(examples_path)
         self.categories = [
@@ -40,7 +41,7 @@ class FineTuningClassifier:
             "Electrical/Electronic Failures"
         ]
 
-        if test_mode == "few": #     print(self.test_df.size)
+        if test_mode == "few":
             #Few-shot test with examples given INSIDE the prompt
             self.adjusted_example_pool_size = example_pool_size
 
@@ -76,7 +77,7 @@ class FineTuningClassifier:
         :return:
         """
         prompt = (
-            f"Classify the following automotive failure into one of these categories:\n"
+            f"Classify the following automotive failure into one of these categories: \n"
             f"{', '.join(self.categories)}.\n\n"
         )
         if self.adjusted_example_pool_size > 0:
@@ -85,7 +86,6 @@ class FineTuningClassifier:
                 prompt += f"Failure: {example['phrase']}\nCategory: {example['category']}\n\n"
 
         prompt += f"Failure: {phrase}\nCategory:"
-        print(f"prompt FEW: {prompt}")
         return prompt
 
 
@@ -101,7 +101,6 @@ class FineTuningClassifier:
             f"Failure: {phrase}\nCategory:"
         )
 
-        print(f"prompt ZERO: {prompt}")
 
         return prompt
 
@@ -143,9 +142,6 @@ class FineTuningClassifier:
             case "def":
                 prompt_text = self.build_definitions_prompt(phrase)
 
-        #Zero-shot or Few_shot test with examples
-        # prompt_text = self.build_few_shot_prompt(phrase, self.few_shot_examples)
-        # prompt_text = self.build_zero_shot_prompt(phrase)
 
         messages = [
             [
@@ -226,23 +222,19 @@ class FineTuningClassifier:
 
             print(f"  F1-Score: {f1:.4f}")
 
-            # confusion matrix
-
+        # confusion matrix
         confusion = confusion_matrix(expected_labels, predicted_labels, labels=topics)
 
         disp = ConfusionMatrixDisplay(confusion_matrix=confusion, display_labels=topics)
 
-        # Create a larger figure and pass it to disp.plot()
-        fig, ax = plt.subplots(figsize=(12, 10))  # Adjust the figure size here
+        fig, ax = plt.subplots(figsize=(12, 10))
 
-        disp.plot(ax=ax, xticks_rotation=45)  # Rotate labels for readability,  cmap="Blues"
+        disp.plot(ax=ax, xticks_rotation=45)
 
-        # Optional: Adjust layout
         plt.tight_layout()
 
         base_path="./graphs"
 
-        # Save the figure
         match self.test_mode:
             case "few":
                 plt.savefig(f"{base_path}/Gemma-3-1b-IT_vehicularFailures_few-shot_{self.adjusted_example_pool_size}examples.png")
@@ -251,7 +243,6 @@ class FineTuningClassifier:
             case "def":
                 plt.savefig(f"{base_path}/Gemma-3-1b-IT_vehicularFailures_definitions-test.png")
 
-        # disp.plot().figure_.savefig(f"Gemma-3-1b-IT_vehicularFailures.png")
 
     def log_results_to_csv(self, accuracy, process_time):
         """
@@ -300,13 +291,13 @@ class FineTuningClassifier:
 
 
 if __name__ == "__main__":
-    # snapshot_download(repo_id="google/gemma-3-1b-it") #Use only the first time to install the model locally
+    #snapshot_download(repo_id="google/gemma-3-1b-it") #Use only the first time to install the model locally
     classifier = FineTuningClassifier(
         model_id="google/gemma-3-1b-it",
         dataset_path="dataset.csv",
         examples_path="examples.csv",
         csv_result_file="./accuracy_example_pool_sizes.csv",
-        example_pool_size=0, #number of examples used per category (if higher than available the maximum will be used), used for "zero" mode
+        example_pool_size= 0, #number of examples used per category (if higher than available the maximum will be used), used for "few" mode
         test_mode="def" #choose testing mode: "zero"=zero-shot, "few"=few-shot, "def"=definitions-test
     )
 
