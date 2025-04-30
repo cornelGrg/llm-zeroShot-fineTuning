@@ -111,7 +111,7 @@ class FineTuningClassifier:
         :param phrase:
         :return:
         """
-        prompt = (
+        prompt = (  #circa 49% acc
             f"Classify the following automotive failure into one of these categories:\n"
             f"{', '.join(self.categories)}.\n\n"  
             f"Definitions of the categories:\n"
@@ -124,10 +124,12 @@ class FineTuningClassifier:
             f"Failure: {phrase}\nCategory:"
         )
 
-        prompt = (
+        prompt = (  #circa 44% acc
             f"Classify the following automotive failure: ",
             f"{phrase}\n",
-            "into one of these categories using the following definitions:\n",
+            "into one of these categories: ",
+            f"{', '.join(self.categories)}.\n\n",
+            "   using the following definitions:\n",
             "Fuel System Problems: Issues related to the delivery, regulation, or combustion of fuel in the engine. These problems can arise from components such as the fuel pump, fuel injectors, fuel filter, or fuel lines. Symptoms often include poor fuel efficiency, engine stalling, or difficulty starting. \n",
             "Ignition System Malfunctions: Faults within the system responsible for igniting the air-fuel mixture in the engine's cylinders. This includes components like spark plugs, ignition coils, distributor caps, and crankshaft position sensors. Common symptoms include misfires, difficulty starting, or rough idling. \n",
             "Cooling System Anomalies: Problems affecting the system that regulates engine temperature to prevent overheating. Components include the radiator, water pump, thermostat, and coolant hoses. Indicators of issues are engine overheating, coolant leaks, or insufficient heating in the cabin.\n",
