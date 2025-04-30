@@ -10,8 +10,21 @@ import torch
 
 
 class FineTuningClassifier:
-    def __init__(self, model_id, dataset_path, examples_path, csv_result_file, example_pool_size=0, test_mode="zero"):
-        self.model_id = model_id
+    def __init__(self, model, dataset_path, examples_path, csv_result_file, example_pool_size=0, test_mode="zero"):
+        match model:
+            case "gemma2":
+                self.model_id = "google/gemma-2-2b-it"
+                self.model = "gemma2"
+            case "gemma3_1b":
+                self.model_id = "google/gemma-3-1b-it"
+                self.model = "gemma3_1b"
+            case "gemma3_4b":
+                self.model_id = "google/gemma-3-4b-it"
+                self.model = "gemma3_4b"
+            case _:      #default case
+                self.model_id = "google/gemma-3-1b-it"
+                self.model = "gemma3_1b"
+
         self.dataset_path = dataset_path
         self.csv_result_file = csv_result_file
 
@@ -26,8 +39,8 @@ class FineTuningClassifier:
 
         self.test_mode = test_mode
 
-        self.model = AutoModelForCausalLM.from_pretrained(model_id, torch_dtype=torch.float32).to(self.device).eval()
-        self.tokenizer = AutoTokenizer.from_pretrained(model_id)
+        self.model = AutoModelForCausalLM.from_pretrained(self.model_id, torch_dtype=torch.float32).to(self.device).eval()
+        self.tokenizer = AutoTokenizer.from_pretrained(self.model_id)
 
         # load dataset, examples and set categories
         self.test_df = pd.read_csv(dataset_path)
@@ -124,7 +137,7 @@ class FineTuningClassifier:
             f"Failure: {phrase}\nCategory:"
         )
 
-        prompt = (  #circa 44% acc
+        prompt = (  #circa 51% acc
             f"Classify the following automotive failure: ",
             f"{phrase}\n",
             "into one of these categories: ",
@@ -135,8 +148,36 @@ class FineTuningClassifier:
             "Cooling System Anomalies: Problems affecting the system that regulates engine temperature to prevent overheating. Components include the radiator, water pump, thermostat, and coolant hoses. Indicators of issues are engine overheating, coolant leaks, or insufficient heating in the cabin.\n",
             "Brake System Defects: Malfunctions in the braking system that affect the vehicle's ability to slow down or stop safely. This includes defects in brake pads, rotors, calipers, or hydraulic components like the master cylinder. Symptoms include squealing noises, vibrations, or reduced braking effectiveness.\n",
             "Transmission Problems: Issues within the system responsible for transmitting power from the engine to the wheels, including automatic or manual transmissions. Common problems involve slipping gears, delayed shifting, or leaks in the transmission fluid. Symptoms include unusual noises and difficulty in shifting gears.\n",
-            "Electrical/Electronic Failures: Faults in the vehicle's electrical or electronic systems, including the battery, alternator, wiring, or onboard computers. These can manifest as flickering lights, dead batteries, or malfunctioning electronic components like power windows or dashboard instruments."
+            "Electrical/Electronic Failures: Faults in the vehicle's electrical or electronic systems, including the battery, alternator, wiring, or onboard computers. These can manifest as flickering lights, dead batteries, or malfunctioning electronic components like power windows or dashboard instruments. \n"
         )
+
+        return prompt
+
+    def build_definitions_and_example_prompt(self, phrase, examples):
+        """
+         Prompt construction function for test with category definitions and examples.
+        :param phrase:
+        :param examples:
+        :return:
+        """
+        prompt = (  #circa 51% acc
+            f"Classify the following automotive failure: ",
+            f"{phrase}\n",
+            "into one of these categories: ",
+            f"{', '.join(self.categories)}.\n\n",
+            "   using the following definitions:\n",
+            "Fuel System Problems: Issues related to the delivery, regulation, or combustion of fuel in the engine. These problems can arise from components such as the fuel pump, fuel injectors, fuel filter, or fuel lines. Symptoms often include poor fuel efficiency, engine stalling, or difficulty starting. \n",
+            "Ignition System Malfunctions: Faults within the system responsible for igniting the air-fuel mixture in the engine's cylinders. This includes components like spark plugs, ignition coils, distributor caps, and crankshaft position sensors. Common symptoms include misfires, difficulty starting, or rough idling. \n",
+            "Cooling System Anomalies: Problems affecting the system that regulates engine temperature to prevent overheating. Components include the radiator, water pump, thermostat, and coolant hoses. Indicators of issues are engine overheating, coolant leaks, or insufficient heating in the cabin.\n",
+            "Brake System Defects: Malfunctions in the braking system that affect the vehicle's ability to slow down or stop safely. This includes defects in brake pads, rotors, calipers, or hydraulic components like the master cylinder. Symptoms include squealing noises, vibrations, or reduced braking effectiveness.\n",
+            "Transmission Problems: Issues within the system responsible for transmitting power from the engine to the wheels, including automatic or manual transmissions. Common problems involve slipping gears, delayed shifting, or leaks in the transmission fluid. Symptoms include unusual noises and difficulty in shifting gears.\n",
+            "Electrical/Electronic Failures: Faults in the vehicle's electrical or electronic systems, including the battery, alternator, wiring, or onboard computers. These can manifest as flickering lights, dead batteries, or malfunctioning electronic components like power windows or dashboard instruments. \n"
+        )
+
+        if self.adjusted_example_pool_size > 0:
+            prompt += f"Examples:\n"
+            for example in examples:
+                prompt += f"Failure: {example['phrase']}\nCategory: {example['category']}\n\n"
 
         return prompt
 
@@ -155,7 +196,10 @@ class FineTuningClassifier:
                 prompt_text = self.build_few_shot_prompt(phrase, self.few_shot_examples)
             case "def":
                 prompt_text = self.build_definitions_prompt(phrase)
-
+            case "def-few":
+                prompt_text = self.build_definitions_and_example_prompt(phrase, self.few_shot_examples)
+            case _:     #default case
+                prompt_text = self.build_zero_shot_prompt(phrase)
 
         messages = [
             [
@@ -256,7 +300,8 @@ class FineTuningClassifier:
                 plt.savefig(f"{base_path}/Gemma-3-1b-IT_vehicularFailures_zero-shot.png")
             case "def":
                 plt.savefig(f"{base_path}/Gemma-3-1b-IT_vehicularFailures_definitions-test.png")
-
+            case "def-few":
+                plt.savefig(f"{base_path}/Gemma-3-1b-IT_vehicularFailures_definitions-and_examples-test.png")
 
     def log_results_to_csv(self, accuracy, process_time):
         """
@@ -269,17 +314,18 @@ class FineTuningClassifier:
             "Timestamp": datetime.now().strftime("%Y-%m-%d/%H:%M:%S"),
             "Example Pool Size": self.adjusted_example_pool_size,
             "Test mode": self.test_mode,
+            "Model": self.model,
+            "Process_time(s)": process_time,
             "Accuracy (%)": round(accuracy, 2),
-            "Process_time(s)": process_time
         }
 
         if os.path.exists(self.csv_result_file):
-            df = pd.read_csv(self.csv_result_file)
+            df = pd.read_csv(self.csv_result_file, sep=";")
             df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
         else:
             df = pd.DataFrame([new_row])
 
-        df.to_csv(self.csv_result_file, index=False)
+        df.to_csv(self.csv_result_file, index=False, sep=";")
 
 
     def classify_and_evaluate(self):
@@ -307,12 +353,12 @@ class FineTuningClassifier:
 if __name__ == "__main__":
     #snapshot_download(repo_id="google/gemma-3-1b-it") #Use only the first time to install the model locally
     classifier = FineTuningClassifier(
-        model_id="google/gemma-3-1b-it",
+        model = "gemma3_1b", #choose model between gemma2, gemma3_1b, gemma3_4b
         dataset_path="dataset.csv",
         examples_path="examples.csv",
         csv_result_file="./accuracy_example_pool_sizes.csv",
         example_pool_size= 0, #number of examples used per category (if higher than available the maximum will be used), used for "few" mode
-        test_mode="def" #choose testing mode: "zero"=zero-shot, "few"=few-shot, "def"=definitions-test
+        test_mode="def" #choose testing mode: "zero"=zero-shot, "few"=few-shot, "def"=definitions-test, "def-few"=definitions-and-examples-test
     )
 
     classifier.classify_and_evaluate()
