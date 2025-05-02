@@ -15,16 +15,16 @@ class FineTuningClassifier:
         match model:
             case "gemma2":
                 self.model_id = "google/gemma-2-2b-it"
-                self.model = "gemma2"
+                self.model_name = "gemma2"
             case "gemma3_1b":
                 self.model_id = "google/gemma-3-1b-it"
-                self.model = "gemma3_1b"
+                self.model_name = "gemma3_1b"
             case "gemma3_4b":
                 self.model_id = "google/gemma-3-4b-it"
-                self.model = "gemma3_4b"
+                self.model_name = "gemma3_4b"
             case _:      #default case
                 self.model_id = "google/gemma-3-1b-it"
-                self.model = "gemma3_1b"
+                self.model_name = "gemma3_1b"
 
         self.dataset_path = dataset_path
         self.csv_result_file = csv_result_file
@@ -286,13 +286,13 @@ class FineTuningClassifier:
 
         match self.test_mode:
             case "few":
-                plt.savefig(f"{base_path}/{self.model}_vehicularFailures_few-shot.png")
+                plt.savefig(f"{base_path}/{self.model_name}_vehicularFailures_few-shot.png")
             case "zero":
-                plt.savefig(f"{base_path}/{self.model}_vehicularFailures_zero-shot.png")
+                plt.savefig(f"{base_path}/{self.model_name}_vehicularFailures_zero-shot.png")
             case "def":
-                plt.savefig(f"{base_path}/{self.model}_vehicularFailures_definitions-test.png")
+                plt.savefig(f"{base_path}/{self.model_name}_vehicularFailures_definitions-test.png")
             case "def-few":
-                plt.savefig(f"{base_path}/{self.model}_vehicularFailures_definitions-and_examples-test.png")
+                plt.savefig(f"{base_path}/{self.model_name}_vehicularFailures_definitions-and_examples-test.png")
 
     def log_results_to_csv(self, accuracy, process_time):
         """
@@ -304,7 +304,7 @@ class FineTuningClassifier:
         new_row = {
             "Timestamp": datetime.now().strftime("%Y-%m-%d/%H:%M:%S"),
             "Test mode": self.test_mode,
-            "Model": self.model,
+            "Model": self.model_name,
             "Process_time(s)": process_time,
             "Accuracy (%)": round(accuracy, 2),
         }
@@ -329,7 +329,7 @@ class FineTuningClassifier:
             phrase = row['phrase']
             category = self.classify_phrase(phrase)
             predictions.append(category)
-            print(f"{i + 1}. \"{phrase}\" →  {category}")
+            # print(f"{i + 1}. \"{phrase}\" →  {category}")
         t1_stop = time.perf_counter()  # process_time()
         process_time = t1_stop - t1_start
 
@@ -376,11 +376,11 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     classifier = FineTuningClassifier(
-        model = "gemma3_1b", #choose model between gemma2, gemma3_1b, gemma3_4b
+        model = "gemma3_1b", #choose model between gemma2, gemma3_1b
         dataset_path="dataset.csv",
         examples_path="examples.csv",
         csv_result_file="./accuracy_example_pool_sizes.csv",
-        test_mode="def" #choose testing mode: "zero"=zero-shot, "few"=few-shot, "def"=definitions-test, "def-few"=definitions-and-examples-test
+        test_mode="zero" #choose testing mode: "zero"=zero-shot, "few"=few-shot, "def"=definitions-test, "def-few"=definitions-and-examples-test
     )
 
     classifier.classify_and_evaluate()
