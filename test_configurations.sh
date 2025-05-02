@@ -1,0 +1,22 @@
+#!/bin/bash
+
+set -e
+
+PYTHON_SCRIPT="finetuning.py"
+
+CONFIGURATIONS=(
+  "--test_mode zero --model gemma3_1b --examples_path examples.csv"
+  "--test_mode few --model gemma2 --examples_path examples.csv"
+  "--test_mode def-few --model gemma3_1b --examples_path examples.csv"
+)
+
+for CONFIG in "${CONFIGURATIONS[@]}"; do
+  echo "Running configuration: $CONFIG"
+
+  python $PYTHON_SCRIPT $CONFIG
+
+  echo "Completed configuration: $CONFIG"
+  echo "----------------------------------------"
+done
+
+echo "All configurations tested successfully!"
