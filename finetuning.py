@@ -1,4 +1,5 @@
 import pandas as pd
+import argparse
 from transformers import AutoTokenizer, AutoModelForCausalLM
 from datetime import datetime
 from huggingface_hub import snapshot_download
@@ -10,7 +11,7 @@ import torch
 
 
 class FineTuningClassifier:
-    def __init__(self, model, dataset_path, examples_path, csv_result_file, example_pool_size=0, test_mode="zero"):
+    def __init__(self, model, dataset_path, examples_path, csv_result_file, test_mode="zero"):
         match model:
             case "gemma2":
                 self.model_id = "google/gemma-2-2b-it"
@@ -56,18 +57,9 @@ class FineTuningClassifier:
 
         if test_mode == "few":
             #Few-shot test with examples given INSIDE the prompt
-            self.adjusted_example_pool_size = example_pool_size
+            self.adjusted_example_pool_size = 1
 
-            min_count_per_category = min(
-                self.df_examples['category'].value_counts().get(cat, 0) for cat in self.categories
-            )
-
-            self.adjusted_example_pool_size = min(example_pool_size, min_count_per_category)
-            if self.adjusted_example_pool_size < example_pool_size:
-                print(f"Warning: Not enough examples in some categories. "
-                      f"Reducing example_pool_size to {self.adjusted_example_pool_size}.")
-
-            # get x examples per category
+            # get 1 example per category
             few_shot_rows = []
             for category in self.categories:
                 examples = self.df_examples[self.df_examples['category'] == category].head(self.adjusted_example_pool_size)
@@ -75,7 +67,6 @@ class FineTuningClassifier:
 
             few_shot_df = pd.concat(few_shot_rows).reset_index(drop=True)
             self.few_shot_examples = few_shot_df.to_dict(orient='records')
-
         else:
             #Zero-shot test with no examples given or Definition-test with definitions
             self.adjusted_example_pool_size = 0
@@ -295,13 +286,13 @@ class FineTuningClassifier:
 
         match self.test_mode:
             case "few":
-                plt.savefig(f"{base_path}/Gemma-3-1b-IT_vehicularFailures_few-shot_{self.adjusted_example_pool_size}examples.png")
+                plt.savefig(f"{base_path}/{self.model}_vehicularFailures_few-shot.png")
             case "zero":
-                plt.savefig(f"{base_path}/Gemma-3-1b-IT_vehicularFailures_zero-shot.png")
+                plt.savefig(f"{base_path}/{self.model}_vehicularFailures_zero-shot.png")
             case "def":
-                plt.savefig(f"{base_path}/Gemma-3-1b-IT_vehicularFailures_definitions-test.png")
+                plt.savefig(f"{base_path}/{self.model}_vehicularFailures_definitions-test.png")
             case "def-few":
-                plt.savefig(f"{base_path}/Gemma-3-1b-IT_vehicularFailures_definitions-and_examples-test.png")
+                plt.savefig(f"{base_path}/{self.model}_vehicularFailures_definitions-and_examples-test.png")
 
     def log_results_to_csv(self, accuracy, process_time):
         """
@@ -312,7 +303,6 @@ class FineTuningClassifier:
         """
         new_row = {
             "Timestamp": datetime.now().strftime("%Y-%m-%d/%H:%M:%S"),
-            "Example Pool Size": self.adjusted_example_pool_size,
             "Test mode": self.test_mode,
             "Model": self.model,
             "Process_time(s)": process_time,
@@ -352,12 +342,44 @@ class FineTuningClassifier:
 
 if __name__ == "__main__":
     #snapshot_download(repo_id="google/gemma-3-1b-it") #Use only the first time to install the model locally
+
+    parser = argparse.ArgumentParser(description="Fine-tuning classifier for automotive failure detection.")
+
+    #change model used
+    parser.add_argument(
+        "--model",
+        type=str,
+        default="gemma3_1b",  # Default value from the classifier initialization
+        choices=["gemma2", "gemma3_1b"],
+        help="Choose model between gemma2, gemma3_1b. Default is 'gemma3_1b'."
+    )
+
+    #change examples used
+    parser.add_argument(
+        "--examples_path",
+        type=str,
+        default="examples.csv",
+        choices=["examples.csv", "context_examples.csv"],
+        help="Path to the examples CSV file. Default is 'examples.csv'."
+    )
+
+    #change test mode
+    parser.add_argument(
+        "--test_mode",
+        type=str,
+        default="zero",
+        choices=["zero", "few", "def", "def-few"],
+        help="Testing mode: 'zero', 'few', 'def', or 'def-few'. Default is 'def'."
+    )
+
+    # Parse arguments
+    args = parser.parse_args()
+
     classifier = FineTuningClassifier(
         model = "gemma3_1b", #choose model between gemma2, gemma3_1b, gemma3_4b
         dataset_path="dataset.csv",
         examples_path="examples.csv",
         csv_result_file="./accuracy_example_pool_sizes.csv",
-        example_pool_size= 0, #number of examples used per category (if higher than available the maximum will be used), used for "few" mode
         test_mode="def" #choose testing mode: "zero"=zero-shot, "few"=few-shot, "def"=definitions-test, "def-few"=definitions-and-examples-test
     )
 
