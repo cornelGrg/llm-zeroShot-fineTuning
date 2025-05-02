@@ -192,17 +192,23 @@ class FineTuningClassifier:
             case _:     #default case
                 prompt_text = self.build_zero_shot_prompt(phrase)
 
+        # if self.model_name == "gemma3_1b":
+        #     messages = [
+        #         [
+        #             {
+        #                 "role": "system",
+        #                 "content": [{"type": "text", "text": "Respond only with the category name. No explanation."}],
+        #             },
+        #             {
+        #                 "role": "user",
+        #                 "content": [{"type": "text", "text": prompt_text}],
+        #             },
+        #         ],
+        #     ]
+
+        # if self.model_name == "gemma2":
         messages = [
-            [
-                {
-                    "role": "system",
-                    "content": [{"type": "text", "text": "Respond only with the category name. No explanation."}],
-                },
-                {
-                    "role": "user",
-                    "content": [{"type": "text", "text": prompt_text}],
-                },
-            ],
+            {"role": "user", "content": f"Respond only with the category name. No explanation.\n {prompt_text}"},
         ]
 
         inputs = self.tokenizer.apply_chat_template(
@@ -334,7 +340,7 @@ class FineTuningClassifier:
         process_time = t1_stop - t1_start
 
         accuracy, correct, total = self.evaluate_accuracy(predictions)
-        print(f"\nModel Accuracy: {accuracy:.2f}% ({correct}/{total} correct) |Test Mode: {self.test_mode} |EXAMPLE POOL SIZE: {self.adjusted_example_pool_size}\n |Process time: {process_time:.2f} seconds")
+        print(f"\nModel Accuracy: {accuracy:.2f}% ({correct}/{total} correct) |Test Mode: {self.test_mode} |Process time: {process_time:.2f} seconds")
         self.log_results_to_csv(accuracy, process_time)
 
         self.sklearn_metrics(self.categories, self.test_df['category'].to_list(), predictions)
@@ -376,11 +382,11 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     classifier = FineTuningClassifier(
-        model = "gemma3_1b", #choose model between gemma2, gemma3_1b
-        dataset_path="dataset.csv",
-        examples_path="examples.csv",
-        csv_result_file="./accuracy_example_pool_sizes.csv",
-        test_mode="zero" #choose testing mode: "zero"=zero-shot, "few"=few-shot, "def"=definitions-test, "def-few"=definitions-and-examples-test
+        model = args.model,
+        dataset_path = "dataset.csv",  # You can add this to args as well
+        examples_path = args.examples_path,
+        csv_result_file = "./accuracy_example_pool_sizes.csv",  # Add to args if dynamic
+        test_mode = args.test_mode
     )
 
     classifier.classify_and_evaluate()
