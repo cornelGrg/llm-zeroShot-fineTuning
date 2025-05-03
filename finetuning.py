@@ -55,7 +55,7 @@ class FineTuningClassifier:
             "Electrical/Electronic Failures"
         ]
 
-        if test_mode == "few":
+        if test_mode == "few" or test_mode == "def-few":
             #Few-shot test with examples given INSIDE the prompt
             self.adjusted_example_pool_size = 1
 
@@ -80,16 +80,25 @@ class FineTuningClassifier:
         :param examples:
         :return:
         """
-        prompt = (
-            f"Classify the following automotive failure into one of these categories: \n"
-            f"{', '.join(self.categories)}.\n\n"
+        # prompt = (  #circa 73% con gemma3 **
+        #     f"Classify the following automotive failure into one of these categories: \n"
+        #     f"{', '.join(self.categories)}.\n\n"
+        # )
+
+        prompt = (  #circa 88% con gemma3
+            f"Classify the following automotive failure: "
+            f"{phrase}\n"
+            "into one of these categories: "
+            f"{', '.join(self.categories)}.\n"
+            "using the following examples:\n"
         )
+
         if self.adjusted_example_pool_size > 0:
             prompt += f"Examples:\n"
             for example in examples:
                 prompt += f"Failure: {example['phrase']}\nCategory: {example['category']}\n\n"
 
-        prompt += f"Failure: {phrase}\nCategory:"
+        # prompt += f"Failure: {phrase}\nCategory:" #circa 73% con gemma3 **
         return prompt
 
 
@@ -99,12 +108,18 @@ class FineTuningClassifier:
         :param phrase:
         :return:
         """
-        prompt = (
-            f"Classify the following automotive failure into one of these categories:\n"
-            f"{', '.join(self.categories)}.\n\n"
-            f"Failure: {phrase}\nCategory:"
-        )
+        # prompt = (  #circa 76% con gemma 3
+        #     f"Classify the following automotive failure into one of these categories:\n"
+        #     f"{', '.join(self.categories)}.\n\n"
+        #     f"Failure: {phrase}\nCategory:"
+        # )
 
+        prompt = (  #circa 90.91% con gemma 3
+            f"Classify the following automotive failure: "
+            f"{phrase}\n"
+            "into one of these categories: "
+            f"{', '.join(self.categories)}.\n\n"
+        )
 
         return prompt
 
@@ -115,30 +130,30 @@ class FineTuningClassifier:
         :param phrase:
         :return:
         """
-        prompt = (  #circa 49% acc
-            f"Classify the following automotive failure into one of these categories:\n"
-            f"{', '.join(self.categories)}.\n\n"  
-            f"Definitions of the categories:\n"
-            "Fuel System Problems: Issues related to the delivery, regulation, or combustion of fuel in the engine. These problems can arise from components such as the fuel pump, fuel injectors, fuel filter, or fuel lines. Symptoms often include poor fuel efficiency, engine stalling, or difficulty starting. \n",
-            "Ignition System Malfunctions: Faults within the system responsible for igniting the air-fuel mixture in the engine's cylinders. This includes components like spark plugs, ignition coils, distributor caps, and crankshaft position sensors. Common symptoms include misfires, difficulty starting, or rough idling. \n",
-            "Cooling System Anomalies: Problems affecting the system that regulates engine temperature to prevent overheating. Components include the radiator, water pump, thermostat, and coolant hoses. Indicators of issues are engine overheating, coolant leaks, or insufficient heating in the cabin.\n",
-            "Brake System Defects: Malfunctions in the braking system that affect the vehicle's ability to slow down or stop safely. This includes defects in brake pads, rotors, calipers, or hydraulic components like the master cylinder. Symptoms include squealing noises, vibrations, or reduced braking effectiveness.\n",
-            "Transmission Problems: Issues within the system responsible for transmitting power from the engine to the wheels, including automatic or manual transmissions. Common problems involve slipping gears, delayed shifting, or leaks in the transmission fluid. Symptoms include unusual noises and difficulty in shifting gears.\n",
-            "Electrical/Electronic Failures: Faults in the vehicle's electrical or electronic systems, including the battery, alternator, wiring, or onboard computers. These can manifest as flickering lights, dead batteries, or malfunctioning electronic components like power windows or dashboard instruments.\n\n"
-            f"Failure: {phrase}\nCategory:"
-        )
+        # prompt = (
+        #     f"Classify the automotive failure into one of these categories:\n"
+        #     f"{', '.join(self.categories)}.\n"
+        #     f"Definitions of the categories:\n"
+        #     "Fuel System Problems: Issues related to the delivery, regulation, or combustion of fuel in the engine. These problems can arise from components such as the fuel pump, fuel injectors, fuel filter, or fuel lines. Symptoms often include poor fuel efficiency, engine stalling, or difficulty starting. \n"
+        #     "Ignition System Malfunctions: Faults within the system responsible for igniting the air-fuel mixture in the engine's cylinders. This includes components like spark plugs, ignition coils, distributor caps, and crankshaft position sensors. Common symptoms include misfires, difficulty starting, or rough idling. \n"
+        #     "Cooling System Anomalies: Problems affecting the system that regulates engine temperature to prevent overheating. Components include the radiator, water pump, thermostat, and coolant hoses. Indicators of issues are engine overheating, coolant leaks, or insufficient heating in the cabin.\n"
+        #     "Brake System Defects: Malfunctions in the braking system that affect the vehicle's ability to slow down or stop safely. This includes defects in brake pads, rotors, calipers, or hydraulic components like the master cylinder. Symptoms include squealing noises, vibrations, or reduced braking effectiveness.\n"
+        #     "Transmission Problems: Issues within the system responsible for transmitting power from the engine to the wheels, including automatic or manual transmissions. Common problems involve slipping gears, delayed shifting, or leaks in the transmission fluid. Symptoms include unusual noises and difficulty in shifting gears.\n"
+        #     "Electrical/Electronic Failures: Faults in the vehicle's electrical or electronic systems, including the battery, alternator, wiring, or onboard computers. These can manifest as flickering lights, dead batteries, or malfunctioning electronic components like power windows or dashboard instruments.\n"
+        #     f"Failure: {phrase}\nCategory:"
+        # )
 
-        prompt = (  #circa 51% acc
-            f"Classify the following automotive failure: ",
-            f"{phrase}\n",
-            "into one of these categories: ",
-            f"{', '.join(self.categories)}.\n\n",
-            "   using the following definitions:\n",
-            "Fuel System Problems: Issues related to the delivery, regulation, or combustion of fuel in the engine. These problems can arise from components such as the fuel pump, fuel injectors, fuel filter, or fuel lines. Symptoms often include poor fuel efficiency, engine stalling, or difficulty starting. \n",
-            "Ignition System Malfunctions: Faults within the system responsible for igniting the air-fuel mixture in the engine's cylinders. This includes components like spark plugs, ignition coils, distributor caps, and crankshaft position sensors. Common symptoms include misfires, difficulty starting, or rough idling. \n",
-            "Cooling System Anomalies: Problems affecting the system that regulates engine temperature to prevent overheating. Components include the radiator, water pump, thermostat, and coolant hoses. Indicators of issues are engine overheating, coolant leaks, or insufficient heating in the cabin.\n",
-            "Brake System Defects: Malfunctions in the braking system that affect the vehicle's ability to slow down or stop safely. This includes defects in brake pads, rotors, calipers, or hydraulic components like the master cylinder. Symptoms include squealing noises, vibrations, or reduced braking effectiveness.\n",
-            "Transmission Problems: Issues within the system responsible for transmitting power from the engine to the wheels, including automatic or manual transmissions. Common problems involve slipping gears, delayed shifting, or leaks in the transmission fluid. Symptoms include unusual noises and difficulty in shifting gears.\n",
+        prompt = (
+            f"Classify the following automotive failure: "
+            f"{phrase}\n"
+            "into one of these categories: "
+            f"{', '.join(self.categories)}.\n\n"
+            "using the following definitions:\n"
+            "Fuel System Problems: Issues related to the delivery, regulation, or combustion of fuel in the engine. These problems can arise from components such as the fuel pump, fuel injectors, fuel filter, or fuel lines. Symptoms often include poor fuel efficiency, engine stalling, or difficulty starting. \n"
+            "Ignition System Malfunctions: Faults within the system responsible for igniting the air-fuel mixture in the engine's cylinders. This includes components like spark plugs, ignition coils, distributor caps, and crankshaft position sensors. Common symptoms include misfires, difficulty starting, or rough idling. \n"
+            "Cooling System Anomalies: Problems affecting the system that regulates engine temperature to prevent overheating. Components include the radiator, water pump, thermostat, and coolant hoses. Indicators of issues are engine overheating, coolant leaks, or insufficient heating in the cabin.\n"
+            "Brake System Defects: Malfunctions in the braking system that affect the vehicle's ability to slow down or stop safely. This includes defects in brake pads, rotors, calipers, or hydraulic components like the master cylinder. Symptoms include squealing noises, vibrations, or reduced braking effectiveness.\n"
+            "Transmission Problems: Issues within the system responsible for transmitting power from the engine to the wheels, including automatic or manual transmissions. Common problems involve slipping gears, delayed shifting, or leaks in the transmission fluid. Symptoms include unusual noises and difficulty in shifting gears.\n"
             "Electrical/Electronic Failures: Faults in the vehicle's electrical or electronic systems, including the battery, alternator, wiring, or onboard computers. These can manifest as flickering lights, dead batteries, or malfunctioning electronic components like power windows or dashboard instruments. \n"
         )
 
@@ -152,21 +167,21 @@ class FineTuningClassifier:
         :return:
         """
         prompt = (  #circa 51% acc
-            f"Classify the following automotive failure: ",
-            f"{phrase}\n",
-            "into one of these categories: ",
-            f"{', '.join(self.categories)}.\n\n",
-            "   using the following definitions:\n",
-            "Fuel System Problems: Issues related to the delivery, regulation, or combustion of fuel in the engine. These problems can arise from components such as the fuel pump, fuel injectors, fuel filter, or fuel lines. Symptoms often include poor fuel efficiency, engine stalling, or difficulty starting. \n",
-            "Ignition System Malfunctions: Faults within the system responsible for igniting the air-fuel mixture in the engine's cylinders. This includes components like spark plugs, ignition coils, distributor caps, and crankshaft position sensors. Common symptoms include misfires, difficulty starting, or rough idling. \n",
-            "Cooling System Anomalies: Problems affecting the system that regulates engine temperature to prevent overheating. Components include the radiator, water pump, thermostat, and coolant hoses. Indicators of issues are engine overheating, coolant leaks, or insufficient heating in the cabin.\n",
-            "Brake System Defects: Malfunctions in the braking system that affect the vehicle's ability to slow down or stop safely. This includes defects in brake pads, rotors, calipers, or hydraulic components like the master cylinder. Symptoms include squealing noises, vibrations, or reduced braking effectiveness.\n",
-            "Transmission Problems: Issues within the system responsible for transmitting power from the engine to the wheels, including automatic or manual transmissions. Common problems involve slipping gears, delayed shifting, or leaks in the transmission fluid. Symptoms include unusual noises and difficulty in shifting gears.\n",
+            f"Classify the following automotive failure: "
+            f"{phrase}\n"
+            "into one of these categories: "
+            f"{', '.join(self.categories)}.\n\n"
+            "   using the following definitions:\n"
+            "Fuel System Problems: Issues related to the delivery, regulation, or combustion of fuel in the engine. These problems can arise from components such as the fuel pump, fuel injectors, fuel filter, or fuel lines. Symptoms often include poor fuel efficiency, engine stalling, or difficulty starting. \n"
+            "Ignition System Malfunctions: Faults within the system responsible for igniting the air-fuel mixture in the engine's cylinders. This includes components like spark plugs, ignition coils, distributor caps, and crankshaft position sensors. Common symptoms include misfires, difficulty starting, or rough idling. \n"
+            "Cooling System Anomalies: Problems affecting the system that regulates engine temperature to prevent overheating. Components include the radiator, water pump, thermostat, and coolant hoses. Indicators of issues are engine overheating, coolant leaks, or insufficient heating in the cabin.\n"
+            "Brake System Defects: Malfunctions in the braking system that affect the vehicle's ability to slow down or stop safely. This includes defects in brake pads, rotors, calipers, or hydraulic components like the master cylinder. Symptoms include squealing noises, vibrations, or reduced braking effectiveness.\n"
+            "Transmission Problems: Issues within the system responsible for transmitting power from the engine to the wheels, including automatic or manual transmissions. Common problems involve slipping gears, delayed shifting, or leaks in the transmission fluid. Symptoms include unusual noises and difficulty in shifting gears.\n"
             "Electrical/Electronic Failures: Faults in the vehicle's electrical or electronic systems, including the battery, alternator, wiring, or onboard computers. These can manifest as flickering lights, dead batteries, or malfunctioning electronic components like power windows or dashboard instruments. \n"
+            "Examples:\n"
         )
 
         if self.adjusted_example_pool_size > 0:
-            prompt += f"Examples:\n"
             for example in examples:
                 prompt += f"Failure: {example['phrase']}\nCategory: {example['category']}\n\n"
 
@@ -364,7 +379,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--examples_path",
         type=str,
-        default="examples.csv",
+        default="context_examples.csv",
         choices=["examples.csv", "context_examples.csv"],
         help="Path to the examples CSV file. Default is 'examples.csv'."
     )
@@ -383,9 +398,9 @@ if __name__ == "__main__":
 
     classifier = FineTuningClassifier(
         model = args.model,
-        dataset_path = "dataset.csv",  # You can add this to args as well
+        dataset_path = "dataset.csv",
         examples_path = args.examples_path,
-        csv_result_file = "./accuracy_example_pool_sizes.csv",  # Add to args if dynamic
+        csv_result_file = "./accuracy_example_pool_sizes.csv",
         test_mode = args.test_mode
     )
 
