@@ -1,6 +1,8 @@
 import pandas as pd
 import argparse
-from transformers import AutoTokenizer, AutoModelForCausalLM
+import bitsandbytes as bnb
+import accelerate as aclrt
+from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
 from datetime import datetime
 from huggingface_hub import snapshot_download
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix, ConfusionMatrixDisplay
@@ -40,7 +42,23 @@ class FineTuningClassifier:
 
         self.test_mode = test_mode
 
-        self.model = AutoModelForCausalLM.from_pretrained(self.model_id, torch_dtype=torch.float32).to(self.device).eval()
+        if (self.model_name=="gemma3_4b"):
+            # quantization_config = BitsAndBytesConfig(load_in_8bit=True)
+            quant_config = BitsAndBytesConfig(
+                load_in_4bit=True,
+                bnb_4bit_quant_type="nf4",
+                bnb_4bit_compute_dtype=torch.float16,
+                bnb_4bit_use_double_quant=False
+            )
+
+            print("Using quantization")
+            self.model = AutoModelForCausalLM.from_pretrained(
+                self.model_id,
+                quantization_config=quant_config,
+            ).to(self.device).eval()
+        else:
+            self.model = AutoModelForCausalLM.from_pretrained(self.model_id, torch_dtype=torch.float32).to(self.device).eval()
+
         self.tokenizer = AutoTokenizer.from_pretrained(self.model_id)
 
         # load dataset, examples and set categories
@@ -96,7 +114,8 @@ class FineTuningClassifier:
         if self.adjusted_example_pool_size > 0:
             prompt += f"Examples:\n"
             for example in examples:
-                prompt += f"Failure: {example['phrase']}\nCategory: {example['category']}\n\n"
+                # prompt += f"Failure: {example['phrase']}\nCategory: {example['category']}\n\n"
+                prompt += f"{example['category']}: {example['phrase']}\n"
 
         # prompt += f"Failure: {phrase}\nCategory:" #circa 73% con gemma3 **
         return prompt
@@ -130,7 +149,7 @@ class FineTuningClassifier:
         :param phrase:
         :return:
         """
-        # prompt = (
+        # prompt = ( #circa 51% con gemma3
         #     f"Classify the automotive failure into one of these categories:\n"
         #     f"{', '.join(self.categories)}.\n"
         #     f"Definitions of the categories:\n"
@@ -143,7 +162,7 @@ class FineTuningClassifier:
         #     f"Failure: {phrase}\nCategory:"
         # )
 
-        prompt = (
+        prompt = ( #circa 92% gemma3
             f"Classify the following automotive failure: "
             f"{phrase}\n"
             "into one of these categories: "
@@ -170,20 +189,21 @@ class FineTuningClassifier:
             f"Classify the following automotive failure: "
             f"{phrase}\n"
             "into one of these categories: "
-            f"{', '.join(self.categories)}.\n\n"
-            "   using the following definitions:\n"
+            f"{', '.join(self.categories)}.\n"
+            "Using the following definitions:\n"
             "Fuel System Problems: Issues related to the delivery, regulation, or combustion of fuel in the engine. These problems can arise from components such as the fuel pump, fuel injectors, fuel filter, or fuel lines. Symptoms often include poor fuel efficiency, engine stalling, or difficulty starting. \n"
             "Ignition System Malfunctions: Faults within the system responsible for igniting the air-fuel mixture in the engine's cylinders. This includes components like spark plugs, ignition coils, distributor caps, and crankshaft position sensors. Common symptoms include misfires, difficulty starting, or rough idling. \n"
             "Cooling System Anomalies: Problems affecting the system that regulates engine temperature to prevent overheating. Components include the radiator, water pump, thermostat, and coolant hoses. Indicators of issues are engine overheating, coolant leaks, or insufficient heating in the cabin.\n"
             "Brake System Defects: Malfunctions in the braking system that affect the vehicle's ability to slow down or stop safely. This includes defects in brake pads, rotors, calipers, or hydraulic components like the master cylinder. Symptoms include squealing noises, vibrations, or reduced braking effectiveness.\n"
             "Transmission Problems: Issues within the system responsible for transmitting power from the engine to the wheels, including automatic or manual transmissions. Common problems involve slipping gears, delayed shifting, or leaks in the transmission fluid. Symptoms include unusual noises and difficulty in shifting gears.\n"
             "Electrical/Electronic Failures: Faults in the vehicle's electrical or electronic systems, including the battery, alternator, wiring, or onboard computers. These can manifest as flickering lights, dead batteries, or malfunctioning electronic components like power windows or dashboard instruments. \n"
-            "Examples:\n"
+            "And using the following examples:\n"
         )
 
         if self.adjusted_example_pool_size > 0:
-            for example in examples:
-                prompt += f"Failure: {example['phrase']}\nCategory: {example['category']}\n\n"
+            for example in examples: #circa 78% con gemma3,
+                # prompt += f"Failure: {example['phrase']}\nCategory: {example['category']}\n\n"
+                prompt += f"{example['category']}: {example['phrase']}\n"
 
         return prompt
 
@@ -371,7 +391,7 @@ if __name__ == "__main__":
         "--model",
         type=str,
         default="gemma3_1b",  # Default value from the classifier initialization
-        choices=["gemma2", "gemma3_1b"],
+        choices=["gemma2", "gemma3_1b", "gemma3_4b"],
         help="Choose model between gemma2, gemma3_1b. Default is 'gemma3_1b'."
     )
 
