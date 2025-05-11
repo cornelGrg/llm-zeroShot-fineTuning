@@ -2,18 +2,23 @@ import pandas as pd
 import argparse
 import bitsandbytes as bnb
 import accelerate as aclrt
-from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
+from peft import LoraConfig, get_peft_model
+from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig, TrainingArguments
 from datetime import datetime
+from datasets import load_dataset
+import peft
+import trl
 from huggingface_hub import snapshot_download
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix, ConfusionMatrixDisplay
 import matplotlib.pyplot as plt
 import os
 import time
 import torch
+from trl import SFTTrainer
 
 
 class FineTuningClassifier:
-    def __init__(self, model, dataset_path, examples_path, csv_result_file, test_mode="zero"):
+    def __init__(self, model, dataset_path, trained, examples_path, csv_result_file, test_mode="zero"):
         match model:
             case "gemma2":
                 self.model_id = "google/gemma-2-2b-it"
@@ -30,6 +35,13 @@ class FineTuningClassifier:
 
         self.dataset_path = dataset_path
         self.csv_result_file = csv_result_file
+
+        print(f"Running in: {test_mode} mode")
+        print(f"Running with {self.model_id} model")
+        if trained:
+            print ("Using trained model")
+        else:
+            print ("Using untrained model")
 
         #select best available device
         if torch.backends.mps.is_available():
@@ -62,8 +74,8 @@ class FineTuningClassifier:
         self.tokenizer = AutoTokenizer.from_pretrained(self.model_id)
 
         # load dataset, examples and set categories
-        self.test_df = pd.read_csv(dataset_path)
-        self.df_examples = pd.read_csv(examples_path)
+        self.test_df = pd.read_csv(dataset_path, sep="\t")
+        self.df_examples = pd.read_csv(examples_path, sep="\t")
         self.categories = [
             "Fuel System Problems",
             "Ignition System Malfunctions",
@@ -185,7 +197,7 @@ class FineTuningClassifier:
         :param examples:
         :return:
         """
-        prompt = (  #circa 51% acc
+        prompt = (
             f"Classify the following automotive failure: "
             f"{phrase}\n"
             "into one of these categories: "
@@ -197,11 +209,11 @@ class FineTuningClassifier:
             "Brake System Defects: Malfunctions in the braking system that affect the vehicle's ability to slow down or stop safely. This includes defects in brake pads, rotors, calipers, or hydraulic components like the master cylinder. Symptoms include squealing noises, vibrations, or reduced braking effectiveness.\n"
             "Transmission Problems: Issues within the system responsible for transmitting power from the engine to the wheels, including automatic or manual transmissions. Common problems involve slipping gears, delayed shifting, or leaks in the transmission fluid. Symptoms include unusual noises and difficulty in shifting gears.\n"
             "Electrical/Electronic Failures: Faults in the vehicle's electrical or electronic systems, including the battery, alternator, wiring, or onboard computers. These can manifest as flickering lights, dead batteries, or malfunctioning electronic components like power windows or dashboard instruments. \n"
-            "And using the following examples:\n"
+            "With the following examples:\n"
         )
 
         if self.adjusted_example_pool_size > 0:
-            for example in examples: #circa 78% con gemma3,
+            for example in examples: #circa 75% con gemma3,
                 # prompt += f"Failure: {example['phrase']}\nCategory: {example['category']}\n\n"
                 prompt += f"{example['category']}: {example['phrase']}\n"
 
@@ -267,6 +279,176 @@ class FineTuningClassifier:
         category = lines[-1].strip("* ").strip() if lines else "Unknown"
         return category
 
+    def __get_peft_params_default(self):
+        # define default LORA parameters
+        """return {
+            'r':16,  # Choose any number > 0 ! Suggested 8, 16, 32, 64, 128
+            'target_modules':["q_proj", "k_proj", "v_proj", "o_proj",
+                            "gate_proj", "up_proj", "down_proj" ],
+            'lora_alpha':16,
+            'lora_dropout':0,     # Supports any, but = 0 is optimized
+            'bias':"none",        # Supports any, but = "none" is optimized
+             # [NEW] "unsloth" uses 30% less VRAM, fits 2x larger batch sizes!
+            'use_gradient_checkpointing':"unsloth",  # True or "unsloth" for very long context
+            'random_state':3407, #x riproducibilità esperimento
+            'use_rslora':False,  # We support rank stabilized LoRA
+            'loftq_config':None  # And LoftQ
+        }
+        """
+
+        config = LoraConfig(
+            r=8,
+            lora_alpha=16,
+            target_modules=["q_proj", "k_proj", "v_proj", "o_proj",
+                            "gate_proj", "up_proj", "down_proj"],
+            lora_dropout=0.05,  # Supports any, but = 0 is optimized
+            bias="none",  # Supports any, but = "none" is optimized
+            task_type="CAUSAL_LM",
+            use_gradient_checkpointing="unsloth",  # True or "unsloth" for very long context
+            random_state=3407,  # x riproducibilità esperimento
+            use_rslora=False,  # We support rank stabilized LoRA
+            loftq_config=None  # And LoftQ
+        )
+        return config
+
+    def __get_train_params_default(self, modelSaveFileName):
+        # define training arguments
+        return TrainingArguments(
+            output_dir=modelSaveFileName,
+            per_device_train_batch_size=2,
+            gradient_accumulation_steps=4,
+            warmup_steps=5,
+            # num_train_epochs = 1, # Set this for 1 full training run.
+            max_steps=60,
+            learning_rate=2e-4,
+            fp16=not self.is_bfloat16_supported(),
+            bf16=self.is_bfloat16_supported(),
+            logging_steps=1,
+            optim="adamw_8bit",
+            weight_decay=0.01,
+            lr_scheduler_type="linear",
+            seed=3407,
+            report_to="none",  # Use this for WandB etc
+    )
+
+    def is_bfloat16_supported(self):
+        """
+        Checks if the current environment supports bfloat16 precision.
+        This is dependent on the hardware (e.g., newer GPUs or TPUs).
+
+        Returns:
+            bool: True if bfloat16 is supported, False otherwise.
+        """
+        try:
+            # Use PyTorch to check GPU capabilities
+            import torch
+            if torch.cuda.is_available():
+                cuda_capability = torch.cuda.get_device_capability()
+                # Check if CUDA compute capability is 8.0 or higher (Ampere GPUs and newer)
+                # Ampere GPUs (like A100) support bfloat16.
+                return cuda_capability[0] >= 8
+            else:
+                # If no GPU is available, return False
+                return False
+        except ImportError:
+            # PyTorch is not installed, assume no support
+            return False
+
+
+    def formatting_prompts_func(self):
+        """
+        Formats the dataset into a training-friendly format for the model.
+        Each row of the dataset is converted into a dictionary with a 'text' field
+        that combines the phrase and its associated category into a prompt-response format.
+
+        Returns:
+            list[dict]: A list of dictionaries where each dictionary has a 'text' field
+                        containing formatted strings.
+        """
+        formatted_samples = []
+
+        dataset = self.df_examples
+
+        # Iterate through the dataset rows
+        for _, row in dataset.iterrows():
+            phrase = row["phrase"]
+            category = row["category"]
+
+            # Format each row into a prompt-response string
+            formatted_text = f"Category: {category}\nPhrase: {phrase}\n"
+            formatted_samples.append({"text": formatted_text})
+
+        return formatted_samples
+
+
+    def trainModel(self, domainName, trainingModelName, peft_params=None, train_params=None):
+        """
+        effettua il fine tuning dal modello base con i dati del dataset
+        :param domainName: nome del dominio per cui effettuare un fine tuning
+        :param traningModelName: nome del modello trainato (nome del folder)
+        :param peft_params: OBJ LoraConfig per parametri per le matrici da aggiungere ai pesi
+        :param train_params: OBJ SFTConfig per parametri per il fine tuning (numero di epoche, lernong rate, ...)
+        :return:
+        """
+        # trainingFileName = f"{self.modelRepository}/Case_{domainName}/DataSetLLM.tsv"
+        trainingFileName = self.dataset_path
+        # modelSaveFileName = f"{self.modelRepository}/Case_{domainName}/Models/GEMMA/{trainingModelName}"
+        modelSaveFileName = f"trainedModels/GEMMA/{trainingModelName}"
+
+        """IMPORT IL DATASET PER FARE IL TRAINING"""
+        """
+        # Read the TSV file and get the data as an array
+        data_array = self.read_tsv_to_array(trainingFileName)
+        """
+        dataset = load_dataset("yahma/alpaca-cleaned", split="train")
+        dataset = dataset.map(self.formatting_prompts_func, batched=True)
+
+        """PARAMETRI PER IL TRAINING + LEARNING + SALVO IL MODELLO IN DRIVE"""
+        # LoRA Config
+        if peft_params == None:
+            peft_params = self.__get_peft_params_default
+        # Training Params
+        if train_params == None:
+            train_params = self.__get_train_params_default
+
+        # Model: We now add LoRA adapters so we only need to update 1 to 10% of all parameters!
+        # base_model = FastLanguageModel.get_peft_model(
+        base_model = get_peft_model(
+            self.model,
+            peft_params
+        )
+        """
+        r = peft_params['r'],   # Choose any number > 0 ! Suggested 8, 16, 32, 64, 128
+        target_modules = peft_params['target_modules'],
+        lora_alpha = peft_params['lora_alpha'],
+        lora_dropout = peft_params['lora_dropout'],  # Supports any, but = 0 is optimized
+        bias = peft_params['bias'],  # Supports any, but = "none" is optimized
+        # [NEW] "unsloth" uses 30% less VRAM, fits 2x larger batch sizes!
+        use_gradient_checkpointing = peft_params['use_gradient_checkpointing'],  # True or "unsloth" for very long context
+        random_state = peft_params['random_state'],
+        use_rslora = peft_params['use_rslora'],  # We support rank stabilized LoRA
+        loftq_config = peft_params['loftq_config'],  # And LoftQ
+        """
+
+        max_seq_length = 2048  # Choose any! We auto support RoPE Scaling internally!
+
+        fine_tuning = SFTTrainer(  ##da che libreria è presa
+            model=self.model,
+            tokenizer=self.tokenizer,
+            train_dataset=dataset,
+            dataset_text_field="text",
+            max_seq_length=max_seq_length,
+            dataset_num_proc=2,
+            packing=False,  # Can make training 5x faster for short sequences.
+            args=train_params
+        )
+
+        # Training modifica modello self.model
+        fine_tuning.train()
+        # Save Model
+        base_model.save_pretrained(modelSaveFileName)  # salva i parametri del modello nella cartella modello
+        # fine_tuning.save_pretrained(modelSaveFileName) # Local saving
+        self.tokenizer.save_pretrained(modelSaveFileName)  # TODO verificare se necessario!!
 
     def evaluate_accuracy(self, predictions):
         """
@@ -395,13 +577,22 @@ if __name__ == "__main__":
         help="Choose model between gemma2, gemma3_1b. Default is 'gemma3_1b'."
     )
 
+    # change model type used
+    parser.add_argument(
+        "--training",
+        type=bool,
+        default=False,  # Default value from the classifier initialization
+        choices=[False, True],
+        help="Choose between trained or untrained model"
+    )
+
     #change examples used
     parser.add_argument(
         "--examples_path",
         type=str,
-        default="context_examples.csv",
-        choices=["examples.csv", "context_examples.csv"],
-        help="Path to the examples CSV file. Default is 'examples.csv'."
+        default="context_examples.tsv",
+        choices=["examples.tsvtsv", "context_examples.tsv"],
+        help="Path to the examples TSV file. Default is 'examples.tsvtsv'."
     )
 
     #change test mode
@@ -418,7 +609,8 @@ if __name__ == "__main__":
 
     classifier = FineTuningClassifier(
         model = args.model,
-        dataset_path = "dataset.csv",
+        dataset_path = "dataset.tsv",
+        trained = args.training,
         examples_path = args.examples_path,
         csv_result_file = "./accuracy_example_pool_sizes.csv",
         test_mode = args.test_mode
