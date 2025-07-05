@@ -17,24 +17,65 @@ import torch
 from trl import SFTTrainer
 
 
-class FineTuningClassifier:
-    def __init__(self, model, dataset_path, trained, examples_path, csv_result_file, test_mode="zero"):
-        match model:
-            case "gemma2":
-                self.model_id = "google/gemma-2-2b-it"
-                self.model_name = "gemma2"
-            case "gemma3_1b":
-                self.model_id = "google/gemma-3-1b-it"
-                self.model_name = "gemma3_1b"
-            case "gemma3_4b":
-                self.model_id = "google/gemma-3-4b-it"
-                self.model_name = "gemma3_4b"
-            case _:      #default case
-                self.model_id = "google/gemma-3-1b-it"
-                self.model_name = "gemma3_1b"
+def create_model_and_tokenizer(model_name, device):
+    """
+    Create and initialize model and tokenizer based on model name and device.
+    
+    Args:
+        model_name: Name of the model ("gemma2", "gemma3_1b", "gemma3_4b")
+        device: Device to load the model on
+    
+    Returns:
+        tuple: (model, tokenizer, model_id, model_name)
+    """
+    match model_name:
+        case "gemma2":
+            model_id = "google/gemma-2-2b-it"
+            model_name_normalized = "gemma2"
+        case "gemma3_1b":
+            model_id = "google/gemma-3-1b-it"
+            model_name_normalized = "gemma3_1b"
+        case "gemma3_4b":
+            model_id = "google/gemma-3-4b-it"
+            model_name_normalized = "gemma3_4b"
+        case _:      #default case
+            model_id = "google/gemma-3-1b-it"
+            model_name_normalized = "gemma3_1b"
 
+    print(f"Loading model: {model_id}")
+    
+    if model_name_normalized == "gemma3_4b":
+        # quantization_config = BitsAndBytesConfig(load_in_8bit=True)
+        quant_config = BitsAndBytesConfig(
+            load_in_4bit=True,
+            bnb_4bit_quant_type="nf4",
+            bnb_4bit_compute_dtype=torch.float16,
+            bnb_4bit_use_double_quant=False
+        )
+
+        print("Using quantization")
+        model = AutoModelForCausalLM.from_pretrained(
+            model_id,
+            quantization_config=quant_config,
+        ).to(device).eval()
+    else:
+        model = AutoModelForCausalLM.from_pretrained(model_id, torch_dtype=torch.float32).to(device).eval()
+
+    tokenizer = AutoTokenizer.from_pretrained(model_id)
+    
+    return model, tokenizer, model_id, model_name_normalized
+
+
+class FineTuningClassifier:
+    def __init__(self, model, tokenizer, model_id, model_name, device, dataset_path, trained, examples_path, csv_result_file, test_mode="zero"):
+        self.model = model
+        self.tokenizer = tokenizer
+        self.model_id = model_id
+        self.model_name = model_name
+        self.device = device
         self.dataset_path = dataset_path
         self.csv_result_file = csv_result_file
+        self.test_mode = test_mode
 
         print(f"Running in: {test_mode} mode")
         print(f"Running with {self.model_id} model")
@@ -42,36 +83,7 @@ class FineTuningClassifier:
             print ("Using trained model")
         else:
             print ("Using untrained model")
-
-        #select best available device
-        if torch.backends.mps.is_available():
-            self.device = torch.device("mps")
-        elif torch.cuda.is_available():
-            self.device = torch.device("cuda")
-        else:
-            self.device = torch.device("cpu")
         print("Using {} device".format(self.device))
-
-        self.test_mode = test_mode
-
-        if (self.model_name=="gemma3_4b"):
-            # quantization_config = BitsAndBytesConfig(load_in_8bit=True)
-            quant_config = BitsAndBytesConfig(
-                load_in_4bit=True,
-                bnb_4bit_quant_type="nf4",
-                bnb_4bit_compute_dtype=torch.float16,
-                bnb_4bit_use_double_quant=False
-            )
-
-            print("Using quantization")
-            self.model = AutoModelForCausalLM.from_pretrained(
-                self.model_id,
-                quantization_config=quant_config,
-            ).to(self.device).eval()
-        else:
-            self.model = AutoModelForCausalLM.from_pretrained(self.model_id, torch_dtype=torch.float32).to(self.device).eval()
-
-        self.tokenizer = AutoTokenizer.from_pretrained(self.model_id)
 
         # load dataset, examples and set categories
         self.test_df = pd.read_csv(dataset_path, sep="\t")
@@ -341,7 +353,6 @@ class FineTuningClassifier:
         """
         try:
             # Use PyTorch to check GPU capabilities
-            import torch
             if torch.cuda.is_available():
                 cuda_capability = torch.cuda.get_device_capability()
                 # Check if CUDA compute capability is 8.0 or higher (Ampere GPUs and newer)
@@ -607,13 +618,28 @@ if __name__ == "__main__":
     # Parse arguments
     args = parser.parse_args()
 
+    # Select best available device
+    if torch.backends.mps.is_available():
+        device = torch.device("mps")
+    elif torch.cuda.is_available():
+        device = torch.device("cuda")
+    else:
+        device = torch.device("cpu")
+
+    # Create model and tokenizer outside the class
+    model, tokenizer, model_id, model_name = create_model_and_tokenizer(args.model, device)
+
     classifier = FineTuningClassifier(
-        model = args.model,
-        dataset_path = "dataset.tsv",
-        trained = args.training,
-        examples_path = args.examples_path,
-        csv_result_file = "./accuracy_example_pool_sizes.csv",
-        test_mode = args.test_mode
+        model=model,
+        tokenizer=tokenizer,
+        model_id=model_id,
+        model_name=model_name,
+        device=device,
+        dataset_path="dataset.tsv",
+        trained=args.training,
+        examples_path=args.examples_path,
+        csv_result_file="./accuracy_example_pool_sizes.csv",
+        test_mode=args.test_mode
     )
 
     classifier.classify_and_evaluate()
