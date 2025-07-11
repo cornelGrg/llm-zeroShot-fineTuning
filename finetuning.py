@@ -1,6 +1,6 @@
 import pandas as pd
 import argparse
-import bitsandbytes as bnb
+# import bitsandbytes as bnb
 import accelerate as aclrt
 from peft import LoraConfig, get_peft_model
 from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig, TrainingArguments
@@ -22,7 +22,7 @@ def create_model_and_tokenizer(model_name, device):
     Create and initialize model and tokenizer based on model name and device.
     
     Args:
-        model_name: Name of the model ("gemma2", "gemma3_1b", "gemma3_4b")
+        model_name: Name of the model ("gemma2", "gemma3_1b", "gemma3n_e2b_it")
         device: Device to load the model on
     
     Returns:
@@ -38,14 +38,52 @@ def create_model_and_tokenizer(model_name, device):
         case "gemma3_4b":
             model_id = "google/gemma-3-4b-it"
             model_name_normalized = "gemma3_4b"
+        case "gemma3n_e2b_it":
+            model_id = "google/gemma-3n-E2B-it"
+            model_name_normalized = "gemma3n_e2b_it"
         case _:      #default case
             model_id = "google/gemma-3-1b-it"
             model_name_normalized = "gemma3_1b"
 
-    print(f"Loading model: {model_id}")
+    print(f"Loading model (quantized): {model_id}")
     
-    if model_name_normalized == "gemma3_4b":
-        # quantization_config = BitsAndBytesConfig(load_in_8bit=True)
+    # # Special handling for Gemma-3n-E2B model due to ALT-UP quantization incompatibility
+    # if model_name_normalized == "gemma3n_e2b_it":
+    #     print("Note: Loading gemma-3n-E2B-it without quantization")
+    #     # Try loading entirely on GPU without quantization
+    #     model = AutoModelForCausalLM.from_pretrained(
+    #         model_id,
+    #         torch_dtype=torch.float16,
+    #         low_cpu_mem_usage=True,
+    #     ).to(device).eval()
+    #     print("Model loaded without quantization on GPU")
+    # else:
+    #     # Quantization configuration for other models
+    #     quant_config = BitsAndBytesConfig(
+    #         load_in_4bit=True,
+    #         bnb_4bit_quant_type="nf4",
+    #         bnb_4bit_compute_dtype=torch.float16,
+    #         bnb_4bit_use_double_quant=False
+    #     )
+
+    #     # Load the model with quantization and low CPU memory usage
+    #     model = AutoModelForCausalLM.from_pretrained(
+    #         model_id,
+    #         quantization_config=quant_config,
+    #         low_cpu_mem_usage=True,  # Enable low CPU memory usage
+    #     ).to(device).eval()
+
+    if model_name_normalized == "gemma3n_e2b_it":
+        print("Note: Loading Gemma-3n-E2B without quantization due to ALT-UP compatibility issues")
+        # Load without quantization for Gemma-3n-E2B
+        model = AutoModelForCausalLM.from_pretrained(
+            model_id,
+            torch_dtype=torch.float16,  # Use float16 instead of quantization
+            low_cpu_mem_usage=True,
+            device_map="auto"  # Let transformers handle device placement
+        ).eval()
+    else:
+        # Quantization configuration for other models
         quant_config = BitsAndBytesConfig(
             load_in_4bit=True,
             bnb_4bit_quant_type="nf4",
@@ -53,13 +91,12 @@ def create_model_and_tokenizer(model_name, device):
             bnb_4bit_use_double_quant=False
         )
 
-        print("Using quantization")
+        # Load the model with quantization and low CPU memory usage
         model = AutoModelForCausalLM.from_pretrained(
             model_id,
             quantization_config=quant_config,
+            low_cpu_mem_usage=True,  # Enable low CPU memory usage
         ).to(device).eval()
-    else:
-        model = AutoModelForCausalLM.from_pretrained(model_id, torch_dtype=torch.float32).to(device).eval()
 
     tokenizer = AutoTokenizer.from_pretrained(model_id)
     
@@ -583,8 +620,8 @@ if __name__ == "__main__":
     parser.add_argument(
         "--model",
         type=str,
-        default="gemma3_1b",  # Default value from the classifier initialization
-        choices=["gemma2", "gemma3_1b", "gemma3_4b"],
+        default="gemma3n_e2b_it",  # Default value from the classifier initialization
+        choices=["gemma2", "gemma3_1b", "gemma3n_e2b_it"],
         help="Choose model between gemma2, gemma3_1b. Default is 'gemma3_1b'."
     )
 
