@@ -3,7 +3,7 @@ import argparse
 # import bitsandbytes as bnb
 import accelerate as aclrt
 from peft import LoraConfig, get_peft_model
-from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig, TrainingArguments
+from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig, TrainingArguments, Gemma3nForCausalLM
 from datetime import datetime
 from datasets import load_dataset
 import peft
@@ -76,9 +76,9 @@ def create_model_and_tokenizer(model_name, device):
     if model_name_normalized == "gemma3n_e2b_it":
         print("Note: Loading Gemma-3n-E2B without quantization due to ALT-UP compatibility issues")
         # Load without quantization for Gemma-3n-E2B
-        model = AutoModelForCausalLM.from_pretrained(
+        model = Gemma3nForCausalLM.from_pretrained(
             model_id,
-            torch_dtype=torch.float16,  # Use float16 instead of quantization
+            torch_dtype=torch.bfloat16,  # Use float16 instead of quantization
             low_cpu_mem_usage=True,
             device_map="auto"  # Let transformers handle device placement
         ).eval()
@@ -87,7 +87,7 @@ def create_model_and_tokenizer(model_name, device):
         quant_config = BitsAndBytesConfig(
             load_in_4bit=True,
             bnb_4bit_quant_type="nf4",
-            bnb_4bit_compute_dtype=torch.float16,
+            bnb_4bit_compute_dtype=torch.bfloat16,
             bnb_4bit_use_double_quant=False
         )
 
