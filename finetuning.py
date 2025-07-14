@@ -5,7 +5,7 @@ import accelerate as aclrt
 from peft import LoraConfig, get_peft_model
 from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig, TrainingArguments, Gemma3nForCausalLM
 from datetime import datetime
-from datasets import load_dataset
+from datasets import load_dataset, Dataset
 import peft
 import trl
 from huggingface_hub import snapshot_download
@@ -96,7 +96,8 @@ def create_model_and_tokenizer(model_name, device):
             model_id,
             quantization_config=quant_config,
             low_cpu_mem_usage=True,  # Enable low CPU memory usage
-        ).to(device).eval()
+            device_map="auto" # Let transformers handle device placement
+        ).eval()
 
     tokenizer = AutoTokenizer.from_pretrained(model_id)
     
@@ -104,7 +105,7 @@ def create_model_and_tokenizer(model_name, device):
 
 
 class FineTuningClassifier:
-    def __init__(self, model, tokenizer, model_id, model_name, device, dataset_path, trained, examples_path, csv_result_file, test_mode="zero"):
+    def __init__(self, model, tokenizer, model_id, model_name, device, dataset_path, trained, examples_path, csv_result_file, test_mode="zero", perform_new_training=False):
         self.model = model
         self.tokenizer = tokenizer
         self.model_id = model_id
@@ -113,18 +114,14 @@ class FineTuningClassifier:
         self.dataset_path = dataset_path
         self.csv_result_file = csv_result_file
         self.test_mode = test_mode
+        self.trained = trained
 
         print(f"Running in: {test_mode} mode")
         print(f"Running with {self.model_id} model")
-        if trained:
-            print ("Using trained model")
-        else:
-            print ("Using untrained model")
-        print("Using {} device".format(self.device))
-
+        
         # load dataset, examples and set categories
-        self.test_df = pd.read_csv(dataset_path, sep="\t")
-        self.df_examples = pd.read_csv(examples_path, sep="\t")
+        full_dataset_df = pd.read_csv(dataset_path, sep="\t")
+        
         self.categories = [
             "Fuel System Problems",
             "Ignition System Malfunctions",
@@ -133,6 +130,40 @@ class FineTuningClassifier:
             "Transmission Problems",
             "Electrical/Electronic Failures"
         ]
+        
+        if self.trained:
+            print ("Using trained model")
+            # Split dataset: 80% for training, 20% for testing
+            self.train_df = full_dataset_df.sample(frac=0.8, random_state=42)
+            self.test_df = full_dataset_df.drop(self.train_df.index)
+            print(f"Dataset split: {len(self.train_df)} for training, {len(self.test_df)} for testing.")
+
+            model_save_path = f"trainedModels/GEMMA/{self.model_name}"
+            if os.path.exists(model_save_path) and not perform_new_training:
+                print(f"Loading existing fine-tuned model from {model_save_path}")
+                self.model = peft.PeftModel.from_pretrained(self.model, model_save_path)
+            else:
+                if not os.path.exists(model_save_path):
+                    print("No trained model found. Starting training...")
+                else:
+                    print("Overwriting existing model. Starting new training...")
+                self.trainModel(model_save_path)
+                print(f"Loading fine-tuned model from {model_save_path}")
+                self.model = peft.PeftModel.from_pretrained(self.model, model_save_path)
+
+        else:
+            print ("Using untrained model")
+            
+            # Split dataset: 20% for testing (same dataset used as trained model for fair comparison)
+            self.train_df = full_dataset_df.sample(frac=0.8, random_state=42)
+            self.test_df = full_dataset_df.drop(self.train_df.index)
+            
+            # Complete dataset tested (use only for independent testing not to be compared with trained model)
+            # self.test_df = full_dataset_df
+
+        print("Using {} device".format(self.device))
+
+        self.df_examples = pd.read_csv(examples_path, sep="\t")
 
         if test_mode == "few" or test_mode == "def-few":
             #Few-shot test with examples given INSIDE the prompt
@@ -288,20 +319,6 @@ class FineTuningClassifier:
             case _:     #default case
                 prompt_text = self.build_zero_shot_prompt(phrase)
 
-        # if self.model_name == "gemma3_1b":
-        #     messages = [
-        #         [
-        #             {
-        #                 "role": "system",
-        #                 "content": [{"type": "text", "text": "Respond only with the category name. No explanation."}],
-        #             },
-        #             {
-        #                 "role": "user",
-        #                 "content": [{"type": "text", "text": prompt_text}],
-        #             },
-        #         ],
-        #     ]
-
         # if self.model_name == "gemma2":
         messages = [
             {"role": "user", "content": f"Respond only with the category name. No explanation.\n {prompt_text}"},
@@ -317,7 +334,7 @@ class FineTuningClassifier:
         inputs = {k: v.to(self.device) for k, v in inputs.items()}
 
         with torch.inference_mode():
-            outputs = self.model.generate(**inputs, max_new_tokens=300)
+            outputs = self.model.generate(**inputs, max_new_tokens=30)
 
         decoded = self.tokenizer.batch_decode(outputs, skip_special_tokens=True)
         result_text = decoded[0].strip()
@@ -350,13 +367,9 @@ class FineTuningClassifier:
             lora_alpha=16,
             target_modules=["q_proj", "k_proj", "v_proj", "o_proj",
                             "gate_proj", "up_proj", "down_proj"],
-            lora_dropout=0.05,  # Supports any, but = 0 is optimized
-            bias="none",  # Supports any, but = "none" is optimized
+            lora_dropout=0.05,
+            bias="none",
             task_type="CAUSAL_LM",
-            use_gradient_checkpointing="unsloth",  # True or "unsloth" for very long context
-            random_state=3407,  # x riproducibilità esperimento
-            use_rslora=False,  # We support rank stabilized LoRA
-            loftq_config=None  # And LoftQ
         )
         return config
 
@@ -370,8 +383,8 @@ class FineTuningClassifier:
             # num_train_epochs = 1, # Set this for 1 full training run.
             max_steps=60,
             learning_rate=2e-4,
-            fp16=not self.is_bfloat16_supported(),
-            bf16=self.is_bfloat16_supported(),
+            fp16=not torch.cuda.is_bf16_supported(),
+            bf16=torch.cuda.is_bf16_supported(),
             logging_steps=1,
             optim="adamw_8bit",
             weight_decay=0.01,
@@ -403,7 +416,7 @@ class FineTuningClassifier:
             return False
 
 
-    def formatting_prompts_func(self):
+    def formatting_prompts_func(self, examples):
         """
         Formats the dataset into a training-friendly format for the model.
         Each row of the dataset is converted into a dictionary with a 'text' field
@@ -413,90 +426,62 @@ class FineTuningClassifier:
             list[dict]: A list of dictionaries where each dictionary has a 'text' field
                         containing formatted strings.
         """
-        formatted_samples = []
-
-        dataset = self.df_examples
-
-        # Iterate through the dataset rows
-        for _, row in dataset.iterrows():
-            phrase = row["phrase"]
-            category = row["category"]
-
+        texts = []
+        for i in range(len(examples['phrase'])):
+            phrase = examples["phrase"][i]
+            category = examples["category"][i]
             # Format each row into a prompt-response string
-            formatted_text = f"Category: {category}\nPhrase: {phrase}\n"
-            formatted_samples.append({"text": formatted_text})
+            text = f"Classify the following automotive failure: {phrase}\ninto one of these categories: {', '.join(self.categories)}.\nCategory: {category}"
+            texts.append(text)
+        return {"text": texts}
 
-        return formatted_samples
 
-
-    def trainModel(self, domainName, trainingModelName, peft_params=None, train_params=None):
+    def trainModel(self, modelSaveFileName, peft_params=None, train_params=None):
         """
         effettua il fine tuning dal modello base con i dati del dataset
-        :param domainName: nome del dominio per cui effettuare un fine tuning
-        :param traningModelName: nome del modello trainato (nome del folder)
+        :param modelSaveFileName: path where to save the model adapters
         :param peft_params: OBJ LoraConfig per parametri per le matrici da aggiungere ai pesi
         :param train_params: OBJ SFTConfig per parametri per il fine tuning (numero di epoche, lernong rate, ...)
         :return:
         """
-        # trainingFileName = f"{self.modelRepository}/Case_{domainName}/DataSetLLM.tsv"
-        trainingFileName = self.dataset_path
-        # modelSaveFileName = f"{self.modelRepository}/Case_{domainName}/Models/GEMMA/{trainingModelName}"
-        modelSaveFileName = f"trainedModels/GEMMA/{trainingModelName}"
-
         """IMPORT IL DATASET PER FARE IL TRAINING"""
-        """
-        # Read the TSV file and get the data as an array
-        data_array = self.read_tsv_to_array(trainingFileName)
-        """
-        dataset = load_dataset("yahma/alpaca-cleaned", split="train")
+        dataset = Dataset.from_pandas(self.train_df)
         dataset = dataset.map(self.formatting_prompts_func, batched=True)
 
         """PARAMETRI PER IL TRAINING + LEARNING + SALVO IL MODELLO IN DRIVE"""
         # LoRA Config
-        if peft_params == None:
-            peft_params = self.__get_peft_params_default
+        if peft_params is None:
+            peft_params = self.__get_peft_params_default()
         # Training Params
-        if train_params == None:
-            train_params = self.__get_train_params_default
+        if train_params is None:
+            train_params = self.__get_train_params_default(modelSaveFileName)
 
         # Model: We now add LoRA adapters so we only need to update 1 to 10% of all parameters!
-        # base_model = FastLanguageModel.get_peft_model(
+        self.model.config.use_cache = False # Must be false for gradient checkpointing
         base_model = get_peft_model(
             self.model,
             peft_params
         )
-        """
-        r = peft_params['r'],   # Choose any number > 0 ! Suggested 8, 16, 32, 64, 128
-        target_modules = peft_params['target_modules'],
-        lora_alpha = peft_params['lora_alpha'],
-        lora_dropout = peft_params['lora_dropout'],  # Supports any, but = 0 is optimized
-        bias = peft_params['bias'],  # Supports any, but = "none" is optimized
-        # [NEW] "unsloth" uses 30% less VRAM, fits 2x larger batch sizes!
-        use_gradient_checkpointing = peft_params['use_gradient_checkpointing'],  # True or "unsloth" for very long context
-        random_state = peft_params['random_state'],
-        use_rslora = peft_params['use_rslora'],  # We support rank stabilized LoRA
-        loftq_config = peft_params['loftq_config'],  # And LoftQ
-        """
 
         max_seq_length = 2048  # Choose any! We auto support RoPE Scaling internally!
 
-        fine_tuning = SFTTrainer(  ##da che libreria è presa
-            model=self.model,
-            tokenizer=self.tokenizer,
+        fine_tuning = SFTTrainer(
+            model=base_model,
+            # tokenizer=self.tokenizer,
             train_dataset=dataset,
-            dataset_text_field="text",
-            max_seq_length=max_seq_length,
-            dataset_num_proc=2,
-            packing=False,  # Can make training 5x faster for short sequences.
-            args=train_params
+            # dataset_text_field="phrase",  SFTConfig arg
+            # max_seq_length=max_seq_length, SFTConfig arg
+            # dataset_num_proc=2, SFTConfig arg
+            # packing=False,  # Can make training 5x faster for short sequences.  SFTConfig arg
+            args=train_params,
+            peft_config=peft_params,
         )
 
         # Training modifica modello self.model
         fine_tuning.train()
         # Save Model
         base_model.save_pretrained(modelSaveFileName)  # salva i parametri del modello nella cartella modello
-        # fine_tuning.save_pretrained(modelSaveFileName) # Local saving
-        self.tokenizer.save_pretrained(modelSaveFileName)  # TODO verificare se necessario!!
+        self.tokenizer.save_pretrained(modelSaveFileName)
 
     def evaluate_accuracy(self, predictions):
         """
@@ -510,7 +495,7 @@ class FineTuningClassifier:
         for i in range(total):
             expected = self.test_df.iloc[i]['category'].strip().lower()
             predicted = predictions[i].strip().lower()
-            if predicted == expected:
+            if predicted in expected or expected in predicted:
                 correct += 1
 
         accuracy = correct / total * 100
@@ -554,16 +539,17 @@ class FineTuningClassifier:
         plt.tight_layout()
 
         base_path="./graphs"
+        model_suffix = f"{self.model_name}{'_trained' if self.trained else ''}"
 
         match self.test_mode:
             case "few":
-                plt.savefig(f"{base_path}/{self.model_name}_vehicularFailures_few-shot.png")
+                plt.savefig(f"{base_path}/{model_suffix}_vehicularFailures_few-shot.png")
             case "zero":
-                plt.savefig(f"{base_path}/{self.model_name}_vehicularFailures_zero-shot.png")
+                plt.savefig(f"{base_path}/{model_suffix}_vehicularFailures_zero-shot.png")
             case "def":
-                plt.savefig(f"{base_path}/{self.model_name}_vehicularFailures_definitions-test.png")
+                plt.savefig(f"{base_path}/{model_suffix}_vehicularFailures_definitions-test.png")
             case "def-few":
-                plt.savefig(f"{base_path}/{self.model_name}_vehicularFailures_definitions-and_examples-test.png")
+                plt.savefig(f"{base_path}/{model_suffix}_vehicularFailures_definitions-and_examples-test.png")
 
     def log_results_to_csv(self, accuracy, process_time):
         """
@@ -575,7 +561,7 @@ class FineTuningClassifier:
         new_row = {
             "Timestamp": datetime.now().strftime("%Y-%m-%d/%H:%M:%S"),
             "Test mode": self.test_mode,
-            "Model": self.model_name,
+            "Model": f"{self.model_name}{'_trained' if self.trained else ''}",
             "Process_time(s)": process_time,
             "Accuracy (%)": round(accuracy, 2),
         }
@@ -614,13 +600,16 @@ class FineTuningClassifier:
 if __name__ == "__main__":
     #snapshot_download(repo_id="google/gemma-3-1b-it") #Use only the first time to install the model locally
 
+    # --- FLAG TO FORCE RETRAINING ---
+    PERFORM_NEW_TRAINING = False # Set to True to force retraining even if a trained model exists
+
     parser = argparse.ArgumentParser(description="Fine-tuning classifier for automotive failure detection.")
 
     #change model used
     parser.add_argument(
         "--model",
         type=str,
-        default="gemma3n_e2b_it",  # Default value from the classifier initialization
+        default="gemma3_1b",  # Default value from the classifier initialization
         choices=["gemma2", "gemma3_1b", "gemma3n_e2b_it"],
         help="Choose model between gemma2, gemma3_1b. Default is 'gemma3_1b'."
     )
@@ -628,9 +617,7 @@ if __name__ == "__main__":
     # change model type used
     parser.add_argument(
         "--training",
-        type=bool,
-        default=False,  # Default value from the classifier initialization
-        choices=[False, True],
+        action='store_true', # Use as a flag: --training
         help="Choose between trained or untrained model"
     )
 
@@ -676,7 +663,8 @@ if __name__ == "__main__":
         trained=args.training,
         examples_path=args.examples_path,
         csv_result_file="./accuracy_example_pool_sizes.csv",
-        test_mode=args.test_mode
+        test_mode=args.test_mode,
+        perform_new_training=PERFORM_NEW_TRAINING
     )
 
     classifier.classify_and_evaluate()
