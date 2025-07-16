@@ -1,7 +1,7 @@
 phrase	category
-"The vehicle shows irregular idling and produces black smoke from the exhaust during acceleration. The injectors appear to be clogged."	Fuel System Problems
-"The engine backfires and hesitates during acceleration. The distributor cap shows carbon tracking and the ignition wires have visible cracks in the insulation."	Ignition System Malfunctions
-"The engine temperature rises rapidly to the red zone even on short trips. A green fluid leak is noticeable under the vehicle when parked."	Cooling System Anomalies
-"During braking, there's a vibration in the steering wheel and a metallic noise from the front wheels. The discs show signs of irregular wear."	Brake System Defects
-"Sharp knocks are heard when changing gears and the transmission fluid appears dark with a burnt smell. The clutch seems to slip under strain."	Transmission Problems
-"The car doesn't respond correctly to electronic commands and dashboard warning lights turn on randomly. The control unit resets frequently."	Electrical/Electronic Failures
+"The engine cranks but fails to start. A fuel pressure test confirms that the fuel pump is not delivering adequate pressure to the fuel rail."	Fuel System Problems
+"The engine runs rough with a consistent misfire. A diagnostic scan reveals a fault code for a specific ignition coil, and swapping coils moves the misfire to another cylinder."	Ignition System Malfunctions
+"The engine overheats in stop-and-go traffic, but the temperature returns to normal on the highway. The radiator cooling fan is not activating when the engine gets hot."	Cooling System Anomalies
+"The brake pedal feels spongy and goes nearly to the floor when pressed. A visual inspection reveals brake fluid leaking from a corroded brake line."	Brake System Defects
+"While accelerating, the engine RPMs increase but the vehicle's speed does not. The transmission seems to slip out of gear, especially under heavy load."	Transmission Problems
+"The headlights are dim at idle and brighten when the engine is revved. The battery warning light is illuminated on the dashboard, indicating a failing alternator."	Electrical/Electronic Failures

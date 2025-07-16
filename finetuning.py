@@ -131,7 +131,7 @@ class FineTuningClassifier:
         print(f"Running with {self.model_id} model")
         
         # load dataset, examples and set categories
-        full_dataset_df = pd.read_csv(dataset_path, sep="\t")
+        self.test_df = pd.read_csv(dataset_path, sep="\t")
         
         self.categories = [
             "Fuel System Problems",
@@ -143,10 +143,9 @@ class FineTuningClassifier:
         ]
         
         if self.trained:
-            # Split dataset: 80% for training, 20% for testing
-            self.train_df = full_dataset_df.sample(frac=0.8, random_state=42)
-            self.test_df = full_dataset_df.drop(self.train_df.index)
-            print(f"Dataset split: {len(self.train_df)} for training, {len(self.test_df)} for testing.")
+            self.train_df = pd.read_csv(examples_path, sep="\t")
+            print(f"Loaded {len(self.train_df)} examples for training from {examples_path}.")
+            print(f"Using {len(self.test_df)} examples for testing from {dataset_path}.")
 
             model_save_path = f"trainedModels/GEMMA/{self.model_name}"
             # Training is needed if we force it or if the model doesn't exist
@@ -161,26 +160,22 @@ class FineTuningClassifier:
 
         else:
             print ("Using base (untrained) model")
-            
-            # Split dataset: 20% for testing (same dataset used as trained model for fair comparison)
-            self.train_df = full_dataset_df.sample(frac=0.8, random_state=42)
-            self.test_df = full_dataset_df.drop(self.train_df.index)
-            
-            # Complete dataset tested (use only for independent testing not to be compared with trained model)
-            # self.test_df = full_dataset_df
+            print(f"Using {len(self.test_df)} examples for testing from {dataset_path}.")
+            self.train_df = None # No training for base model
 
         print("Using {} device".format(self.device))
-
-        self.df_examples = pd.read_csv(examples_path, sep="\t")
 
         if test_mode == "few" or test_mode == "def-few":
             #Few-shot test with examples given INSIDE the prompt
             self.adjusted_example_pool_size = 1
+            
+            # Load context examples specifically for few-shot modes
+            context_examples_df = pd.read_csv("context_examples.tsv", sep="\t")
 
             # get 1 example per category
             few_shot_rows = []
             for category in self.categories:
-                examples = self.df_examples[self.df_examples['category'] == category].head(self.adjusted_example_pool_size)
+                examples = context_examples_df[context_examples_df['category'] == category].head(self.adjusted_example_pool_size)
                 few_shot_rows.append(examples)
 
             few_shot_df = pd.concat(few_shot_rows).reset_index(drop=True)
@@ -616,7 +611,7 @@ if __name__ == "__main__":
     #snapshot_download(repo_id="google/gemma-3-1b-it") #Use only the first time to install the model locally
 
     # --- FLAG TO FORCE RETRAINING ---
-    PERFORM_NEW_TRAINING = False # Set to True to force retraining even if a trained model exists
+    PERFORM_NEW_TRAINING = True # Set to True to force retraining even if a trained model exists
 
     parser = argparse.ArgumentParser(description="Fine-tuning classifier for automotive failure detection.")
 
@@ -640,9 +635,8 @@ if __name__ == "__main__":
     parser.add_argument(
         "--examples_path",
         type=str,
-        default="context_examples.tsv",
-        choices=["examples.tsvtsv", "context_examples.tsv"],
-        help="Path to the examples TSV file. Default is 'examples.tsvtsv'."
+        default="examples.tsv",
+        help="Path to the examples TSV file for training. Default is 'examples.tsv'."
     )
 
     #change test mode
