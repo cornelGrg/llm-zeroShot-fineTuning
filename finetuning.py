@@ -17,13 +17,15 @@ import torch
 from trl import SFTTrainer
 
 
-def create_model_and_tokenizer(model_name, device):
+def create_model_and_tokenizer(model_name, device, trained, perform_new_training):
     """
     Create and initialize model and tokenizer based on model name and device.
     
     Args:
         model_name: Name of the model ("gemma2", "gemma3_1b", "gemma3n_e2b_it")
         device: Device to load the model on
+        trained (bool): Whether to load a fine-tuned model.
+        perform_new_training (bool): Whether to use already existing trained model or overwrite it.
     
     Returns:
         tuple: (model, tokenizer, model_id, model_name)
@@ -44,8 +46,6 @@ def create_model_and_tokenizer(model_name, device):
         case _:      #default case
             model_id = "google/gemma-3-1b-it"
             model_name_normalized = "gemma3_1b"
-
-    print(f"Loading model (quantized): {model_id}")
     
     # # Special handling for Gemma-3n-E2B model due to ALT-UP quantization incompatibility
     # if model_name_normalized == "gemma3n_e2b_it":
@@ -74,15 +74,18 @@ def create_model_and_tokenizer(model_name, device):
     #     ).to(device).eval()
 
     if model_name_normalized == "gemma3n_e2b_it":
-        print("Note: Loading Gemma-3n-E2B without quantization due to ALT-UP compatibility issues")
+        print("Loading base model Gemma-3n-E2B (without quantization due compatibility issues)")
         # Load without quantization for Gemma-3n-E2B
         model = Gemma3nForCausalLM.from_pretrained(
             model_id,
             torch_dtype=torch.bfloat16,  # Use float16 instead of quantization
             low_cpu_mem_usage=True,
+            attn_implementation='eager',
             device_map="auto"  # Let transformers handle device placement
         ).eval()
     else:
+        print(f"Loading base model (quantized): {model_id}")
+    
         # Quantization configuration for other models
         quant_config = BitsAndBytesConfig(
             load_in_4bit=True,
@@ -95,11 +98,19 @@ def create_model_and_tokenizer(model_name, device):
         model = AutoModelForCausalLM.from_pretrained(
             model_id,
             quantization_config=quant_config,
+            attn_implementation='eager',
             low_cpu_mem_usage=True,  # Enable low CPU memory usage
             device_map="auto" # Let transformers handle device placement
         ).eval()
 
     tokenizer = AutoTokenizer.from_pretrained(model_id)
+
+    if trained:
+        model_save_path = f"trainedModels/GEMMA/{model_name_normalized}"
+        if os.path.exists(model_save_path) and not perform_new_training:
+            print(f"Loading existing fine-tuned model from {model_save_path}")
+            model = peft.PeftModel.from_pretrained(model, model_save_path)
+            print("Fine-tuned model loaded.")
     
     return model, tokenizer, model_id, model_name_normalized
 
@@ -116,7 +127,7 @@ class FineTuningClassifier:
         self.test_mode = test_mode
         self.trained = trained
 
-        print(f"Running in: {test_mode} mode")
+        print(f"Running in: {test_mode} mode [{'trained]' if self.trained else 'base (untrained)]'}")
         print(f"Running with {self.model_id} model")
         
         # load dataset, examples and set categories
@@ -132,17 +143,14 @@ class FineTuningClassifier:
         ]
         
         if self.trained:
-            print ("Using trained model")
             # Split dataset: 80% for training, 20% for testing
             self.train_df = full_dataset_df.sample(frac=0.8, random_state=42)
             self.test_df = full_dataset_df.drop(self.train_df.index)
             print(f"Dataset split: {len(self.train_df)} for training, {len(self.test_df)} for testing.")
 
             model_save_path = f"trainedModels/GEMMA/{self.model_name}"
-            if os.path.exists(model_save_path) and not perform_new_training:
-                print(f"Loading existing fine-tuned model from {model_save_path}")
-                self.model = peft.PeftModel.from_pretrained(self.model, model_save_path)
-            else:
+            # Training is needed if we force it or if the model doesn't exist
+            if perform_new_training or not os.path.exists(model_save_path):
                 if not os.path.exists(model_save_path):
                     print("No trained model found. Starting training...")
                 else:
@@ -152,7 +160,7 @@ class FineTuningClassifier:
                 self.model = peft.PeftModel.from_pretrained(self.model, model_save_path)
 
         else:
-            print ("Using untrained model")
+            print ("Using base (untrained) model")
             
             # Split dataset: 20% for testing (same dataset used as trained model for fair comparison)
             self.train_df = full_dataset_df.sample(frac=0.8, random_state=42)
@@ -447,8 +455,15 @@ class FineTuningClassifier:
         """IMPORT IL DATASET PER FARE IL TRAINING"""
         dataset = Dataset.from_pandas(self.train_df)
         dataset = dataset.map(self.formatting_prompts_func, batched=True)
+        
+        #  # --- test print ---
+        # print("--- Sample from formatted training dataset ---")
+        # for i in range(2): # Print the first 2 examples
+        #     print(dataset[i]['text'])
+        # print("------------------------------------------")
+        # # -----------------------------------------
 
-        """PARAMETRI PER IL TRAINING + LEARNING + SALVO IL MODELLO IN DRIVE"""
+        """PARAMETRI PER IL TRAINING + LEARNING + SALVO IL MODELLO"""
         # LoRA Config
         if peft_params is None:
             peft_params = self.__get_peft_params_default()
@@ -651,7 +666,12 @@ if __name__ == "__main__":
         device = torch.device("cpu")
 
     # Create model and tokenizer outside the class
-    model, tokenizer, model_id, model_name = create_model_and_tokenizer(args.model, device)
+    model, tokenizer, model_id, model_name = create_model_and_tokenizer(
+        args.model, 
+        device, 
+        args.training, 
+        PERFORM_NEW_TRAINING
+    )
 
     classifier = FineTuningClassifier(
         model=model,
