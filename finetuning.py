@@ -548,7 +548,7 @@ class FineTuningClassifier:
 
         plt.tight_layout()
 
-        base_path="./graphs"
+        base_path="./graphs/sklearn_metrics"
         model_suffix = f"{self.model_name}{'_trained' if self.trained else ''}"
 
         match self.test_mode:
@@ -611,7 +611,7 @@ if __name__ == "__main__":
     #snapshot_download(repo_id="google/gemma-3-1b-it") #Use only the first time to install the model locally
 
     # --- FLAG TO FORCE RETRAINING ---
-    PERFORM_NEW_TRAINING = True # Set to True to force retraining even if a trained model exists
+    PERFORM_NEW_TRAINING = False # Set to True to force retraining even if a trained model exists
 
     parser = argparse.ArgumentParser(description="Fine-tuning classifier for automotive failure detection.")
 
