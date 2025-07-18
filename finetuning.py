@@ -116,7 +116,7 @@ def create_model_and_tokenizer(model_name, device, trained, perform_new_training
 
 
 class FineTuningClassifier:
-    def __init__(self, model, tokenizer, model_id, model_name, device, dataset_path, trained, examples_path, csv_result_file, test_mode="zero", perform_new_training=False):
+    def __init__(self, model, tokenizer, model_id, model_name, device, dataset_path, trained, examples_path, csv_result_file, test_mode="zero", perform_new_training=False, examples_per_category=None):
         self.model = model
         self.tokenizer = tokenizer
         self.model_id = model_id
@@ -126,6 +126,7 @@ class FineTuningClassifier:
         self.csv_result_file = csv_result_file
         self.test_mode = test_mode
         self.trained = trained
+        self.examples_per_category = examples_per_category
 
         print(f"Running in: {test_mode} mode [{'trained]' if self.trained else 'base (untrained)]'}")
         print(f"Running with {self.model_id} model")
@@ -143,7 +144,15 @@ class FineTuningClassifier:
         ]
         
         if self.trained:
-            self.train_df = pd.read_csv(examples_path, sep="\t")
+            full_train_df = pd.read_csv(examples_path, sep="\t")
+            if self.examples_per_category is not None:
+                # Select a subset of examples for training
+                grouped = full_train_df.groupby('category')
+                self.train_df = grouped.head(self.examples_per_category).reset_index(drop=True)
+                print(f"Sub-sampling training data: {self.examples_per_category} examples per category.")
+            else:
+                self.train_df = full_train_df
+
             print(f"Loaded {len(self.train_df)} examples for training from {examples_path}.")
             print(f"Using {len(self.test_df)} examples for testing from {dataset_path}.")
 
@@ -154,7 +163,9 @@ class FineTuningClassifier:
                     print("No trained model found. Starting training...")
                 else:
                     print("Overwriting existing model. Starting new training...")
-                self.trainModel(model_save_path)
+                # For the experiment, train by epoch. For normal training, by steps.
+                use_epochs_for_training = self.examples_per_category is not None
+                self.trainModel(model_save_path, use_epochs=use_epochs_for_training)
                 print(f"Loading fine-tuned model from {model_save_path}")
                 self.model = peft.PeftModel.from_pretrained(self.model, model_save_path)
 
@@ -376,25 +387,31 @@ class FineTuningClassifier:
         )
         return config
 
-    def __get_train_params_default(self, modelSaveFileName):
+    def __get_train_params_default(self, modelSaveFileName, use_epochs=False):
         # define training arguments
-        return TrainingArguments(
-            output_dir=modelSaveFileName,
-            per_device_train_batch_size=2,
-            gradient_accumulation_steps=4,
-            warmup_steps=5,
-            # num_train_epochs = 1, # Set this for 1 full training run.
-            max_steps=60,
-            learning_rate=2e-4,
-            fp16=not torch.cuda.is_bf16_supported(),
-            bf16=torch.cuda.is_bf16_supported(),
-            logging_steps=1,
-            optim="adamw_8bit",
-            weight_decay=0.01,
-            lr_scheduler_type="linear",
-            seed=3407,
-            report_to="none",  # Use this for WandB etc
-    )
+        training_args = {
+            "output_dir": modelSaveFileName,
+            "per_device_train_batch_size": 2,
+            "gradient_accumulation_steps": 4,
+            "warmup_steps": 5,
+            "learning_rate": 2e-4,
+            "fp16": not torch.cuda.is_bf16_supported(),
+            "bf16": torch.cuda.is_bf16_supported(),
+            "logging_steps": 1,
+            "optim": "adamw_8bit",
+            "weight_decay": 0.01,
+            "lr_scheduler_type": "linear",
+            "seed": 3407,
+            "report_to": "none",  # Use this for WandB etc
+        }
+
+        if use_epochs:
+            # training_args["num_train_epochs"] = 2  #1 -> 4 -> 2 -> max_steps(60) testing order
+            training_args["max_steps"] = 60
+        else:
+            training_args["max_steps"] = 60
+        
+        return TrainingArguments(**training_args)
 
     def is_bfloat16_supported(self):
         """
@@ -439,7 +456,7 @@ class FineTuningClassifier:
         return {"text": texts}
 
 
-    def trainModel(self, modelSaveFileName, peft_params=None, train_params=None):
+    def trainModel(self, modelSaveFileName, peft_params=None, train_params=None, use_epochs=False):
         """
         effettua il fine tuning dal modello base con i dati del dataset
         :param modelSaveFileName: path where to save the model adapters
@@ -464,7 +481,7 @@ class FineTuningClassifier:
             peft_params = self.__get_peft_params_default()
         # Training Params
         if train_params is None:
-            train_params = self.__get_train_params_default(modelSaveFileName)
+            train_params = self.__get_train_params_default(modelSaveFileName, use_epochs=use_epochs)
 
         # Model: We now add LoRA adapters so we only need to update 1 to 10% of all parameters!
         self.model.config.use_cache = False # Must be false for gradient checkpointing
@@ -576,8 +593,14 @@ class FineTuningClassifier:
             "Accuracy (%)": round(accuracy, 2),
         }
 
+        if self.examples_per_category is not None:
+            new_row["Training Examples per Category"] = self.examples_per_category
+
         if os.path.exists(self.csv_result_file):
             df = pd.read_csv(self.csv_result_file, sep=";")
+            # Check if the new column exists, if not, add it
+            if self.examples_per_category is not None and "Training Examples per Category" not in df.columns:
+                df["Training Examples per Category"] = None
             df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
         else:
             df = pd.DataFrame([new_row])
@@ -605,6 +628,41 @@ class FineTuningClassifier:
         self.log_results_to_csv(accuracy, process_time)
 
         self.sklearn_metrics(self.categories, self.test_df['category'].to_list(), predictions)
+
+
+def run_training_experiment(args, device):
+    """Runs an experiment to test model accuracy with varying numbers of training examples."""
+    print("--- Starting Training Examples Experiment ---")
+    max_examples = 10  # As per your dataset structure (10 examples per category)
+    
+    for i in range(1, max_examples + 1):
+        print(f"\n--- Running experiment with {i} examples per category ---")
+        
+        # Always load the base model for each training run
+        model, tokenizer, model_id, model_name = create_model_and_tokenizer(
+            args.model, 
+            device, 
+            trained=False, # Start with base model
+            perform_new_training=True # Will be trained inside classifier
+        )
+
+        classifier = FineTuningClassifier(
+            model=model,
+            tokenizer=tokenizer,
+            model_id=model_id,
+            model_name=model_name,
+            device=device,
+            dataset_path="dataset.tsv",
+            trained=True,
+            examples_path=args.examples_path,
+            csv_result_file="./training_set_size_accuracy.csv", # specific CSV for this experiment
+            test_mode="zero",  # only use zero-shot for this experiment
+            perform_new_training=True, # Force retraining
+            examples_per_category=i
+        )
+        classifier.classify_and_evaluate()
+
+    print("--- Training Examples Experiment Finished ---")
 
 
 if __name__ == "__main__":
@@ -648,9 +706,15 @@ if __name__ == "__main__":
         help="Testing mode: 'zero', 'few', 'def', or 'def-few'. Default is 'def'."
     )
 
+    parser.add_argument(
+        "--training_examples_experiment",
+        action='store_true',
+        help="Run an experiment on the number of training examples used to see how it affects accuracy."
+    )
+
     # Parse arguments
     args = parser.parse_args()
-
+    
     # Select best available device
     if torch.backends.mps.is_available():
         device = torch.device("mps")
@@ -659,26 +723,29 @@ if __name__ == "__main__":
     else:
         device = torch.device("cpu")
 
-    # Create model and tokenizer outside the class
-    model, tokenizer, model_id, model_name = create_model_and_tokenizer(
-        args.model, 
-        device, 
-        args.training, 
-        PERFORM_NEW_TRAINING
-    )
+    if args.training_examples_experiment:
+        run_training_experiment(args, device)
+    else:
+        # Create model and tokenizer outside the class
+        model, tokenizer, model_id, model_name = create_model_and_tokenizer(
+            args.model, 
+            device, 
+            args.training, 
+            PERFORM_NEW_TRAINING
+        )
 
-    classifier = FineTuningClassifier(
-        model=model,
-        tokenizer=tokenizer,
-        model_id=model_id,
-        model_name=model_name,
-        device=device,
-        dataset_path="dataset.tsv",
-        trained=args.training,
-        examples_path=args.examples_path,
-        csv_result_file="./accuracy_example_pool_sizes.csv",
-        test_mode=args.test_mode,
-        perform_new_training=PERFORM_NEW_TRAINING
-    )
+        classifier = FineTuningClassifier(
+            model=model,
+            tokenizer=tokenizer,
+            model_id=model_id,
+            model_name=model_name,
+            device=device,
+            dataset_path="dataset.tsv",
+            trained=args.training,
+            examples_path=args.examples_path,
+            csv_result_file="./accuracy_example_pool_sizes.csv",
+            test_mode=args.test_mode,
+            perform_new_training=PERFORM_NEW_TRAINING
+        )
 
-    classifier.classify_and_evaluate()
+        classifier.classify_and_evaluate()
