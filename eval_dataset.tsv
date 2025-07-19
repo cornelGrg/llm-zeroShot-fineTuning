@@ -1,0 +1,19 @@
+phrase	category
+"The vehicle has a persistent EVAP leak code. A smoke test reveals a crack in the top of the plastic fuel tank, near the fuel pump assembly."	Fuel System Problems
+"The engine cooling fan runs at maximum speed as soon as the car is started, even when cold. The variable fan speed control module has shorted out."	Cooling System Anomalies
+"The vehicle will not start and the gear indicator on the dash does not light up in 'Park' or 'Neutral'. The neutral safety switch is out of adjustment and preventing the starter circuit from engaging."	Transmission Problems
+"The engine feels sluggish and has a slight hesitation. The distributor rotor tip is heavily corroded and worn, resulting in a weak and inconsistent spark to the plugs."	Ignition System Malfunctions
+"The airbag warning light is permanently illuminated on the dashboard. A fault code points to an internal failure of the airbag control module."	Electrical/Electronic Failures
+"The engine temperature is stable during city driving but rises on the highway. The lower radiator hose is soft and collapses under suction at high RPM, restricting coolant flow."	Cooling System Anomalies
+"The vehicle suddenly lost all forward and reverse movement. The splines on the transmission output shaft were found to be completely stripped."	Transmission Problems
+"The engine runs rough and has low power. A diagnostic check reveals that the fuel pump driver module is overheating and providing intermittent power to the fuel pump."	Fuel System Problems
+"The ABS light is on and the brakes make a buzzing noise when applied lightly. The ABS pump motor is failing and cannot maintain proper pressure in the system."	Brake System Defects
+"Multiple, unrelated electronic systems are failing simultaneously. A diagnostic scan shows a major CAN bus communication error due to a faulty gateway module."	Electrical/Electronic Failures
+"The engine has a consistent misfire on one cylinder, even after replacing the spark plug and coil. The spark plug's ceramic insulator was found to be cracked, causing the spark to ground out."	Ignition System Malfunctions
+"The brakes feel like they are dragging and the wheels are hot after a short drive. The brake pedal pushrod is misadjusted and not allowing the master cylinder to fully release pressure."	Brake System Defects
+"After starting, the engine idles high for a few seconds then stalls. The ethanol content sensor is providing incorrect readings, causing the fuel mixture to be too lean."	Fuel System Problems
+"A small puddle of coolant is found on the passenger side floor. The plastic heater hose connector at the firewall is brittle and has developed a hairline crack."	Cooling System Anomalies
+"The vehicle intermittently fails to start, with no crank. The ignition switch is worn and does not always make contact to send power to the starter solenoid."	Ignition System Malfunctions
+"Gear shifts are harsh and unpredictable, sometimes delaying then slamming into gear. The transmission valve body has internal wear and sticking solenoids."	Transmission Problems
+"While driving, the brake pedal suddenly went to the floor with a complete loss of braking. A section of the steel brake line along the frame was found to be rusted and had burst under pressure."	Brake System Defects
+"The power sunroof opens but struggles to close, often stopping halfway. The sunroof motor is weak and the tracks are binding from lack of lubrication."	Electrical/Electronic Failures

@@ -3,7 +3,7 @@ import argparse
 # import bitsandbytes as bnb
 import accelerate as aclrt
 from peft import LoraConfig, get_peft_model
-from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig, TrainingArguments, Gemma3nForCausalLM
+from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig, TrainingArguments, Gemma3nForCausalLM, EarlyStoppingCallback
 from datetime import datetime
 from datasets import load_dataset, Dataset
 import peft
@@ -116,7 +116,7 @@ def create_model_and_tokenizer(model_name, device, trained, perform_new_training
 
 
 class FineTuningClassifier:
-    def __init__(self, model, tokenizer, model_id, model_name, device, dataset_path, trained, examples_path, csv_result_file, test_mode="zero", perform_new_training=False, examples_per_category=None):
+    def __init__(self, model, tokenizer, model_id, model_name, device, dataset_path, eval_dataset_path, trained, examples_path, csv_result_file, test_mode="zero", perform_new_training=False, examples_per_category=None, use_early_stopping=False):
         self.model = model
         self.tokenizer = tokenizer
         self.model_id = model_id
@@ -127,6 +127,9 @@ class FineTuningClassifier:
         self.test_mode = test_mode
         self.trained = trained
         self.examples_per_category = examples_per_category
+        self.use_early_stopping = use_early_stopping
+        self.num_epochs = None  # Initialize training param trackers
+        self.max_steps = None   # Initialize training param trackers
 
         print(f"Running in: {test_mode} mode [{'trained]' if self.trained else 'base (untrained)]'}")
         print(f"Running with {self.model_id} model")
@@ -145,6 +148,10 @@ class FineTuningClassifier:
         
         if self.trained:
             full_train_df = pd.read_csv(examples_path, sep="\t")
+            full_eval_dataset_df = pd.read_csv(eval_dataset_path, sep="\t")
+            
+            self.eval_df = full_eval_dataset_df
+            
             if self.examples_per_category is not None:
                 # Select a subset of examples for training
                 grouped = full_train_df.groupby('category')
@@ -405,11 +412,22 @@ class FineTuningClassifier:
             "report_to": "none",  # Use this for WandB etc
         }
 
-        if use_epochs:
-            # training_args["num_train_epochs"] = 2  #1 -> 4 -> 2 -> max_steps(60) testing order
-            training_args["max_steps"] = 60
+        if self.use_early_stopping:
+            training_args["load_best_model_at_end"] = True
+            training_args["eval_strategy"] = "epoch"
+            training_args["save_strategy"] = "epoch"
+            training_args["metric_for_best_model"] = "eval_loss"
+            training_args["greater_is_better"] = False
         else:
-            training_args["max_steps"] = 60
+            training_args["eval_strategy"] = "no"
+            training_args["save_strategy"] = "epoch" # check wether to use steps or epochs TODO
+
+        if use_epochs:
+            training_args["num_train_epochs"] = 15 #1 -> 4 -> 2 -> max_steps(60) testing order
+            # training_args["max_steps"] = 30
+        else:
+            training_args["num_train_epochs"] = 15
+    
         
         return TrainingArguments(**training_args)
 
@@ -483,6 +501,11 @@ class FineTuningClassifier:
         if train_params is None:
             train_params = self.__get_train_params_default(modelSaveFileName, use_epochs=use_epochs)
 
+        # Store the training parameters used for logging
+        if use_epochs:
+            self.num_epochs = train_params.num_train_epochs
+            self.max_steps = train_params.max_steps
+
         # Model: We now add LoRA adapters so we only need to update 1 to 10% of all parameters!
         self.model.config.use_cache = False # Must be false for gradient checkpointing
         base_model = get_peft_model(
@@ -492,20 +515,33 @@ class FineTuningClassifier:
 
         max_seq_length = 2048  # Choose any! We auto support RoPE Scaling internally!
 
+        callbacks_ = None
+        eval_dataset_ = None
+        if self.use_early_stopping:
+            callbacks_ = [EarlyStoppingCallback(early_stopping_patience=3)]
+            eval_dataset_ = Dataset.from_pandas(self.eval_df) 
+            eval_dataset_ = eval_dataset_.map(self.formatting_prompts_func, batched=True)
+
         fine_tuning = SFTTrainer(
             model=base_model,
             # tokenizer=self.tokenizer,
             train_dataset=dataset,
+            # eval_dataset=eval_dataset_,  # TODO change back to eval_dataset (unknown problem for reduce accuracy)
+            eval_dataset=eval_dataset_,
             # dataset_text_field="phrase",  SFTConfig arg
             # max_seq_length=max_seq_length, SFTConfig arg
             # dataset_num_proc=2, SFTConfig arg
             # packing=False,  # Can make training 5x faster for short sequences.  SFTConfig arg
             args=train_params,
-            peft_config=peft_params,
+            # peft_config=peft_params, # already passing peft wrapped model above
+            callbacks=callbacks_
         )
 
         # Training modifica modello self.model
         fine_tuning.train()
+        self.num_epochs = fine_tuning.state.epoch
+        print(f"Training stopped at epoch: {fine_tuning.state.epoch}")
+        print(f"Best model was from epoch: {fine_tuning.state.best_model_checkpoint}")
         # Save Model
         base_model.save_pretrained(modelSaveFileName)  # salva i parametri del modello nella cartella modello
         self.tokenizer.save_pretrained(modelSaveFileName)
@@ -595,15 +631,33 @@ class FineTuningClassifier:
 
         if self.examples_per_category is not None:
             new_row["Training Examples per Category"] = self.examples_per_category
+        
+        # Add training parameters to the log
+        if self.trained:
+            new_row["Num Epochs"] = self.num_epochs
+            new_row["Max Steps"] = self.max_steps
+
+        # Define all possible columns to ensure order
+        all_columns = [
+            "Timestamp", "Test mode", "Model", "Process_time(s)", "Accuracy (%)",
+            "Training Examples per Category", "Num Epochs", "Max Steps"
+        ]
 
         if os.path.exists(self.csv_result_file):
             df = pd.read_csv(self.csv_result_file, sep=";")
-            # Check if the new column exists, if not, add it
-            if self.examples_per_category is not None and "Training Examples per Category" not in df.columns:
-                df["Training Examples per Category"] = None
-            df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
         else:
-            df = pd.DataFrame([new_row])
+            df = pd.DataFrame(columns=[col for col in all_columns if col in new_row])
+
+        # Add new columns if they don't exist
+        for col in all_columns:
+            if col not in df.columns and col in new_row:
+                df[col] = None
+
+        df_new_row = pd.DataFrame([new_row])
+        df = pd.concat([df, df_new_row], ignore_index=True)
+
+        # Reorder columns to the defined standard
+        df = df.reindex(columns=[col for col in all_columns if col in df.columns])
 
         df.to_csv(self.csv_result_file, index=False, sep=";")
 
@@ -635,13 +689,13 @@ def run_training_experiment(args, device):
     print("--- Starting Training Examples Experiment ---")
     max_examples = 10  # As per your dataset structure (10 examples per category)
     
-    for i in range(1, max_examples + 1):
+    for i in range(5, max_examples + 1):  #CHANGE TO SET STARTING POINT FOR EXAMPLES PER CATEGORY
         print(f"\n--- Running experiment with {i} examples per category ---")
         
         # Always load the base model for each training run
         model, tokenizer, model_id, model_name = create_model_and_tokenizer(
             args.model, 
-            device, 
+            device,
             trained=False, # Start with base model
             perform_new_training=True # Will be trained inside classifier
         )
@@ -653,12 +707,14 @@ def run_training_experiment(args, device):
             model_name=model_name,
             device=device,
             dataset_path="dataset.tsv",
+            eval_dataset_path="eval_dataset.tsv",
             trained=True,
             examples_path=args.examples_path,
             csv_result_file="./training_set_size_accuracy.csv", # specific CSV for this experiment
             test_mode="zero",  # only use zero-shot for this experiment
             perform_new_training=True, # Force retraining
-            examples_per_category=i
+            examples_per_category=i,
+            use_early_stopping=args.use_early_stopping
         )
         classifier.classify_and_evaluate()
 
@@ -707,6 +763,12 @@ if __name__ == "__main__":
     )
 
     parser.add_argument(
+        "--use_early_stopping",
+        action='store_true',
+        help="Use early stopping during training to prevent overfitting."
+    )
+
+    parser.add_argument(
         "--training_examples_experiment",
         action='store_true',
         help="Run an experiment on the number of training examples used to see how it affects accuracy."
@@ -741,11 +803,13 @@ if __name__ == "__main__":
             model_name=model_name,
             device=device,
             dataset_path="dataset.tsv",
+            eval_dataset_path="eval_dataset.tsv",
             trained=args.training,
             examples_path=args.examples_path,
             csv_result_file="./accuracy_example_pool_sizes.csv",
             test_mode=args.test_mode,
-            perform_new_training=PERFORM_NEW_TRAINING
+            perform_new_training=PERFORM_NEW_TRAINING,
+            use_early_stopping=args.use_early_stopping
         )
 
         classifier.classify_and_evaluate()
