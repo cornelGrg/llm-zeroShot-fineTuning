@@ -50,12 +50,27 @@ CONFIGURATIONS=(
 #  "--test_mode few --model gemma3n_e2b_it"
 #  "--test_mode def --model gemma3n_e2b_it"
 #  "--test_mode def-few --model gemma3n_e2b_it"
-"--model gemma3_1b --training_examples_experiment --use_early_stopping"
-"--model gemma2 --training_examples_experiment --use_early_stopping"
-"--model gemma3n_e2b_it --training_examples_experiment --use_early_stopping"
-"--model gemma3_1b --training_examples_experiment --use_early_stopping"
-"--model gemma2 --training_examples_experiment --use_early_stopping"
-"--model gemma3n_e2b_it --training_examples_experiment --use_early_stopping"
+
+# "--model gemma3_1b --training_examples_experiment --use_early_stopping"
+# "--model gemma2 --training_examples_experiment --use_early_stopping"
+# "--model gemma3n_e2b_it --training_examples_experiment --use_early_stopping"
+# "--model gemma3_1b --training_examples_experiment --use_early_stopping"
+# "--model gemma2 --training_examples_experiment --use_early_stopping"
+# "--model gemma3n_e2b_it --training_examples_experiment --use_early_stopping"
+
+# "--model gemma3_1b --test_mode zero"
+# "--model gemma3_1b --test_mode paraph"
+# "--model gemma3_1b --test_mode zero --training"
+# "--model gemma3_1b --test_mode paraph --training"
+# "--model gemma2 --test_mode zero"
+# "--model gemma2 --test_mode paraph"
+# "--model gemma2 --test_mode zero --training"
+# "--model gemma2 --test_mode paraph --training"
+# "--model gemma3n_e2b_it --test_mode zero"
+# "--model gemma3n_e2b_it --test_mode paraph"
+# "--model gemma3n_e2b_it --test_mode zero --training"
+"--model gemma3n_e2b_it --test_mode paraph --training"
+"--model gemma3n_e2b_it --test_mode paraph --training"
 )
 
 

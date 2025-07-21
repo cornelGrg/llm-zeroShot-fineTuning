@@ -3,7 +3,7 @@ import argparse
 # import bitsandbytes as bnb
 import accelerate as aclrt
 from peft import LoraConfig, get_peft_model
-from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig, TrainingArguments, Gemma3nForCausalLM, EarlyStoppingCallback
+from transformers import AutoTokenizer, AutoModelForSeq2SeqLM, AutoModelForCausalLM, BitsAndBytesConfig, TrainingArguments, Gemma3nForCausalLM, EarlyStoppingCallback
 from datetime import datetime
 from datasets import load_dataset, Dataset
 import peft
@@ -114,6 +114,63 @@ def create_model_and_tokenizer(model_name, device, trained, perform_new_training
     
     return model, tokenizer, model_id, model_name_normalized
 
+class Paraphraser:
+    def __init__(self, device):
+        self.tokenizer = AutoTokenizer.from_pretrained("humarin/chatgpt_paraphraser_on_T5_base")
+        self.model = AutoModelForSeq2SeqLM.from_pretrained("humarin/chatgpt_paraphraser_on_T5_base").to(device)
+        self.device = device
+        
+    def paraphrase(self, question, num_beams=9, num_beam_groups=9, num_return_sequences=9, repetition_penalty=10.0, diversity_penalty=3.0, no_repeat_ngram_size=2, temperature=0.7, max_length=128, do_sample=True):
+        """
+        a partire da un sentence genera una lista di sentence semanticamente simili
+        sentence = "I am 21 years old."
+        :return: list of string
+            ['I am 21 years of age.',
+             'At 21 years old, I am currently living.',
+             "It's my 21st birthday."]
+        """
+
+        input_ids = self.tokenizer(
+            f'paraphrase: {question}',
+            return_tensors="pt",
+            padding="longest",
+            max_length=max_length,
+            truncation=True,
+        ).input_ids.to(self.device)
+
+        outputs = self.model.generate(
+            input_ids, repetition_penalty=repetition_penalty,  #The following generation flags are not valid and may be ignored: ['temperature']
+            num_return_sequences=num_return_sequences, no_repeat_ngram_size=no_repeat_ngram_size,
+            num_beams=num_beams, num_beam_groups=num_beam_groups,
+            max_length=max_length, diversity_penalty=diversity_penalty
+        )
+
+        res = self.tokenizer.batch_decode(outputs, skip_special_tokens=True)
+
+        return res
+
+    def growPhrases(self, phrases, numPhrase):
+        """
+        estendo le risposte tramite una lista di sentences semanticamente simili
+        :param: numPhrase, int numero di frasi simili da generare per ogni sentence
+        :return: modifico l'attributo self.answerTemplate
+        """
+        for itemPhrases in phrases:
+            newItemAnswers = set()
+            for sentence in itemPhrases["phrase"]:
+                print("Extend:",sentence)
+                newItemAnswers.add(sentence)
+                
+                # recupero le risposte generate dall'LLM
+                newSentences = self.paraphrase(sentence,
+                                               num_beams=numPhrase,
+                                               num_beam_groups=numPhrase,
+                                               num_return_sequences=numPhrase)
+                for newSentence in newSentences:
+                    newItemAnswers.add(newSentence)
+            itemPhrases["phrase"] = newItemAnswers.copy()
+        
+        return phrases
 
 class FineTuningClassifier:
     def __init__(self, model, tokenizer, model_id, model_name, device, dataset_path, eval_dataset_path, trained, examples_path, csv_result_file, test_mode="zero", perform_new_training=False, examples_per_category=None, use_early_stopping=False):
@@ -198,6 +255,12 @@ class FineTuningClassifier:
 
             few_shot_df = pd.concat(few_shot_rows).reset_index(drop=True)
             self.few_shot_examples = few_shot_df.to_dict(orient='records')
+        
+        elif test_mode == "paraph":          
+            self.paraphraser = Paraphraser(
+                device
+            )
+
         else:
             #Zero-shot test with no examples given or Definition-test with definitions
             self.adjusted_example_pool_size = 0
@@ -330,6 +393,8 @@ class FineTuningClassifier:
 
         match self.test_mode:
             case "zero":
+                prompt_text = self.build_zero_shot_prompt(phrase)
+            case "paraph":
                 prompt_text = self.build_zero_shot_prompt(phrase)
             case "few":
                 prompt_text = self.build_few_shot_prompt(phrase, self.few_shot_examples)
@@ -607,6 +672,8 @@ class FineTuningClassifier:
         match self.test_mode:
             case "few":
                 plt.savefig(f"{base_path}/{model_suffix}_vehicularFailures_few-shot.png")
+            case "paraph":
+                plt.savefig(f"{base_path}/{model_suffix}_vehicularFailures_paraph.png")
             case "zero":
                 plt.savefig(f"{base_path}/{model_suffix}_vehicularFailures_zero-shot.png")
             case "def":
@@ -633,7 +700,7 @@ class FineTuningClassifier:
             new_row["Training Examples per Category"] = self.examples_per_category
         
         # Add training parameters to the log
-        if self.trained:
+        if self.use_early_stopping:
             new_row["Num Epochs"] = self.num_epochs
             new_row["Max Steps"] = self.max_steps
 
@@ -669,11 +736,45 @@ class FineTuningClassifier:
         predictions = []
 
         t1_start = time.perf_counter()  # process_time()
-        for i, row in self.test_df.iterrows():
-            phrase = row['phrase']
-            category = self.classify_phrase(phrase)
-            predictions.append(category)
-            # print(f"{i + 1}. \"{phrase}\" →  {category}")
+
+        if self.test_mode == "paraph":
+            if self.model_name == "gemma3n_e2b_it":
+                torch._dynamo.config.recompile_limit = 16
+
+            for i, row in self.test_df.iterrows():
+                phrase = row['phrase']
+                
+                # Create a list with the original phrase and its paraphrases
+                phrases_to_test = [phrase]
+                # The user requested 4 paraphrases
+                extended_phrases = self.paraphraser.paraphrase(phrase, num_beams=4, num_beam_groups=4, num_return_sequences=4)
+                phrases_to_test.extend(extended_phrases)
+
+                # Classify all phrases (original + paraphrases)
+                paraph_predictions = []
+                # print("\nNow testing a new phrase, predicted categories were:")
+                for p in phrases_to_test:
+                    category = self.classify_phrase(p)
+                    # print(f"{i+1} →  {category}")
+                    paraph_predictions.append(category)
+                
+                # Vote for the most frequent category
+                if paraph_predictions:
+                    final_category = max(set(paraph_predictions), key=paraph_predictions.count)
+                    # print(f"Final category for phrase {i + 1} : {final_category}")
+                else:
+                    final_category = "Unknown"  # Fallback
+                
+                predictions.append(final_category)
+                # print(f"{i + 1}. \"{phrase}\" →  {final_category} (from {paraph_predictions})")
+
+        else:
+            for i, row in self.test_df.iterrows():
+                phrase = row['phrase']
+                category = self.classify_phrase(phrase)
+                predictions.append(category)
+                # print(f"{i + 1}. \"{phrase}\" →  {category}")
+
         t1_stop = time.perf_counter()  # process_time()
         process_time = t1_stop - t1_start
 
@@ -758,8 +859,8 @@ if __name__ == "__main__":
         "--test_mode",
         type=str,
         default="zero",
-        choices=["zero", "few", "def", "def-few"],
-        help="Testing mode: 'zero', 'few', 'def', or 'def-few'. Default is 'def'."
+        choices=["zero", "few", "def", "def-few", "paraph"],
+        help="Testing mode: 'zero', 'few', 'def', 'def-few', or 'paraph'. Default is 'zero'."
     )
 
     parser.add_argument(
