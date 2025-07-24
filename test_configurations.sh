@@ -69,8 +69,29 @@ CONFIGURATIONS=(
 # "--model gemma3n_e2b_it --test_mode zero"
 # "--model gemma3n_e2b_it --test_mode paraph"
 # "--model gemma3n_e2b_it --test_mode zero --training"
-"--model gemma3n_e2b_it --test_mode paraph --training"
-"--model gemma3n_e2b_it --test_mode paraph --training"
+# "--model gemma3n_e2b_it --test_mode paraph --training"
+# "--model gemma3n_e2b_it --test_mode paraph --training"
+
+"--model gemma3_1b --test_mode zero"
+"--model gemma3_1b --training --examples_path examples.tsv --test_mode zero --use_early_stopping"
+"--model gemma3_1b --training --examples_path ./dataset/training/training_dataset_180.tsv --test_mode zero --use_early_stopping"
+"--model gemma3_1b --training --examples_path ./dataset/training/training_dataset_240.tsv --test_mode zero --use_early_stopping"
+"--model gemma3_1b --training --examples_path ./dataset/training/training_dataset_300.tsv --test_mode zero --use_early_stopping"
+"--model gemma3_1b --training --examples_path ./dataset/training/training_dataset_360.tsv --test_mode zero --use_early_stopping"
+
+"--model gemma2 --test_mode zero"
+"--model gemma2 --training --examples_path examples.tsv --test_mode zero --use_early_stopping"
+"--model gemma2 --training --examples_path ./dataset/training/training_dataset_180.tsv --test_mode zero --use_early_stopping"
+"--model gemma2 --training --examples_path ./dataset/training/training_dataset_240.tsv --test_mode zero --use_early_stopping"
+"--model gemma2 --training --examples_path ./dataset/training/training_dataset_300.tsv --test_mode zero --use_early_stopping"
+"--model gemma2 --training --examples_path ./dataset/training/training_dataset_360.tsv --test_mode zero --use_early_stopping"
+
+"--model gemma3n_e2b_it --test_mode zero"
+"--model gemma3n_e2b_it --training --examples_path examples.tsv --test_mode zero --use_early_stopping"
+"--model gemma3n_e2b_it --training --examples_path ./dataset/training/training_dataset_180.tsv --test_mode zero --use_early_stopping"
+"--model gemma3n_e2b_it --training --examples_path ./dataset/training/training_dataset_240.tsv --test_mode zero --use_early_stopping"
+"--model gemma3n_e2b_it --training --examples_path ./dataset/training/training_dataset_300.tsv --test_mode zero --use_early_stopping"
+"--model gemma3n_e2b_it --training --examples_path ./dataset/training/training_dataset_360.tsv --test_mode zero --use_early_stopping"
 )
 
 

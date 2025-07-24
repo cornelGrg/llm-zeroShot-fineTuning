@@ -17,7 +17,7 @@ import torch
 from trl import SFTTrainer
 
 
-def create_model_and_tokenizer(model_name, device, trained, perform_new_training):
+def create_model_and_tokenizer(model_name, device, trained, perform_new_training, examples_path=None):
     """
     Create and initialize model and tokenizer based on model name and device.
     
@@ -26,9 +26,10 @@ def create_model_and_tokenizer(model_name, device, trained, perform_new_training
         device: Device to load the model on
         trained (bool): Whether to load a fine-tuned model.
         perform_new_training (bool): Whether to use already existing trained model or overwrite it.
+        examples_path (str, optional): Path to the training examples file. Required if trained=True.
     
     Returns:
-        tuple: (model, tokenizer, model_id, model_name)
+        tuple: (model, tokenizer, model_id, model_name, training_dataset_length, num_epochs)
     """
     match model_name:
         case "gemma2":
@@ -105,14 +106,42 @@ def create_model_and_tokenizer(model_name, device, trained, perform_new_training
 
     tokenizer = AutoTokenizer.from_pretrained(model_id)
 
-    if trained:
-        model_save_path = f"trainedModels/GEMMA/{model_name_normalized}"
-        if os.path.exists(model_save_path) and not perform_new_training:
-            print(f"Loading existing fine-tuned model from {model_save_path}")
-            model = peft.PeftModel.from_pretrained(model, model_save_path)
-            print("Fine-tuned model loaded.")
-    
-    return model, tokenizer, model_id, model_name_normalized
+    training_dataset_length = 0
+    num_epochs = 0
+
+    if trained and not perform_new_training:
+        model_base_dir = "trainedModels/GEMMA/"
+        try:
+            # Determine the target dataset length from the provided examples file
+            train_df = pd.read_csv(examples_path, sep="\t")
+            target_dataset_length = len(train_df)
+            
+            model_base_path = os.path.join(model_base_dir, f"{model_name_normalized}_{target_dataset_length}")
+
+            if os.path.exists(model_base_path):
+                # Find the latest epoch subfolder within the selected model folder
+                epoch_folders = [d for d in os.listdir(model_base_path) if d.startswith('epoch_') and os.path.isdir(os.path.join(model_base_path, d))]
+                if epoch_folders:
+                    latest_epoch_folder = sorted(epoch_folders, key=lambda x: int(x.split('_')[1]), reverse=True)[0]
+                    model_save_path = os.path.join(model_base_path, latest_epoch_folder)
+                    num_epochs = int(latest_epoch_folder.split('_')[1])
+                    training_dataset_length = target_dataset_length
+                    
+                    print(f"Loading trained model with training dataset length {training_dataset_length} and epoch number {num_epochs}")
+                    print(f"Model path: {model_save_path}")
+                    
+                    model = peft.PeftModel.from_pretrained(model, model_save_path)
+                    print("Fine-tuned model loaded.")
+                else:
+                    print(f"No epoch subfolders found in {model_base_path}. Will train a new model.")
+            else:
+                print(f"No trained model found for dataset length {target_dataset_length}. Will train a new model.")
+        except FileNotFoundError:
+            print(f"Warning: examples_path '{examples_path}' not found. Cannot determine which trained model to load.")
+        except Exception as e:
+            print(f"An error occurred while trying to load the fine-tuned model: {e}")
+
+    return model, tokenizer, model_id, model_name_normalized, training_dataset_length, num_epochs
 
 class Paraphraser:
     def __init__(self, device):
@@ -149,31 +178,47 @@ class Paraphraser:
 
         return res
 
-    def growPhrases(self, phrases, numPhrase):
+    def growPhrases(self, phrases_df, numPhrase):
         """
-        estendo le risposte tramite una lista di sentences semanticamente simili
-        :param: numPhrase, int numero di frasi simili da generare per ogni sentence
-        :return: modifico l'attributo self.answerTemplate
+        Extends a dataset by generating paraphrases for each phrase.
+        :param phrases_df: DataFrame with 'phrase' and 'category' columns.
+        :param numPhrase: The number of paraphrases to generate for each original phrase.
         """
-        for itemPhrases in phrases:
-            newItemAnswers = set()
-            for sentence in itemPhrases["phrase"]:
-                print("Extend:",sentence)
-                newItemAnswers.add(sentence)
-                
-                # recupero le risposte generate dall'LLM
-                newSentences = self.paraphrase(sentence,
-                                               num_beams=numPhrase,
-                                               num_beam_groups=numPhrase,
-                                               num_return_sequences=numPhrase)
-                for newSentence in newSentences:
-                    newItemAnswers.add(newSentence)
-            itemPhrases["phrase"] = newItemAnswers.copy()
+        new_rows = []
+        total_phrases = len(phrases_df)
+
+        for _, row in phrases_df.iterrows():
+            original_phrase = row['phrase']
+            original_category = row['category']
+            
+            # Generate numPhrase new sentences for the original phrase
+            new_sentences = self.paraphrase(
+                original_phrase,
+                num_beams=numPhrase,
+                num_beam_groups=numPhrase,
+                num_return_sequences=numPhrase
+            )
+
+            for sentence in new_sentences:
+                new_rows.append({'phrase': sentence, 'category': original_category})
+
+        # create a new DataFrame from the list of new rows and shuffle it
+        extended_df = pd.DataFrame(new_rows)
+        extended_df = extended_df.sample(frac=1).reset_index(drop=True)
+
+        output_dir = "./dataset/training/"
+        os.makedirs(output_dir, exist_ok=True)
         
-        return phrases
+        # save the extended dataset to a new file
+        output_filename = f"training_dataset_{len(extended_df)}.tsv"
+        output_path = os.path.join(output_dir, output_filename)
+        
+        extended_df.to_csv(output_path, sep='\t', index=False)
+        print(f"\nSuccessfully created extended dataset with {len(extended_df)} phrases.")
+        print(f"Saved to: {output_path}")
 
 class FineTuningClassifier:
-    def __init__(self, model, tokenizer, model_id, model_name, device, dataset_path, eval_dataset_path, trained, examples_path, csv_result_file, test_mode="zero", perform_new_training=False, examples_per_category=None, use_early_stopping=False):
+    def __init__(self, model, tokenizer, model_id, model_name, device, dataset_path, eval_dataset_path, trained, examples_path, csv_result_file, test_mode="zero", perform_new_training=False, examples_per_category=None, use_early_stopping=False, training_dataset_length=0, num_epochs=0):
         self.model = model
         self.tokenizer = tokenizer
         self.model_id = model_id
@@ -185,8 +230,9 @@ class FineTuningClassifier:
         self.trained = trained
         self.examples_per_category = examples_per_category
         self.use_early_stopping = use_early_stopping
-        self.num_epochs = None  # Initialize training param trackers
+        self.num_epochs = num_epochs  # Initialize with value from create_model_and_tokenizer
         self.max_steps = None   # Initialize training param trackers
+        self.training_dataset_length = training_dataset_length # Initialize with value from create_model_and_tokenizer
 
         print(f"Running in: {test_mode} mode [{'trained]' if self.trained else 'base (untrained)]'}")
         print(f"Running with {self.model_id} model")
@@ -219,20 +265,34 @@ class FineTuningClassifier:
 
             print(f"Loaded {len(self.train_df)} examples for training from {examples_path}.")
             print(f"Using {len(self.test_df)} examples for testing from {dataset_path}.")
+            
+            # If training was not performed outside, set dataset length
+            if self.training_dataset_length == 0:
+                self.training_dataset_length = len(self.train_df)
 
-            model_save_path = f"trainedModels/GEMMA/{self.model_name}"
-            # Training is needed if we force it or if the model doesn't exist
-            if perform_new_training or not os.path.exists(model_save_path):
-                if not os.path.exists(model_save_path):
-                    print("No trained model found. Starting training...")
+            # Determine model save path. It will be fully defined after training with epoch number.
+            model_base_path = f"trainedModels/GEMMA/{self.model_name}_{self.training_dataset_length}"
+            
+            # Training is needed if we force it, or if a pre-trained model was not loaded.
+            # A pre-trained model is loaded if training_dataset_length > 0 and num_epochs > 0 from the create function.
+            should_train = perform_new_training or not (self.training_dataset_length > 0 and self.num_epochs > 0)
+
+            if should_train:
+                if perform_new_training:
+                    print("Forcing new training...")
                 else:
-                    print("Overwriting existing model. Starting new training...")
+                    print("No suitable pre-trained model found. Starting training...")
+
                 # For the experiment, train by epoch. For normal training, by steps.
                 use_epochs_for_training = self.examples_per_category is not None
-                self.trainModel(model_save_path, use_epochs=use_epochs_for_training)
+                model_save_path = self.trainModel(model_base_path, use_epochs=use_epochs_for_training)
                 print(f"Loading fine-tuned model from {model_save_path}")
-                self.model = peft.PeftModel.from_pretrained(self.model, model_save_path)
-
+                # The base model is already a PeftModel if we are retraining, so we need to load into the base model of the peft model
+                if isinstance(self.model, peft.PeftModel):
+                    base_model = self.model.get_base_model()
+                    self.model = peft.PeftModel.from_pretrained(base_model, model_save_path)
+                else:
+                    self.model = peft.PeftModel.from_pretrained(self.model, model_save_path)
         else:
             print ("Using base (untrained) model")
             print(f"Using {len(self.test_df)} examples for testing from {dataset_path}.")
@@ -420,6 +480,7 @@ class FineTuningClassifier:
         inputs = {k: v.to(self.device) for k, v in inputs.items()}
 
         with torch.inference_mode():
+            torch.manual_seed(3407)
             outputs = self.model.generate(**inputs, max_new_tokens=30)
 
         decoded = self.tokenizer.batch_decode(outputs, skip_special_tokens=True)
@@ -469,7 +530,7 @@ class FineTuningClassifier:
             "learning_rate": 2e-4,
             "fp16": not torch.cuda.is_bf16_supported(),
             "bf16": torch.cuda.is_bf16_supported(),
-            "logging_steps": 1,
+            "logging_steps": 16,
             "optim": "adamw_8bit",
             "weight_decay": 0.01,
             "lr_scheduler_type": "linear",
@@ -484,14 +545,19 @@ class FineTuningClassifier:
             training_args["metric_for_best_model"] = "eval_loss"
             training_args["greater_is_better"] = False
         else:
+            # training_args["eval_strategy"] = "no"
+            # training_args["save_strategy"] = "epoch"
+            # training_args["load_best_model_at_end"] = True
             training_args["eval_strategy"] = "no"
-            training_args["save_strategy"] = "epoch" # check wether to use steps or epochs TODO
+            training_args["save_strategy"] = "epoch"
+            training_args["metric_for_best_model"] = "eval_loss"
+            training_args["greater_is_better"] = False
 
-        if use_epochs:
-            training_args["num_train_epochs"] = 15 #1 -> 4 -> 2 -> max_steps(60) testing order
+        if use_epochs or self.use_early_stopping:
+            training_args["num_train_epochs"] = 17 #1 -> 4 -> 2 -> max_steps(60) testing order
             # training_args["max_steps"] = 30
         else:
-            training_args["num_train_epochs"] = 15
+            training_args["num_train_epochs"] = 7 #average best epoch setting
     
         
         return TrainingArguments(**training_args)
@@ -545,7 +611,7 @@ class FineTuningClassifier:
         :param modelSaveFileName: path where to save the model adapters
         :param peft_params: OBJ LoraConfig per parametri per le matrici da aggiungere ai pesi
         :param train_params: OBJ SFTConfig per parametri per il fine tuning (numero di epoche, lernong rate, ...)
-        :return:
+        :return: The final path where the model was saved, including the epoch number.
         """
         """IMPORT IL DATASET PER FARE IL TRAINING"""
         dataset = Dataset.from_pandas(self.train_df)
@@ -564,7 +630,10 @@ class FineTuningClassifier:
             peft_params = self.__get_peft_params_default()
         # Training Params
         if train_params is None:
-            train_params = self.__get_train_params_default(modelSaveFileName, use_epochs=use_epochs)
+            # We pass a temporary path to TrainingArguments, as it requires an output_dir.
+            # The final model will be saved in a path constructed after training.
+            temp_output_dir = os.path.join(modelSaveFileName, "temp_training_output")
+            train_params = self.__get_train_params_default(temp_output_dir, use_epochs=use_epochs)
 
         # Store the training parameters used for logging
         if use_epochs:
@@ -605,11 +674,19 @@ class FineTuningClassifier:
         # Training modifica modello self.model
         fine_tuning.train()
         self.num_epochs = fine_tuning.state.epoch
-        print(f"Training stopped at epoch: {fine_tuning.state.epoch}")
-        print(f"Best model was from epoch: {fine_tuning.state.best_model_checkpoint}")
+        print(f"Training stopped at epoch: {self.num_epochs}")
+        if fine_tuning.state.best_model_checkpoint:
+            print(f"Best model was from epoch: {fine_tuning.state.best_model_checkpoint}")
+        
+        # Construct final save path with epoch number
+        final_model_save_path = os.path.join(modelSaveFileName, f"epoch_{int(self.num_epochs)}")
+        os.makedirs(final_model_save_path, exist_ok=True)
+
         # Save Model
-        base_model.save_pretrained(modelSaveFileName)  # salva i parametri del modello nella cartella modello
-        self.tokenizer.save_pretrained(modelSaveFileName)
+        base_model.save_pretrained(final_model_save_path)  # salva i parametri del modello nella cartella modello
+        self.tokenizer.save_pretrained(final_model_save_path)
+        
+        return final_model_save_path
 
     def evaluate_accuracy(self, predictions):
         """
@@ -667,7 +744,8 @@ class FineTuningClassifier:
         plt.tight_layout()
 
         base_path="./graphs/sklearn_metrics"
-        model_suffix = f"{self.model_name}{'_trained' if self.trained else ''}"
+        trained_df_len = len(self.train_df) if self.trained and self.train_df is not None else 0
+        model_suffix = f"{self.model_name}{'_trained_' + str(trained_df_len) if self.trained and trained_df_len > 0 else ''}"
 
         match self.test_mode:
             case "few":
@@ -688,10 +766,14 @@ class FineTuningClassifier:
         :param process_time:
         :return:
         """
+        model_log_name = self.model_name
+        if self.trained:
+            model_log_name = f"{self.model_name}_trained_{self.training_dataset_length}"
+
         new_row = {
             "Timestamp": datetime.now().strftime("%Y-%m-%d/%H:%M:%S"),
             "Test mode": self.test_mode,
-            "Model": f"{self.model_name}{'_trained' if self.trained else ''}",
+            "Model": model_log_name,
             "Process_time(s)": process_time,
             "Accuracy (%)": round(accuracy, 2),
         }
@@ -700,9 +782,8 @@ class FineTuningClassifier:
             new_row["Training Examples per Category"] = self.examples_per_category
         
         # Add training parameters to the log
-        if self.use_early_stopping:
-            new_row["Num Epochs"] = self.num_epochs
-            new_row["Max Steps"] = self.max_steps
+        if self.trained and self.num_epochs is not None:
+            new_row["Num Epochs"] = int(self.num_epochs)
 
         # Define all possible columns to ensure order
         all_columns = [
@@ -794,11 +875,12 @@ def run_training_experiment(args, device):
         print(f"\n--- Running experiment with {i} examples per category ---")
         
         # Always load the base model for each training run
-        model, tokenizer, model_id, model_name = create_model_and_tokenizer(
+        model, tokenizer, model_id, model_name, _, _ = create_model_and_tokenizer(
             args.model, 
             device,
-            trained=False, # Start with base model
-            perform_new_training=True # Will be trained inside classifier
+            trained=False, # Start with base model, training will be handled by classifier
+            perform_new_training=True, # Will be trained inside classifier
+            examples_path=args.examples_path
         )
 
         classifier = FineTuningClassifier(
@@ -875,6 +957,15 @@ if __name__ == "__main__":
         help="Run an experiment on the number of training examples used to see how it affects accuracy."
     )
 
+    parser.add_argument(
+        "--paraphrase_and_extend",
+        type=int,
+        nargs='?',
+        const=3,  # Default value if flag is present without a number
+        default=None, # Default value if flag is not present
+        help="Paraphrase and extend the training dataset. Optionally specify the number of paraphrases per phrase (default: 3)."
+    )
+
     # Parse arguments
     args = parser.parse_args()
     
@@ -886,15 +977,36 @@ if __name__ == "__main__":
     else:
         device = torch.device("cpu")
 
-    if args.training_examples_experiment:
+    if args.paraphrase_and_extend is not None:
+        print("--- Starting Paraphrase and Extend utility ---")
+        num_paraphrases = args.paraphrase_and_extend
+        print(f"Generating {num_paraphrases} paraphrases for each phrase in '{args.examples_path}'.")
+        
+        # Load the base dataset to be extended
+        try:
+            source_df = pd.read_csv(args.examples_path, sep='\t')
+        except FileNotFoundError:
+            print(f"Error: The source file '{args.examples_path}' was not found.")
+            exit()
+
+        # Initialize paraphraser
+        paraphraser = Paraphraser(device=device)
+        
+        # Run the extension process
+        paraphraser.growPhrases(source_df, num_paraphrases)
+        
+        print("--- Paraphrase and Extend utility finished. ---")
+
+    elif args.training_examples_experiment:
         run_training_experiment(args, device)
     else:
         # Create model and tokenizer outside the class
-        model, tokenizer, model_id, model_name = create_model_and_tokenizer(
+        model, tokenizer, model_id, model_name, training_dataset_length, num_epochs = create_model_and_tokenizer(
             args.model, 
             device, 
             args.training, 
-            PERFORM_NEW_TRAINING
+            PERFORM_NEW_TRAINING,
+            examples_path=args.examples_path
         )
 
         classifier = FineTuningClassifier(
@@ -910,7 +1022,9 @@ if __name__ == "__main__":
             csv_result_file="./accuracy_example_pool_sizes.csv",
             test_mode=args.test_mode,
             perform_new_training=PERFORM_NEW_TRAINING,
-            use_early_stopping=args.use_early_stopping
+            use_early_stopping=args.use_early_stopping,
+            training_dataset_length=training_dataset_length,
+            num_epochs=num_epochs
         )
 
         classifier.classify_and_evaluate()
