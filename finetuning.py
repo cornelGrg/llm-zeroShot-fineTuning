@@ -15,6 +15,7 @@ import os
 import time
 import torch
 from trl import SFTTrainer
+import shutilf
 
 
 def create_model_and_tokenizer(model_name, device, trained, perform_new_training, examples_path=None):
@@ -218,7 +219,7 @@ class Paraphraser:
         print(f"Saved to: {output_path}")
 
 class FineTuningClassifier:
-    def __init__(self, model, tokenizer, model_id, model_name, device, dataset_path, eval_dataset_path, trained, examples_path, csv_result_file, test_mode="zero", perform_new_training=False, examples_per_category=None, use_early_stopping=False, training_dataset_length=0, num_epochs=0):
+    def __init__(self, model, tokenizer, model_id, model_name, device, dataset_path, eval_dataset_path, trained, examples_path, csv_result_file, test_mode="zero", perform_new_training=False, examples_per_category=None, use_early_stopping=False, training_dataset_length=0, num_epochs=0, fixed_num_epochs=None):
         self.model = model
         self.tokenizer = tokenizer
         self.model_id = model_id
@@ -233,6 +234,8 @@ class FineTuningClassifier:
         self.num_epochs = num_epochs  # Initialize with value from create_model_and_tokenizer
         self.max_steps = None   # Initialize training param trackers
         self.training_dataset_length = training_dataset_length # Initialize with value from create_model_and_tokenizer
+        self.fixed_num_epochs = fixed_num_epochs
+        self.eval_loss = None
 
         print(f"Running in: {test_mode} mode [{'trained]' if self.trained else 'base (untrained)]'}")
         print(f"Running with {self.model_id} model")
@@ -283,9 +286,9 @@ class FineTuningClassifier:
                 else:
                     print("No suitable pre-trained model found. Starting training...")
 
-                # For the experiment, train by epoch. For normal training, by steps.
-                use_epochs_for_training = self.examples_per_category is not None
-                model_save_path = self.trainModel(model_base_path, use_epochs=use_epochs_for_training)
+                # For the experiment, train by epoch.
+                use_epochs_for_training = self.examples_per_category is not None or self.fixed_num_epochs is not None
+                model_save_path, self.eval_loss = self.trainModel(model_base_path, use_epochs=use_epochs_for_training, num_epochs=self.fixed_num_epochs)
                 print(f"Loading fine-tuned model from {model_save_path}")
                 # The base model is already a PeftModel if we are retraining, so we need to load into the base model of the peft model
                 if isinstance(self.model, peft.PeftModel):
@@ -514,13 +517,13 @@ class FineTuningClassifier:
             lora_alpha=16,
             target_modules=["q_proj", "k_proj", "v_proj", "o_proj",
                             "gate_proj", "up_proj", "down_proj"],
-            lora_dropout=0.05,
+            lora_dropout=0.1,  # changed from 0.05 24/07/25
             bias="none",
             task_type="CAUSAL_LM",
         )
         return config
 
-    def __get_train_params_default(self, modelSaveFileName, use_epochs=False):
+    def __get_train_params_default(self, modelSaveFileName, use_epochs=False, num_epochs=None):
         # define training arguments
         training_args = {
             "output_dir": modelSaveFileName,
@@ -548,13 +551,13 @@ class FineTuningClassifier:
             # training_args["eval_strategy"] = "no"
             # training_args["save_strategy"] = "epoch"
             # training_args["load_best_model_at_end"] = True
-            training_args["eval_strategy"] = "no"
+            training_args["eval_strategy"] = "epoch" if num_epochs is not None else "no"
             training_args["save_strategy"] = "epoch"
             training_args["metric_for_best_model"] = "eval_loss"
             training_args["greater_is_better"] = False
 
         if use_epochs or self.use_early_stopping:
-            training_args["num_train_epochs"] = 17 #1 -> 4 -> 2 -> max_steps(60) testing order
+            training_args["num_train_epochs"] = num_epochs if num_epochs is not None else 17 #1 -> 4 -> 2 -> max_steps(60) testing order
             # training_args["max_steps"] = 30
         else:
             training_args["num_train_epochs"] = 7 #average best epoch setting
@@ -605,7 +608,7 @@ class FineTuningClassifier:
         return {"text": texts}
 
 
-    def trainModel(self, modelSaveFileName, peft_params=None, train_params=None, use_epochs=False):
+    def trainModel(self, modelSaveFileName, peft_params=None, train_params=None, use_epochs=False, num_epochs=None):
         """
         effettua il fine tuning dal modello base con i dati del dataset
         :param modelSaveFileName: path where to save the model adapters
@@ -633,7 +636,7 @@ class FineTuningClassifier:
             # We pass a temporary path to TrainingArguments, as it requires an output_dir.
             # The final model will be saved in a path constructed after training.
             temp_output_dir = os.path.join(modelSaveFileName, "temp_training_output")
-            train_params = self.__get_train_params_default(temp_output_dir, use_epochs=use_epochs)
+            train_params = self.__get_train_params_default(temp_output_dir, use_epochs=use_epochs, num_epochs=num_epochs)
 
         # Store the training parameters used for logging
         if use_epochs:
@@ -654,6 +657,9 @@ class FineTuningClassifier:
         if self.use_early_stopping:
             callbacks_ = [EarlyStoppingCallback(early_stopping_patience=3)]
             eval_dataset_ = Dataset.from_pandas(self.eval_df) 
+            eval_dataset_ = eval_dataset_.map(self.formatting_prompts_func, batched=True)
+        elif num_epochs is not None: # Also enable evaluation for epoch experiment
+            eval_dataset_ = Dataset.from_pandas(self.eval_df)
             eval_dataset_ = eval_dataset_.map(self.formatting_prompts_func, batched=True)
 
         fine_tuning = SFTTrainer(
@@ -678,6 +684,15 @@ class FineTuningClassifier:
         if fine_tuning.state.best_model_checkpoint:
             print(f"Best model was from epoch: {fine_tuning.state.best_model_checkpoint}")
         
+        eval_loss = None
+        if num_epochs is not None:
+            # Extract final evaluation loss from log history
+            for log in reversed(fine_tuning.state.log_history):
+                if 'eval_loss' in log:
+                    eval_loss = log['eval_loss']
+                    print(f"Final evaluation loss: {eval_loss}")
+                    break
+
         # Construct final save path with epoch number
         final_model_save_path = os.path.join(modelSaveFileName, f"epoch_{int(self.num_epochs)}")
         os.makedirs(final_model_save_path, exist_ok=True)
@@ -686,7 +701,7 @@ class FineTuningClassifier:
         base_model.save_pretrained(final_model_save_path)  # salva i parametri del modello nella cartella modello
         self.tokenizer.save_pretrained(final_model_save_path)
         
-        return final_model_save_path
+        return final_model_save_path, eval_loss
 
     def evaluate_accuracy(self, predictions):
         """
@@ -784,12 +799,16 @@ class FineTuningClassifier:
         # Add training parameters to the log
         if self.trained and self.num_epochs is not None:
             new_row["Num Epochs"] = int(self.num_epochs)
-
-        # Define all possible columns to ensure order
+        
+        # Define base columns
         all_columns = [
             "Timestamp", "Test mode", "Model", "Process_time(s)", "Accuracy (%)",
-            "Training Examples per Category", "Num Epochs", "Max Steps"
+            "Training Examples per Category", "Num Epochs"
         ]
+
+        if self.eval_loss is not None:
+            new_row["Eval Loss"] = self.eval_loss
+            all_columns.append("Eval Loss")
 
         if os.path.exists(self.csv_result_file):
             df = pd.read_csv(self.csv_result_file, sep=";")
@@ -904,6 +923,58 @@ def run_training_experiment(args, device):
     print("--- Training Examples Experiment Finished ---")
 
 
+def run_epoch_experiment(args, device):
+    """Runs an experiment to test model accuracy and loss with a varying number of training epochs."""
+    print("--- Starting Epoch vs. Accuracy/Loss Experiment ---")
+    MAX_EPOCHS = 10  # Maximum number of epochs to test
+    
+    for epoch_num in range(1, MAX_EPOCHS + 1):
+        print(f"\n--- Running experiment with {epoch_num} epochs ---")
+        
+        # Always load the base model for each training run
+        model, tokenizer, model_id, model_name, _, _ = create_model_and_tokenizer(
+            args.model, 
+            device,
+            trained=False,
+            perform_new_training=True,
+            examples_path=args.examples_path
+        )
+
+        # Clean up previous model directory to ensure a fresh start
+        # Determine training dataset length to construct the path
+        try:
+            train_df = pd.read_csv(args.examples_path, sep="\t")
+            training_dataset_length = len(train_df)
+            model_base_path = f"trainedModels/GEMMA/{model_name}_{training_dataset_length}"
+            if os.path.exists(model_base_path):
+                print(f"Removing old model directory: {model_base_path}")
+                shutil.rmtree(model_base_path)
+        except FileNotFoundError:
+            print(f"Warning: examples_path '{args.examples_path}' not found. Cannot determine model path for cleanup.")
+        except Exception as e:
+            print(f"Error during cleanup: {e}")
+
+        classifier = FineTuningClassifier(
+            model=model,
+            tokenizer=tokenizer,
+            model_id=model_id,
+            model_name=model_name,
+            device=device,
+            dataset_path="dataset.tsv",
+            eval_dataset_path="eval_dataset.tsv",
+            trained=True,
+            examples_path=args.examples_path,
+            csv_result_file="./epoch_vs_accuracy_loss.csv", # specific CSV for this experiment
+            test_mode="zero",  # only use zero-shot for this experiment
+            perform_new_training=True, # Force retraining
+            fixed_num_epochs=epoch_num, # Set the exact number of epochs for this run
+            use_early_stopping=False # Disable early stopping for this experiment
+        )
+        classifier.classify_and_evaluate()
+
+    print("--- Epoch vs. Accuracy/Loss Experiment Finished ---")
+
+
 if __name__ == "__main__":
     #snapshot_download(repo_id="google/gemma-3-1b-it") #Use only the first time to install the model locally
 
@@ -958,6 +1029,12 @@ if __name__ == "__main__":
     )
 
     parser.add_argument(
+        "--epoch_experiment",
+        action='store_true',
+        help="Run an experiment on the number of training epochs to see how it affects accuracy and loss."
+    )
+
+    parser.add_argument(
         "--paraphrase_and_extend",
         type=int,
         nargs='?',
@@ -999,6 +1076,8 @@ if __name__ == "__main__":
 
     elif args.training_examples_experiment:
         run_training_experiment(args, device)
+    elif args.epoch_experiment:
+        run_epoch_experiment(args, device)
     else:
         # Create model and tokenizer outside the class
         model, tokenizer, model_id, model_name, training_dataset_length, num_epochs = create_model_and_tokenizer(

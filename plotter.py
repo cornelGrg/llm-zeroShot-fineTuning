@@ -30,21 +30,21 @@ def get_custom_colors(models):
             
     return [color_map[model] for model in sorted_models]
 
-if __name__ == "__main__":
-    csv_path = 'accuracy_example_pool_sizes.csv'
-    output_dir = 'graphs/matplot'
+def mode_comparison_graph(csv_path, output_dir, trained_size_to_show=None):
+    # Carica i dati dal file CSV
+    df = pd.read_csv(csv_path, sep=';').tail(22)  #regola tail in base agli ultimi test effettuati
 
-    # Crea la cartella di output se non esiste
-    os.makedirs(output_dir, exist_ok=True)
-
-    # Carica i dati dal file CSV e seleziona le ultime 30 righe
-    df = pd.read_csv(csv_path, sep=';').tail(45)
+    if trained_size_to_show is not None:
+        # Filtra per mantenere i modelli base e solo la dimensione specificata dei modelli addestrati
+        is_base_model = ~df['Model'].str.contains('_trained_')
+        is_specific_trained_model = df['Model'].str.contains(f'_trained_{trained_size_to_show}')
+        df = df[is_base_model | is_specific_trained_model].copy()
 
     # Calcola l'accuratezza media raggruppando per 'Test mode' e 'Model'
     mean_accuracy = df.groupby(['Test mode', 'Model'])['Accuracy (%)'].mean().unstack()
 
     # Definisci l'ordine desiderato per le modalità di test
-    test_mode_order = ['zero', 'few', 'def', 'def-few']
+    test_mode_order = ['zero', 'paraph', 'few', 'def', 'def-few']
     mean_accuracy = mean_accuracy.reindex(test_mode_order)
 
     # Ottieni i colori personalizzati
@@ -79,3 +79,232 @@ if __name__ == "__main__":
 
     # Mostra il grafico
     plt.show()
+    
+def plot_dataset_size_comparison(csv_path, output_dir):
+    """
+    Genera un grafico a linee che confronta l'accuratezza dei modelli 
+    al variare della dimensione del dataset di addestramento nella modalità zero shot.
+    """
+    # Carica i dati dal file CSV
+    df = pd.read_csv(csv_path, sep=';').tail(18)  #regola tail in base agli ultimi test effettuati
+
+    # Filtra per 'Test mode' == 'zero'
+    df = df[df['Test mode'] == 'zero'].copy()
+
+    # Estrai il nome del modello base e la dimensione del dataset
+    def extract_info(model_name):
+        parts = model_name.split('_trained_')
+        base_model = parts[0]
+        if len(parts) > 1 and parts[1].isdigit():
+            return base_model, int(parts[1])
+        return base_model, 0  # Modello base o non addestrato
+
+    df[['base_model', 'dataset_size']] = df['Model'].apply(lambda x: pd.Series(extract_info(x)))
+
+    # Calcola l'accuratezza media per ogni modello base e dimensione del dataset
+    accuracy_by_size = df.groupby(['base_model', 'dataset_size'])['Accuracy (%)'].mean().reset_index()
+
+    # Crea il grafico
+    plt.figure(figsize=(14, 8))
+    
+    models = accuracy_by_size['base_model'].unique()
+    colors = plt.get_cmap('tab10')
+
+    for i, model in enumerate(models):
+        model_data = accuracy_by_size[accuracy_by_size['base_model'] == model].sort_values('dataset_size')
+        plt.plot(model_data['dataset_size'], model_data['Accuracy (%)'], marker='o', linestyle='-', label=model, color=colors(i))
+        # Aggiungi etichette per ogni punto
+        for x, y in zip(model_data['dataset_size'], model_data['Accuracy (%)']):
+            plt.text(x, y + 0.5, f'{y:.2f}', ha='center', va='bottom', fontsize=8)
+
+    # Aggiungi etichette e titolo
+    plt.title('Accuratezza del Modello vs. Dimensione del Dataset di Addestramento (Test Mode: Zero-Shot)', fontsize=16)
+    plt.xlabel('Dimensione del Dataset di Addestramento (numero di esempi)', fontsize=12)
+    plt.ylabel('Accuratezza Media (%)', fontsize=12)
+    plt.xticks(np.unique(accuracy_by_size['dataset_size'])) # Mostra tutte le dimensioni sull'asse x
+    plt.grid(True, which='both', linestyle='--', linewidth=0.5)
+    plt.legend(title='Modello Base')
+    plt.ylim(bottom=min(80, accuracy_by_size['Accuracy (%)'].min() - 5), top=102)
+
+    # Migliora il layout e salva il grafico
+    plt.tight_layout()
+    output_path = os.path.join(output_dir, 'training_dataset_size_vs_accuracy.png')
+    plt.savefig(output_path)
+
+    print(f"Grafico delle dimensioni del dataset salvato in: {output_path}")
+    plt.show()
+    
+
+def plot_epochs_vs_dataset_size(csv_path, output_dir, target_base_models):
+    """
+    Genera un grafico a linee che mostra il numero di epoche ottimale 
+    al variare della dimensione del dataset di addestramento per i modelli specificati.
+    """
+    # Carica i dati dal file CSV
+    df = pd.read_csv(csv_path, sep=';').tail(18) #regola tail in base agli ultimi test effettuati
+
+    # Rimuovi righe dove 'Num Epochs' è nullo e converti in intero
+    df = df.dropna(subset=['Num Epochs'])
+    df['Num Epochs'] = df['Num Epochs'].astype(int)
+
+    # Estrai il nome del modello base e la dimensione del dataset
+    def extract_info(model_name):
+        parts = model_name.split('_trained_')
+        base_model = parts[0]
+        if len(parts) > 1 and parts[1].isdigit():
+            return base_model, int(parts[1])
+        return None, None  # Ignora i modelli non addestrati o con formato errato
+
+    df[['base_model', 'dataset_size']] = df['Model'].apply(lambda x: pd.Series(extract_info(x)))
+    
+    # Filtra per i modelli base target e per i modelli che sono stati addestrati
+    df_filtered = df[df['base_model'].isin(target_base_models) & (df['dataset_size'].notna())].copy()
+
+    if df_filtered.empty:
+        print(f"Nessun dato trovato per i modelli {target_base_models} con informazioni sulle epoche.")
+        return
+
+    # Calcola la media delle epoche per ogni modello e dimensione del dataset
+    epochs_by_size = df_filtered.groupby(['base_model', 'dataset_size'])['Num Epochs'].mean().reset_index()
+
+    # Crea il grafico
+    plt.figure(figsize=(14, 8))
+    colors = plt.get_cmap('tab10')
+    
+    all_dataset_sizes = sorted(epochs_by_size['dataset_size'].unique())
+
+    for i, model in enumerate(target_base_models):
+        model_data = epochs_by_size[epochs_by_size['base_model'] == model].sort_values('dataset_size')
+        if not model_data.empty:
+            plt.plot(model_data['dataset_size'], model_data['Num Epochs'], marker='o', linestyle='-', label=model, color=colors(i))
+            # Aggiungi etichette per ogni punto
+            for x, y in zip(model_data['dataset_size'], model_data['Num Epochs']):
+                plt.text(x, y + 0.1, f'{y:.1f}', ha='center', va='bottom', fontsize=9)
+
+    # Aggiungi etichette e titolo
+    plt.title('Numero di Epoche Ottimali vs. Dimensione Dataset', fontsize=16)
+    plt.xlabel('Dimensione del Dataset di Addestramento (numero di esempi)', fontsize=12)
+    plt.ylabel('Numero Medio di Epoche Ottimali', fontsize=12)
+    plt.xticks(all_dataset_sizes)
+    plt.grid(True, which='both', linestyle='--', linewidth=0.5)
+    plt.legend(title='Modello Base')
+
+    # Migliora il layout e salva il grafico
+    plt.tight_layout()
+    output_path = os.path.join(output_dir, 'epochs_vs_dataset_size.png')
+    plt.savefig(output_path)
+
+    print(f"Grafico delle epoche vs dimensione dataset salvato in: {output_path}")
+    plt.show()
+
+
+def plot_accuracy_loss_vs_epochs(csv_path, output_dir, invert_loss_axis=True, separate_graphs=False):
+    """
+    Genera grafici per accuratezza e loss vs. epoche.
+    Può creare un grafico combinato a due assi o due grafici separati.
+    """
+    # Carica i dati dal file CSV
+    df = pd.read_csv(csv_path, sep=';')
+
+    # Estrai il nome del modello base
+    def extract_base_model(model_name):
+        return model_name.split('_trained_')[0]
+    df['base_model'] = df['Model'].apply(extract_base_model)
+
+    colors = plt.get_cmap('tab10')
+    models = df['base_model'].unique()
+
+    if separate_graphs:
+        fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(14, 12), sharex=True)
+        fig.suptitle('Accuratezza e Loss vs. Numero di Epoche', fontsize=16)
+
+        # Grafico Accuratezza
+        for i, model in enumerate(models):
+            model_data = df[df['base_model'] == model].sort_values('Num Epochs')
+            ax1.plot(model_data['Num Epochs'], model_data['Accuracy (%)'], color=colors(i), linestyle='-', marker='o', label=f'{model} Accuracy')
+        
+        ax1.set_ylabel('Accuratezza (%)', fontsize=12)
+        ax1.grid(True, which='both', linestyle='--', linewidth=0.5)
+        ax1.legend(loc='best')
+        ax1.set_yticks(np.sort(df['Accuracy (%)'].unique()))
+
+        # Grafico Loss
+        for i, model in enumerate(models):
+            model_data = df[df['base_model'] == model].sort_values('Num Epochs')
+            ax2.plot(model_data['Num Epochs'], model_data['Eval Loss'], color=colors(i), linestyle='--', marker='x', label=f'{model} Loss')
+
+        ax2.set_xlabel('Numero di Epoche', fontsize=12)
+        ax2.set_ylabel('Eval Loss', fontsize=12)
+        ax2.grid(True, which='both', linestyle='--', linewidth=0.5)
+        ax2.legend(loc='best')
+        ax2.set_yticks(np.sort(df['Eval Loss'].unique()))
+
+        if invert_loss_axis:
+            ax2.invert_yaxis()
+            ax2.set_ylabel('Eval Loss (Inverted)', fontsize=12)
+        
+        output_filename = 'accuracy_loss_vs_epochs_separate.png'
+
+    else: # Grafico combinato
+        fig, ax1 = plt.subplots(figsize=(14, 8))
+        ax2 = ax1.twinx()
+
+        for i, model in enumerate(models):
+            model_data = df[df['base_model'] == model].sort_values('Num Epochs').copy()
+            color = colors(i)
+            
+            # Plot Accuracy su ax1
+            ax1.plot(model_data['Num Epochs'], model_data['Accuracy (%)'], color=color, linestyle='-', marker='o', label=f'{model} Accuracy')
+            
+            # Plot Loss su ax2
+            ax2.plot(model_data['Num Epochs'], model_data['Eval Loss'], color=color, linestyle='--', marker='x', label=f'{model} Loss')
+
+        # Imposta etichette e titoli
+        ax1.set_xlabel('Numero di Epoche', fontsize=12)
+        ax1.set_ylabel('Accuratezza (%)', color='blue', fontsize=12)
+        ax2.set_ylabel('Eval Loss', color='red', fontsize=12)
+        ax1.tick_params(axis='y', labelcolor='blue')
+        ax2.tick_params(axis='y', labelcolor='red')
+        plt.title('Accuratezza vs. Loss per Numero di Epoche', fontsize=16)
+        
+        if invert_loss_axis:
+            ax2.invert_yaxis()
+            ax2.set_ylabel('Eval Loss (Inverted)', color='red', fontsize=12)
+
+        # Imposta i tick degli assi Y
+        ax1.set_yticks(np.sort(df['Accuracy (%)'].unique()))
+        ax2.set_yticks(np.sort(df['Eval Loss'].unique()))
+
+        # Unisci le legende dei due assi
+        lines1, labels1 = ax1.get_legend_handles_labels()
+        lines2, labels2 = ax2.get_legend_handles_labels()
+        ax1.legend(lines1 + lines2, labels1 + labels2, loc='best')
+        
+        output_filename = 'accuracy_loss_vs_epochs_combined.png'
+
+    ax1.grid(True, which='both', linestyle='--', linewidth=0.5)
+    plt.xticks(np.unique(df['Num Epochs']))
+
+    # Migliora il layout e salva il grafico
+    plt.tight_layout(rect=[0, 0, 1, 0.96]) # Aggiusta per il suptitle
+    output_path = os.path.join(output_dir, output_filename)
+    plt.savefig(output_path)
+
+    print(f"Grafico di accuratezza e loss vs epoche salvato in: {output_path}")
+    plt.show()
+
+    
+if __name__ == "__main__":
+    mode_comparison_csv_path = 'accuracy_example_pool_sizes.csv'
+    epoch_experiment_csv_path = 'epoch_vs_accuracy_loss.csv'
+    output_dir = 'graphs/matplot'
+    target_model_for_epochs_plot = ['gemma2', 'gemma3_1b', 'gemma3n_e2b_it'] # Scegli i modelli base
+    trained_model_size_for_comparison = 60 # Scegli la dimensione del training set da mostrare (es. 60) o None per tutti
+
+    # Crea la cartella di output se non esiste
+    os.makedirs(output_dir, exist_ok=True)
+    # mode_comparison_graph(mode_comparison_csv_path, output_dir, trained_model_size_for_comparison)   #genera grafico di confronto tra modalità
+    plot_dataset_size_comparison(mode_comparison_csv_path, output_dir)
+    plot_epochs_vs_dataset_size(mode_comparison_csv_path, output_dir, target_model_for_epochs_plot)
+    # plot_accuracy_loss_vs_epochs(epoch_experiment_csv_path, output_dir, invert_loss_axis=False, separate_graphs=True)
+
