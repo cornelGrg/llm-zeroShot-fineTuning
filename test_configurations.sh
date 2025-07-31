@@ -58,7 +58,7 @@ CONFIGURATIONS=(
 # "--model gemma2 --training_examples_experiment --use_early_stopping"
 # "--model gemma3n_e2b_it --training_examples_experiment --use_early_stopping"
 
-# # FOR ACCURACY COMPARISON GRAPHS
+# FOR ACCURACY COMPARISON GRAPHS
 # "--test_mode few --model gemma3_1b"
 # "--test_mode def --model gemma3_1b"
 # "--test_mode def-few --model gemma3_1b"
@@ -82,10 +82,10 @@ CONFIGURATIONS=(
 # "--model gemma3n_e2b_it --test_mode paraph --training --use_early_stopping"
 # "--model gemma3n_e2b_it --test_mode paraph --training --use_early_stopping"
 
-#FOR TRAINING DATASET SIZE COMPARISON GRAPHS
+# # FOR TRAINING DATASET SIZE COMPARISON GRAPHS
 # "--model gemma3_1b --test_mode zero"
 # "--model gemma3_1b --training --examples_path examples.tsv --test_mode zero --use_early_stopping"
-# "--model gemma3_1b --training --examples_path ./dataset/training/training_dataset_180.tsv --test_mode zero --use_early_stopping"
+"--model gemma3_1b --training --examples_path ./dataset/training/training_dataset_180.tsv --test_mode zero --use_early_stopping"
 # "--model gemma3_1b --training --examples_path ./dataset/training/training_dataset_240.tsv --test_mode zero --use_early_stopping"
 # "--model gemma3_1b --training --examples_path ./dataset/training/training_dataset_300.tsv --test_mode zero --use_early_stopping"
 # "--model gemma3_1b --training --examples_path ./dataset/training/training_dataset_360.tsv --test_mode zero --use_early_stopping"
@@ -98,11 +98,23 @@ CONFIGURATIONS=(
 # "--model gemma2 --training --examples_path ./dataset/training/training_dataset_360.tsv --test_mode zero --use_early_stopping"
 
 # "--model gemma3n_e2b_it --test_mode zero"
-"--model gemma3n_e2b_it --training --examples_path examples.tsv --test_mode zero --use_early_stopping"
-"--model gemma3n_e2b_it --training --examples_path ./dataset/training/training_dataset_180.tsv --test_mode zero --use_early_stopping"
-"--model gemma3n_e2b_it --training --examples_path ./dataset/training/training_dataset_240.tsv --test_mode zero --use_early_stopping"
-"--model gemma3n_e2b_it --training --examples_path ./dataset/training/training_dataset_300.tsv --test_mode zero --use_early_stopping"
-"--model gemma3n_e2b_it --training --examples_path ./dataset/training/training_dataset_360.tsv --test_mode zero --use_early_stopping"
+# "--model gemma3n_e2b_it --training --examples_path examples.tsv --test_mode zero --use_early_stopping"
+# "--model gemma3n_e2b_it --training --examples_path ./dataset/training/training_dataset_180.tsv --test_mode zero --use_early_stopping"
+# "--model gemma3n_e2b_it --training --examples_path ./dataset/training/training_dataset_240.tsv --test_mode zero --use_early_stopping"
+# "--model gemma3n_e2b_it --training --examples_path ./dataset/training/training_dataset_300.tsv --test_mode zero --use_early_stopping"
+# "--model gemma3n_e2b_it --training --examples_path ./dataset/training/training_dataset_360.tsv --test_mode zero --use_early_stopping"
+
+#EPOCH EXPERIMENTS
+# "--model gemma3_1b --epoch_experiment"
+# "--model gemma2 --epoch_experiment"
+# "--model gemma3n_e2b_it --epoch_experiment"
+
+#data augmentation 
+# "--paraphrase_and_extend 2"
+# "--paraphrase_and_extend 3"
+# "--paraphrase_and_extend 4"
+# "--paraphrase_and_extend 5"
+
 )
 
 

@@ -15,7 +15,11 @@ import os
 import time
 import torch
 from trl import SFTTrainer
-import shutilf
+import shutil
+
+TESTING_DATASET_PATH = "dataset_large.tsv"  # dataset.tsv is the default
+TRAINING_DATASET_PATH = "examples.tsv"  # training_dataset.tsv is the default
+VALIDATION_DATASET_PATH = "eval_dataset.tsv"  # eval_dataset.tsv is the default
 
 
 def create_model_and_tokenizer(model_name, device, trained, perform_new_training, examples_path=None):
@@ -192,12 +196,19 @@ class Paraphraser:
             original_phrase = row['phrase']
             original_category = row['category']
             
+            # Add the original phrase to the list of rows
+            new_rows.append({'phrase': original_phrase, 'category': original_category})
+            
             # Generate numPhrase new sentences for the original phrase
             new_sentences = self.paraphrase(
                 original_phrase,
-                num_beams=numPhrase,
-                num_beam_groups=numPhrase,
-                num_return_sequences=numPhrase
+                num_beams=13,
+                num_beam_groups=13,
+                num_return_sequences=numPhrase,
+                repetition_penalty=7.0,
+                diversity_penalty=1.0,
+                no_repeat_ngram_size=2,
+                max_length=200,
             )
 
             for sentence in new_sentences:
@@ -236,6 +247,8 @@ class FineTuningClassifier:
         self.training_dataset_length = training_dataset_length # Initialize with value from create_model_and_tokenizer
         self.fixed_num_epochs = fixed_num_epochs
         self.eval_loss = None
+        self.train_loss = None
+        self.eval_accuracy = None
 
         print(f"Running in: {test_mode} mode [{'trained]' if self.trained else 'base (untrained)]'}")
         print(f"Running with {self.model_id} model")
@@ -288,7 +301,7 @@ class FineTuningClassifier:
 
                 # For the experiment, train by epoch.
                 use_epochs_for_training = self.examples_per_category is not None or self.fixed_num_epochs is not None
-                model_save_path, self.eval_loss = self.trainModel(model_base_path, use_epochs=use_epochs_for_training, num_epochs=self.fixed_num_epochs)
+                model_save_path, self.eval_loss, self.train_loss = self.trainModel(model_base_path, use_epochs=use_epochs_for_training, num_epochs=self.fixed_num_epochs)
                 print(f"Loading fine-tuned model from {model_save_path}")
                 # The base model is already a PeftModel if we are retraining, so we need to load into the base model of the peft model
                 if isinstance(self.model, peft.PeftModel):
@@ -516,9 +529,10 @@ class FineTuningClassifier:
             r=8,
             lora_alpha=16,
             target_modules=["q_proj", "k_proj", "v_proj", "o_proj",
-                            "gate_proj", "up_proj", "down_proj"],
+                            "gate_proj", "up_proj", "down_proj"], #target all linear layers for lora (full fine-tuning like performance)
             lora_dropout=0.1,  # changed from 0.05 24/07/25
             bias="none",
+            # random_state=3407,  # For reproducibility DOESN'T WORK
             task_type="CAUSAL_LM",
         )
         return config
@@ -538,6 +552,7 @@ class FineTuningClassifier:
             "weight_decay": 0.01,
             "lr_scheduler_type": "linear",
             "seed": 3407,
+            "data_seed": 3407,
             "report_to": "none",  # Use this for WandB etc
         }
 
@@ -578,7 +593,6 @@ class FineTuningClassifier:
             if torch.cuda.is_available():
                 cuda_capability = torch.cuda.get_device_capability()
                 # Check if CUDA compute capability is 8.0 or higher (Ampere GPUs and newer)
-                # Ampere GPUs (like A100) support bfloat16.
                 return cuda_capability[0] >= 8
             else:
                 # If no GPU is available, return False
@@ -685,12 +699,20 @@ class FineTuningClassifier:
             print(f"Best model was from epoch: {fine_tuning.state.best_model_checkpoint}")
         
         eval_loss = None
+        train_loss = None
+        
         if num_epochs is not None:
             # Extract final evaluation loss from log history
             for log in reversed(fine_tuning.state.log_history):
                 if 'eval_loss' in log:
                     eval_loss = log['eval_loss']
-                    print(f"Final evaluation loss: {eval_loss}")
+                    print(f"Final eval loss: {eval_loss}")
+
+                if 'train_loss' in log:
+                    train_loss = log['train_loss']
+                    print(f"Final training loss: {train_loss}")
+                
+                if eval_loss is not None and train_loss is not None:
                     break
 
         # Construct final save path with epoch number
@@ -701,19 +723,19 @@ class FineTuningClassifier:
         base_model.save_pretrained(final_model_save_path)  # salva i parametri del modello nella cartella modello
         self.tokenizer.save_pretrained(final_model_save_path)
         
-        return final_model_save_path, eval_loss
+        return final_model_save_path, eval_loss, train_loss
 
-    def evaluate_accuracy(self, predictions):
+    def evaluate_accuracy(self, predictions, dataset):
         """
         Given a list of predictions, evaluate accuracy comparing with the dataset.
         :param predictions:
         :return: accuracy
         """
         correct = 0
-        total = len(self.test_df)
+        total = len(dataset)
 
         for i in range(total):
-            expected = self.test_df.iloc[i]['category'].strip().lower()
+            expected = dataset.iloc[i]['category'].strip().lower()
             predicted = predictions[i].strip().lower()
             if predicted in expected or expected in predicted:
                 correct += 1
@@ -809,6 +831,32 @@ class FineTuningClassifier:
         if self.eval_loss is not None:
             new_row["Eval Loss"] = self.eval_loss
             all_columns.append("Eval Loss")
+        if self.train_loss is not None:
+            new_row["Train Loss"] = self.train_loss
+            all_columns.append("Train Loss")
+        if self.eval_accuracy is not None:
+            new_row["eval_accuracy"] = self.eval_accuracy
+            all_columns.append("eval_accuracy")
+
+        #change column names for accuracy for training epoch experiment
+        if (
+            self.eval_accuracy is not None and
+            self.eval_loss is not None and
+            self.train_loss is not None and
+            self.train_accuracy is not None and
+            self.num_epochs is not None
+        ):
+            
+            # Move value from "Accuracy (%)" to "train_accuracy"
+            new_row["train_accuracy"] = self.train_accuracy
+            # Replace column name in all_columns
+            all_columns = [
+                "Timestamp", "Test mode", "Model", "Process_time(s)", "train_accuracy",
+                "Training Examples per Category", "Num Epochs"
+            ] + [col for col in all_columns if col not in [
+                "Timestamp", "Test mode", "Model", "Process_time(s)", "Accuracy (%)",
+                "Training Examples per Category", "Num Epochs"
+            ]]
 
         if os.path.exists(self.csv_result_file):
             df = pd.read_csv(self.csv_result_file, sep=";")
@@ -828,7 +876,51 @@ class FineTuningClassifier:
 
         df.to_csv(self.csv_result_file, index=False, sep=";")
 
+    def evaluate_train_eval_accuracy(self, training_dataset, validation_dataset):
+        """
+        Evaluate the model's accuracy on both training and validation datasets. Used for the epoch experiment
+        """
+        predictions = []
+        
+        train_df = pd.read_csv(training_dataset, sep="\t")
+        eval_df = pd.read_csv(validation_dataset, sep="\t")
+        
+        print("Evaluating training accuracy...")
+        t1_start_T = time.perf_counter()  # process_time()
+    
+        for i, row in train_df.iterrows():
+                phrase = row['phrase']
+                category = self.classify_phrase(phrase)
+                predictions.append(category)
+                # print(f"{i + 1}. \"{phrase}\" →  {category}")
+        
+        t1_stop_T = time.perf_counter()  # process_time()
 
+
+        self.train_accuracy, correct, total = self.evaluate_accuracy(predictions, train_df)
+        print(f"Training accuracy: {self.train_accuracy} completed in {t1_stop_T - t1_start_T:.2f} seconds")
+        
+        predictions = []  # Reset predictions for validation evaluation
+        
+        print("Evaluating validation accuracy...")
+        t1_start_E = time.perf_counter()  # process_time()
+        for i, row in eval_df.iterrows():
+                phrase = row['phrase']
+                category = self.classify_phrase(phrase)
+                predictions.append(category)
+                # print(f"{i + 1}. \"{phrase}\" →  {category}")
+                
+        t1_stop_E = time.perf_counter()  # process_time()
+        
+        process_time = t1_stop_T - t1_start_T + t1_stop_E - t1_start_E
+        
+        accuracy = 0.0 #overwrite accuracy for epoch experiment, this value is not being logged in the CSV for this use case
+
+        self.eval_accuracy, correct, total = self.evaluate_accuracy(predictions, eval_df)  #FIX OR CREATE NEW evaluate_accuracy method for this function (or do it inside)
+        print(f"Evaluation accuracy: {self.eval_accuracy} completed in {t1_stop_E - t1_start_E:.2f} seconds")
+        self.log_results_to_csv(accuracy, process_time)
+        
+    
     def classify_and_evaluate(self):
         """
         Perform classification test on the dataset and print accuracy data
@@ -847,12 +939,22 @@ class FineTuningClassifier:
                 # Create a list with the original phrase and its paraphrases
                 phrases_to_test = [phrase]
                 # The user requested 4 paraphrases
-                extended_phrases = self.paraphraser.paraphrase(phrase, num_beams=4, num_beam_groups=4, num_return_sequences=4)
+                extended_phrases = self.paraphraser.paraphrase(
+                    question=phrase,
+                    num_beams=13,
+                    num_beam_groups=13,
+                    num_return_sequences=4,
+                    repetition_penalty=7.0,
+                    diversity_penalty=1.0,
+                    no_repeat_ngram_size=2,
+                    max_length=200,
+                )
                 phrases_to_test.extend(extended_phrases)
 
                 # Classify all phrases (original + paraphrases)
                 paraph_predictions = []
                 # print("\nNow testing a new phrase, predicted categories were:")
+                # print(f"Original: '{phrase}' with paraphrases: {extended_phrases}")
                 for p in phrases_to_test:
                     category = self.classify_phrase(p)
                     # print(f"{i+1} →  {category}")
@@ -878,7 +980,7 @@ class FineTuningClassifier:
         t1_stop = time.perf_counter()  # process_time()
         process_time = t1_stop - t1_start
 
-        accuracy, correct, total = self.evaluate_accuracy(predictions)
+        accuracy, correct, total = self.evaluate_accuracy(predictions, self.test_df)
         print(f"\nModel Accuracy: {accuracy:.2f}% ({correct}/{total} correct) |Test Mode: {self.test_mode} |Process time: {process_time:.2f} seconds")
         self.log_results_to_csv(accuracy, process_time)
 
@@ -908,7 +1010,7 @@ def run_training_experiment(args, device):
             model_id=model_id,
             model_name=model_name,
             device=device,
-            dataset_path="dataset.tsv",
+            dataset_path=TESTING_DATASET_PATH,
             eval_dataset_path="eval_dataset.tsv",
             trained=True,
             examples_path=args.examples_path,
@@ -926,7 +1028,7 @@ def run_training_experiment(args, device):
 def run_epoch_experiment(args, device):
     """Runs an experiment to test model accuracy and loss with a varying number of training epochs."""
     print("--- Starting Epoch vs. Accuracy/Loss Experiment ---")
-    MAX_EPOCHS = 10  # Maximum number of epochs to test
+    MAX_EPOCHS = 16  # Maximum number of epochs to test
     
     for epoch_num in range(1, MAX_EPOCHS + 1):
         print(f"\n--- Running experiment with {epoch_num} epochs ---")
@@ -960,7 +1062,7 @@ def run_epoch_experiment(args, device):
             model_id=model_id,
             model_name=model_name,
             device=device,
-            dataset_path="dataset.tsv",
+            dataset_path=TRAINING_DATASET_PATH,   #CALCULATE ACCURACY ON THE TRAINING DATASET
             eval_dataset_path="eval_dataset.tsv",
             trained=True,
             examples_path=args.examples_path,
@@ -970,8 +1072,8 @@ def run_epoch_experiment(args, device):
             fixed_num_epochs=epoch_num, # Set the exact number of epochs for this run
             use_early_stopping=False # Disable early stopping for this experiment
         )
-        classifier.classify_and_evaluate()
-
+        classifier.evaluate_train_eval_accuracy(TRAINING_DATASET_PATH, VALIDATION_DATASET_PATH)  #CALCULATE ACCURACY ON THE TRAINING DATASET
+        
     print("--- Epoch vs. Accuracy/Loss Experiment Finished ---")
 
 
@@ -1094,7 +1196,7 @@ if __name__ == "__main__":
             model_id=model_id,
             model_name=model_name,
             device=device,
-            dataset_path="dataset.tsv",
+            dataset_path=TESTING_DATASET_PATH,
             eval_dataset_path="eval_dataset.tsv",
             trained=args.training,
             examples_path=args.examples_path,

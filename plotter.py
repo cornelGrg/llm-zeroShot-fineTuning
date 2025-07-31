@@ -198,51 +198,78 @@ def plot_epochs_vs_dataset_size(csv_path, output_dir, target_base_models):
     plt.show()
 
 
-def plot_accuracy_loss_vs_epochs(csv_path, output_dir, invert_loss_axis=True, separate_graphs=False):
+def plot_accuracy_loss_vs_epochs(csv_path, output_dir, target_base_models, invert_loss_axis=True, separate_graphs=False):
     """
     Genera grafici per accuratezza e loss vs. epoche.
     Può creare un grafico combinato a due assi o due grafici separati.
     """
     # Carica i dati dal file CSV
     df = pd.read_csv(csv_path, sep=';')
+    
+    # Rinomina colonne per coerenza
+    if 'Accuracy (%)' in df.columns:
+        df = df.rename(columns={'Accuracy (%)': 'train_accuracy'})
 
     # Estrai il nome del modello base
     def extract_base_model(model_name):
         return model_name.split('_trained_')[0]
     df['base_model'] = df['Model'].apply(extract_base_model)
 
+    # Filtra per i modelli base di interesse
+    df = df[df['base_model'].isin(target_base_models)].copy()
+
+    if df.empty:
+        print(f"Nessun dato trovato per i modelli {target_base_models} nel file {csv_path}.")
+        return
+
+    # Rimuovi righe dove i valori necessari sono nulli
+    required_cols = ['Num Epochs', 'train_accuracy', 'eval_accuracy', 'Train Loss', 'Eval Loss']
+    df = df.dropna(subset=required_cols)
+    df['Num Epochs'] = df['Num Epochs'].astype(int)
+
     colors = plt.get_cmap('tab10')
     models = df['base_model'].unique()
 
     if separate_graphs:
-        fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(14, 12), sharex=True)
-        fig.suptitle('Accuratezza e Loss vs. Numero di Epoche', fontsize=16)
+        fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(14, 12)) # Removed sharex=True, reduced height
+        fig.suptitle('Loss and Accuracy (Train and Validation) vs. Number of Epochs', fontsize=14)
 
-        # Grafico Accuratezza
+        # Grafico Loss (in alto)
+        ax1.set_title('Train Loss vs. Validation Loss', fontsize=12)
         for i, model in enumerate(models):
             model_data = df[df['base_model'] == model].sort_values('Num Epochs')
-            ax1.plot(model_data['Num Epochs'], model_data['Accuracy (%)'], color=colors(i), linestyle='-', marker='o', label=f'{model} Accuracy')
+            color = colors(i)
+            ax1.plot(model_data['Num Epochs'], model_data['Train Loss'], color=color, linestyle='-', marker='o', label=f'{model} Train Loss')
+            ax1.plot(model_data['Num Epochs'], model_data['Eval Loss'], color=color, linestyle='--', marker='x', label=f'{model} Validation Loss')
         
-        ax1.set_ylabel('Accuratezza (%)', fontsize=12)
+        ax1.set_ylabel('Loss', fontsize=10)
         ax1.grid(True, which='both', linestyle='--', linewidth=0.5)
         ax1.legend(loc='best')
-        ax1.set_yticks(np.sort(df['Accuracy (%)'].unique()))
+        ax1.set_xlabel('Number of Epochs', fontsize=10)
+        
+        if invert_loss_axis:
+            ax1.invert_yaxis()
+            ax1.set_ylabel('Loss (Inverted)', fontsize=10)
 
-        # Grafico Loss
+        # Grafico Accuratezza (in basso)
+        ax2.set_title('Train Accuracy vs. Validation Accuracy', fontsize=12)
         for i, model in enumerate(models):
             model_data = df[df['base_model'] == model].sort_values('Num Epochs')
-            ax2.plot(model_data['Num Epochs'], model_data['Eval Loss'], color=colors(i), linestyle='--', marker='x', label=f'{model} Loss')
+            color = colors(i)
+            ax2.plot(model_data['Num Epochs'], model_data['train_accuracy'], color=color, linestyle='-', marker='o', label=f'{model} Train Accuracy')
+            ax2.plot(model_data['Num Epochs'], model_data['eval_accuracy'], color=color, linestyle='--', marker='x', label=f'{model} Validation Accuracy')
 
-        ax2.set_xlabel('Numero di Epoche', fontsize=12)
-        ax2.set_ylabel('Eval Loss', fontsize=12)
+        ax2.set_xlabel('Number of Epochs', fontsize=10)
+        ax2.set_ylabel('Accuracy (%)', fontsize=10)
         ax2.grid(True, which='both', linestyle='--', linewidth=0.5)
         ax2.legend(loc='best')
-        ax2.set_yticks(np.sort(df['Eval Loss'].unique()))
-
-        if invert_loss_axis:
-            ax2.invert_yaxis()
-            ax2.set_ylabel('Eval Loss (Inverted)', fontsize=12)
+        ax2.set_ylim(bottom=min(80, df['train_accuracy'].min() - 5, df['eval_accuracy'].min() - 5), top=102)
         
+        # Set x-ticks for both axes
+        all_epochs = np.unique(df['Num Epochs'])
+        ax1.set_xticks(all_epochs)
+        ax2.set_xticks(all_epochs)
+
         output_filename = 'accuracy_loss_vs_epochs_separate.png'
 
     else: # Grafico combinato
@@ -254,26 +281,22 @@ def plot_accuracy_loss_vs_epochs(csv_path, output_dir, invert_loss_axis=True, se
             color = colors(i)
             
             # Plot Accuracy su ax1
-            ax1.plot(model_data['Num Epochs'], model_data['Accuracy (%)'], color=color, linestyle='-', marker='o', label=f'{model} Accuracy')
+            ax1.plot(model_data['Num Epochs'], model_data['eval_accuracy'], color=color, linestyle='-', marker='o', label=f'{model} Validation Accuracy')
             
             # Plot Loss su ax2
-            ax2.plot(model_data['Num Epochs'], model_data['Eval Loss'], color=color, linestyle='--', marker='x', label=f'{model} Loss')
+            ax2.plot(model_data['Num Epochs'], model_data['Eval Loss'], color=color, linestyle='--', marker='x', label=f'{model} Validation Loss')
 
         # Imposta etichette e titoli
-        ax1.set_xlabel('Numero di Epoche', fontsize=12)
-        ax1.set_ylabel('Accuratezza (%)', color='blue', fontsize=12)
-        ax2.set_ylabel('Eval Loss', color='red', fontsize=12)
+        ax1.set_xlabel('Number of Epochs', fontsize=12)
+        ax1.set_ylabel('Validation Accuracy (%)', color='blue', fontsize=12)
+        ax2.set_ylabel('Validation Loss', color='red', fontsize=12)
         ax1.tick_params(axis='y', labelcolor='blue')
         ax2.tick_params(axis='y', labelcolor='red')
-        plt.title('Accuratezza vs. Loss per Numero di Epoche', fontsize=16)
+        plt.title('Validation Accuracy vs. Validation Loss per Number of Epochs', fontsize=16)
         
         if invert_loss_axis:
             ax2.invert_yaxis()
-            ax2.set_ylabel('Eval Loss (Inverted)', color='red', fontsize=12)
-
-        # Imposta i tick degli assi Y
-        ax1.set_yticks(np.sort(df['Accuracy (%)'].unique()))
-        ax2.set_yticks(np.sort(df['Eval Loss'].unique()))
+            ax2.set_ylabel('Validation Loss (Inverted)', color='red', fontsize=12)
 
         # Unisci le legende dei due assi
         lines1, labels1 = ax1.get_legend_handles_labels()
@@ -281,12 +304,16 @@ def plot_accuracy_loss_vs_epochs(csv_path, output_dir, invert_loss_axis=True, se
         ax1.legend(lines1 + lines2, labels1 + labels2, loc='best')
         
         output_filename = 'accuracy_loss_vs_epochs_combined.png'
+        ax1.grid(True, which='both', linestyle='--', linewidth=0.5)
 
-    ax1.grid(True, which='both', linestyle='--', linewidth=0.5)
-    plt.xticks(np.unique(df['Num Epochs']))
+    if not separate_graphs:
+        plt.xticks(np.unique(df['Num Epochs']))
 
     # Migliora il layout e salva il grafico
-    plt.tight_layout(rect=[0, 0, 1, 0.96]) # Aggiusta per il suptitle
+    plt.tight_layout(rect=[0, 0, 1, 0.97]) # Aggiusta per il suptitle
+    if separate_graphs:
+        fig.subplots_adjust(hspace=0.4)
+
     output_path = os.path.join(output_dir, output_filename)
     plt.savefig(output_path)
 
@@ -298,13 +325,13 @@ if __name__ == "__main__":
     mode_comparison_csv_path = 'accuracy_example_pool_sizes.csv'
     epoch_experiment_csv_path = 'epoch_vs_accuracy_loss.csv'
     output_dir = 'graphs/matplot'
-    target_model_for_epochs_plot = ['gemma2', 'gemma3_1b', 'gemma3n_e2b_it'] # Scegli i modelli base
+    target_model_for_epochs_plot = ['gemma3_1b'] # Scegli i modelli base
     trained_model_size_for_comparison = 60 # Scegli la dimensione del training set da mostrare (es. 60) o None per tutti
 
     # Crea la cartella di output se non esiste
     os.makedirs(output_dir, exist_ok=True)
     # mode_comparison_graph(mode_comparison_csv_path, output_dir, trained_model_size_for_comparison)   #genera grafico di confronto tra modalità
-    plot_dataset_size_comparison(mode_comparison_csv_path, output_dir)
-    plot_epochs_vs_dataset_size(mode_comparison_csv_path, output_dir, target_model_for_epochs_plot)
-    # plot_accuracy_loss_vs_epochs(epoch_experiment_csv_path, output_dir, invert_loss_axis=False, separate_graphs=True)
+    # plot_dataset_size_comparison(mode_comparison_csv_path, output_dir)
+    # plot_epochs_vs_dataset_size(mode_comparison_csv_path, output_dir, target_model_for_epochs_plot)
+    plot_accuracy_loss_vs_epochs(epoch_experiment_csv_path, output_dir, target_model_for_epochs_plot, invert_loss_axis=False, separate_graphs=True)
 
