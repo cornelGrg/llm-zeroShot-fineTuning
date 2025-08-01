@@ -16,8 +16,10 @@ import time
 import torch
 from trl import SFTTrainer
 import shutil
+import gc
 
 TESTING_DATASET_PATH = "dataset_large.tsv"  # dataset.tsv is the default
+# TESTING_DATASET_PATH = "./dataset/testing/news_test_dataset.tsv" #alternative dataset for dishomogeneous dataset
 TRAINING_DATASET_PATH = "examples.tsv"  # training_dataset.tsv is the default
 VALIDATION_DATASET_PATH = "eval_dataset.tsv"  # eval_dataset.tsv is the default
 
@@ -256,14 +258,25 @@ class FineTuningClassifier:
         # load dataset, examples and set categories
         self.test_df = pd.read_csv(dataset_path, sep="\t")
         
-        self.categories = [
-            "Fuel System Problems",
-            "Ignition System Malfunctions",
-            "Cooling System Anomalies",
-            "Brake System Defects",
-            "Transmission Problems",
-            "Electrical/Electronic Failures"
-        ]
+        if self.dataset_path == "./dataset/testing/news_test_dataset.tsv": # categories for not homogeneous news dataset
+            self.categories = [
+                "crime",
+                "advertisement",
+                "weather",
+                "gossip",
+                "politics",
+                "finance",
+                "culture"
+            ]
+        else:            # Default categories for automotive failure classification  
+            self.categories = [
+                "Fuel System Problems",
+                "Ignition System Malfunctions",
+                "Cooling System Anomalies",
+                "Brake System Defects",
+                "Transmission Problems",
+                "Electrical/Electronic Failures"
+            ]
         
         if self.trained:
             full_train_df = pd.read_csv(examples_path, sep="\t")
@@ -391,11 +404,19 @@ class FineTuningClassifier:
             "into one of these categories: "
             f"{', '.join(self.categories)}.\n\n"
         )
+        
+        if self.dataset_path == "./dataset/testing/news_test_dataset.tsv": # categories for not homogeneous news dataset
+            prompt = (  
+                f"Classify the following news article: " #for some reason keeping the automotive failure phrase increases accuracy by about 5% IN GEMMA 3 BUT GEMMA TWO LIKES THIS PROMPT
+                f"{phrase}\n"
+                "into one of these categories: "
+                f"{', '.join(self.categories)}.\n\n"
+            )
 
         return prompt
 
 
-    def build_definitions_prompt(self, phrase):
+    def build_definitions_prompt(self, phrase  ):
         """
          Prompt construction function for test with category definitions.
         :param phrase:
@@ -748,15 +769,19 @@ class FineTuningClassifier:
         Calculate performance metrics using sklearn (confusion matrix, precision score, recall score, accuracy score).
         :return:
         """
-        accuracy = accuracy_score(expected_labels, predicted_labels)
+        expected_labels_normalized = [label.lower() for label in expected_labels]
+        predicted_labels_normalized = [label.lower() for label in predicted_labels]
+        topics_normalized = [topic.lower() for topic in topics]
+
+        accuracy = accuracy_score(expected_labels_normalized, predicted_labels_normalized)
 
         print(f"Accuratezza del modello: {accuracy:.4f}")
 
-        precision_per_label = precision_score(expected_labels, predicted_labels, labels=topics, average=None, zero_division=0)
+        precision_per_label = precision_score(expected_labels_normalized, predicted_labels_normalized, labels=topics_normalized, average=None, zero_division=0)
 
-        recall_per_label = recall_score(expected_labels, predicted_labels, labels=topics, average=None, zero_division=0)
+        recall_per_label = recall_score(expected_labels_normalized, predicted_labels_normalized, labels=topics_normalized, average=None, zero_division=0)
 
-        f1_per_label = f1_score(expected_labels, predicted_labels, labels=topics, average=None, zero_division=0)
+        f1_per_label = f1_score(expected_labels_normalized, predicted_labels_normalized, labels=topics_normalized, average=None, zero_division=0)
 
         # Stampa i risultati per ogni label
 
@@ -770,9 +795,9 @@ class FineTuningClassifier:
             print(f"  F1-Score: {f1:.4f}")
 
         # confusion matrix
-        confusion = confusion_matrix(expected_labels, predicted_labels, labels=topics)
+        confusion = confusion_matrix(expected_labels_normalized, predicted_labels_normalized, labels=topics_normalized)
 
-        disp = ConfusionMatrixDisplay(confusion_matrix=confusion, display_labels=topics)
+        disp = ConfusionMatrixDisplay(confusion_matrix=confusion, display_labels=topics_normalized)
 
         fig, ax = plt.subplots(figsize=(12, 10))
 
@@ -1073,6 +1098,13 @@ def run_epoch_experiment(args, device):
             use_early_stopping=False # Disable early stopping for this experiment
         )
         classifier.evaluate_train_eval_accuracy(TRAINING_DATASET_PATH, VALIDATION_DATASET_PATH)  #CALCULATE ACCURACY ON THE TRAINING DATASET
+        
+        # Clean up memory to prevent OOM errors in the next iteration
+        del model
+        del tokenizer
+        del classifier
+        gc.collect()
+        torch.cuda.empty_cache()
         
     print("--- Epoch vs. Accuracy/Loss Experiment Finished ---")
 

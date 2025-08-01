@@ -85,7 +85,7 @@ CONFIGURATIONS=(
 # # FOR TRAINING DATASET SIZE COMPARISON GRAPHS
 # "--model gemma3_1b --test_mode zero"
 # "--model gemma3_1b --training --examples_path examples.tsv --test_mode zero --use_early_stopping"
-"--model gemma3_1b --training --examples_path ./dataset/training/training_dataset_180.tsv --test_mode zero --use_early_stopping"
+# "--model gemma3_1b --training --examples_path ./dataset/training/training_dataset_180.tsv --test_mode zero --use_early_stopping"
 # "--model gemma3_1b --training --examples_path ./dataset/training/training_dataset_240.tsv --test_mode zero --use_early_stopping"
 # "--model gemma3_1b --training --examples_path ./dataset/training/training_dataset_300.tsv --test_mode zero --use_early_stopping"
 # "--model gemma3_1b --training --examples_path ./dataset/training/training_dataset_360.tsv --test_mode zero --use_early_stopping"
@@ -107,7 +107,7 @@ CONFIGURATIONS=(
 #EPOCH EXPERIMENTS
 # "--model gemma3_1b --epoch_experiment"
 # "--model gemma2 --epoch_experiment"
-# "--model gemma3n_e2b_it --epoch_experiment"
+"--model gemma3n_e2b_it --epoch_experiment"
 
 #data augmentation 
 # "--paraphrase_and_extend 2"
