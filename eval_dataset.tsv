@@ -6,6 +6,7 @@ phrase	category
 "The airbag warning light is permanently illuminated on the dashboard. A fault code points to an internal failure of the airbag control module."	Electrical/Electronic Failures
 "The engine temperature is stable during city driving but rises on the highway. The lower radiator hose is soft and collapses under suction at high RPM, restricting coolant flow."	Cooling System Anomalies
 "The vehicle suddenly lost all forward and reverse movement. The splines on the transmission output shaft were found to be completely stripped."	Transmission Problems
+"The power locks activate randomly and the alarm goes off without reason. The body control module shows error codes and the remote key fob works inconsistently."	Electrical/Electronic Failures
 "The engine runs rough and has low power. A diagnostic check reveals that the fuel pump driver module is overheating and providing intermittent power to the fuel pump."	Fuel System Problems
 "The ABS light is on and the brakes make a buzzing noise when applied lightly. The ABS pump motor is failing and cannot maintain proper pressure in the system."	Brake System Defects
 "Multiple, unrelated electronic systems are failing simultaneously. A diagnostic scan shows a major CAN bus communication error due to a faulty gateway module."	Electrical/Electronic Failures
@@ -13,7 +14,18 @@ phrase	category
 "The brakes feel like they are dragging and the wheels are hot after a short drive. The brake pedal pushrod is misadjusted and not allowing the master cylinder to fully release pressure."	Brake System Defects
 "After starting, the engine idles high for a few seconds then stalls. The ethanol content sensor is providing incorrect readings, causing the fuel mixture to be too lean."	Fuel System Problems
 "A small puddle of coolant is found on the passenger side floor. The plastic heater hose connector at the firewall is brittle and has developed a hairline crack."	Cooling System Anomalies
+"When accelerating uphill, the engine knocks loudly. The spark plugs show abnormal gaps and the ignition timing is off by several degrees when checked."	Ignition System Malfunctions
+"The brake rotors have deep grooves and the pads are worn unevenly. The handbrake requires excessive movement before engaging and fails to hold on steeper inclines."	Brake System Defects
+"The central locking system works intermittently. The actuator in the driver's door is failing and sometimes does not respond to commands."	Electrical/Electronic Failures
+"The engine hesitates and stumbles during cold starts but improves after warming up. The fuel filter appears clogged and there's sediment in the fuel tank."	Fuel System Problems
+"The transfer case makes a howling noise in four-wheel drive mode. The fluid is contaminated and the chain has stretched beyond serviceable limits."	Transmission Problems
+"The radiator has visible corrosion and deposits. The heater doesn't provide warm air and the temperature gauge fluctuates erratiFcally during operation."	Cooling System Anomalies
+"The transmission makes a whining noise that increases with vehicle speed. The planetary gear set is damaged due to fluid starvation."	Transmission Problems
+"The brake pedal gradually sinks when kept pressed. Traces of clear fluid are noticed near the wheels and the ABS light is on."	Brake System Defects
+"The water pump is making a grinding noise and the bearings have excessive play. Coolant is leaking where the pump meets the engine block."	Cooling System Anomalies
+"The camshaft lobes show excessive wear and the valve clearances are out of specification. The oil pressure is low at idle, affecting the variable valve timing system."	Ignition System Malfunctions
 "The vehicle intermittently fails to start, with no crank. The ignition switch is worn and does not always make contact to send power to the starter solenoid."	Ignition System Malfunctions
+"The car has significantly reduced power and black smoke comes from the exhaust. The fuel filter is completely clogged and the return line is kinked."	Fuel System Problems
 "Gear shifts are harsh and unpredictable, sometimes delaying then slamming into gear. The transmission valve body has internal wear and sticking solenoids."	Transmission Problems
 "While driving, the brake pedal suddenly went to the floor with a complete loss of braking. A section of the steel brake line along the frame was found to be rusted and had burst under pressure."	Brake System Defects
 "The power sunroof opens but struggles to close, often stopping halfway. The sunroof motor is weak and the tracks are binding from lack of lubrication."	Electrical/Electronic Failures

@@ -1,0 +1,7617 @@
+[
+  {
+    "timestamp": "2025-08-11/22:57:01",
+    "test_mode": "zero",
+    "model": "gemma3_1b",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.9629629629629629,
+        "recall": 0.7647058823529411,
+        "f1_score": 0.8524590163934426
+      },
+      "Ignition System Malfunctions": {
+        "precision": 0.8648648648648649,
+        "recall": 0.9411764705882353,
+        "f1_score": 0.9014084507042254
+      },
+      "Cooling System Anomalies": {
+        "precision": 0.9411764705882353,
+        "recall": 0.9411764705882353,
+        "f1_score": 0.9411764705882353
+      },
+      "Brake System Defects": {
+        "precision": 0.7727272727272727,
+        "recall": 1.0,
+        "f1_score": 0.8717948717948718
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.8823529411764706,
+        "f1_score": 0.9375
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.90625,
+        "recall": 0.8529411764705882,
+        "f1_score": 0.8787878787878788
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-11/23:00:23",
+    "test_mode": "zero",
+    "model": "gemma2",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.9393939393939394,
+        "recall": 0.9117647058823529,
+        "f1_score": 0.9253731343283582
+      },
+      "Ignition System Malfunctions": {
+        "precision": 1.0,
+        "recall": 0.5588235294117647,
+        "f1_score": 0.7169811320754716
+      },
+      "Cooling System Anomalies": {
+        "precision": 0.9444444444444444,
+        "recall": 1.0,
+        "f1_score": 0.9714285714285714
+      },
+      "Brake System Defects": {
+        "precision": 0.9714285714285714,
+        "recall": 1.0,
+        "f1_score": 0.9855072463768116
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.9705882352941176,
+        "f1_score": 0.9850746268656716
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.6595744680851063,
+        "recall": 0.9117647058823529,
+        "f1_score": 0.7654320987654321
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-11/23:06:27",
+    "test_mode": "zero",
+    "model": "gemma3_1b",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.9629629629629629,
+        "recall": 0.7647058823529411,
+        "f1_score": 0.8524590163934426
+      },
+      "Ignition System Malfunctions": {
+        "precision": 0.8648648648648649,
+        "recall": 0.9411764705882353,
+        "f1_score": 0.9014084507042254
+      },
+      "Cooling System Anomalies": {
+        "precision": 0.9411764705882353,
+        "recall": 0.9411764705882353,
+        "f1_score": 0.9411764705882353
+      },
+      "Brake System Defects": {
+        "precision": 0.7727272727272727,
+        "recall": 1.0,
+        "f1_score": 0.8717948717948718
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.8823529411764706,
+        "f1_score": 0.9375
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.90625,
+        "recall": 0.8529411764705882,
+        "f1_score": 0.8787878787878788
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-12/15:37:49",
+    "test_mode": "zero",
+    "model": "gemma3_1b",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.9629629629629629,
+        "recall": 0.7647058823529411,
+        "f1_score": 0.8524590163934426
+      },
+      "Ignition System Malfunctions": {
+        "precision": 0.8648648648648649,
+        "recall": 0.9411764705882353,
+        "f1_score": 0.9014084507042254
+      },
+      "Cooling System Anomalies": {
+        "precision": 0.9411764705882353,
+        "recall": 0.9411764705882353,
+        "f1_score": 0.9411764705882353
+      },
+      "Brake System Defects": {
+        "precision": 0.7727272727272727,
+        "recall": 1.0,
+        "f1_score": 0.8717948717948718
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.8823529411764706,
+        "f1_score": 0.9375
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.90625,
+        "recall": 0.8529411764705882,
+        "f1_score": 0.8787878787878788
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-12/16:59:07",
+    "test_mode": "zero",
+    "model": "gemma3_1b",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.9444444444444444,
+        "recall": 0.7083333333333334,
+        "f1_score": 0.8095238095238095
+      },
+      "Ignition System Malfunctions": {
+        "precision": 0.8461538461538461,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.88
+      },
+      "Cooling System Anomalies": {
+        "precision": 0.9166666666666666,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9166666666666666
+      },
+      "Brake System Defects": {
+        "precision": 0.7741935483870968,
+        "recall": 1.0,
+        "f1_score": 0.8727272727272727
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.875,
+        "f1_score": 0.9333333333333333
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.875,
+        "recall": 0.875,
+        "f1_score": 0.875
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-12/17:05:24",
+    "test_mode": "zero",
+    "model": "gemma3_1b",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.9444444444444444,
+        "recall": 0.7083333333333334,
+        "f1_score": 0.8095238095238095
+      },
+      "Ignition System Malfunctions": {
+        "precision": 0.8461538461538461,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.88
+      },
+      "Cooling System Anomalies": {
+        "precision": 0.9166666666666666,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9166666666666666
+      },
+      "Brake System Defects": {
+        "precision": 0.7741935483870968,
+        "recall": 1.0,
+        "f1_score": 0.8727272727272727
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.875,
+        "f1_score": 0.9333333333333333
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.875,
+        "recall": 0.875,
+        "f1_score": 0.875
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-12/17:15:52",
+    "test_mode": "zero",
+    "model": "gemma3_1b_trained_108",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.8846153846153846,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.92
+      },
+      "Ignition System Malfunctions": {
+        "precision": 0.8214285714285714,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.8846153846153846
+      },
+      "Cooling System Anomalies": {
+        "precision": 0.9583333333333334,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9583333333333334
+      },
+      "Brake System Defects": {
+        "precision": 0.9230769230769231,
+        "recall": 1.0,
+        "f1_score": 0.96
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9787234042553191
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 1.0,
+        "recall": 0.7083333333333334,
+        "f1_score": 0.8292682926829268
+      }
+    },
+    "num_epochs": 6
+  },
+  {
+    "timestamp": "2025-08-12/17:19:18",
+    "test_mode": "zero",
+    "model": "gemma3_1b_trained_108",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.8846153846153846,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.92
+      },
+      "Ignition System Malfunctions": {
+        "precision": 0.8518518518518519,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9019607843137255
+      },
+      "Cooling System Anomalies": {
+        "precision": 0.9583333333333334,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9583333333333334
+      },
+      "Brake System Defects": {
+        "precision": 0.9230769230769231,
+        "recall": 1.0,
+        "f1_score": 0.96
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9787234042553191
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 1.0,
+        "recall": 0.75,
+        "f1_score": 0.8571428571428571
+      }
+    },
+    "num_epochs": 6
+  },
+  {
+    "timestamp": "2025-08-12/17:21:43",
+    "test_mode": "zero",
+    "model": "gemma3_1b_trained_108",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.8846153846153846,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.92
+      },
+      "Ignition System Malfunctions": {
+        "precision": 0.8518518518518519,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9019607843137255
+      },
+      "Cooling System Anomalies": {
+        "precision": 0.9583333333333334,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9583333333333334
+      },
+      "Brake System Defects": {
+        "precision": 0.9230769230769231,
+        "recall": 1.0,
+        "f1_score": 0.96
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9787234042553191
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 1.0,
+        "recall": 0.75,
+        "f1_score": 0.8571428571428571
+      }
+    },
+    "num_epochs": 6
+  },
+  {
+    "timestamp": "2025-08-12/17:23:46",
+    "test_mode": "zero",
+    "model": "gemma3_1b_trained_108",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.8846153846153846,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.92
+      },
+      "Ignition System Malfunctions": {
+        "precision": 0.8518518518518519,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9019607843137255
+      },
+      "Cooling System Anomalies": {
+        "precision": 0.9583333333333334,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9583333333333334
+      },
+      "Brake System Defects": {
+        "precision": 0.9230769230769231,
+        "recall": 1.0,
+        "f1_score": 0.96
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9787234042553191
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 1.0,
+        "recall": 0.75,
+        "f1_score": 0.8571428571428571
+      }
+    },
+    "num_epochs": 6
+  },
+  {
+    "timestamp": "2025-08-12/17:26:14",
+    "test_mode": "zero",
+    "model": "gemma3_1b_trained_108",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.8846153846153846,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.92
+      },
+      "Ignition System Malfunctions": {
+        "precision": 0.8518518518518519,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9019607843137255
+      },
+      "Cooling System Anomalies": {
+        "precision": 0.9583333333333334,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9583333333333334
+      },
+      "Brake System Defects": {
+        "precision": 0.9230769230769231,
+        "recall": 1.0,
+        "f1_score": 0.96
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9787234042553191
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 1.0,
+        "recall": 0.75,
+        "f1_score": 0.8571428571428571
+      }
+    },
+    "num_epochs": 6
+  },
+  {
+    "timestamp": "2025-08-12/17:29:20",
+    "test_mode": "zero",
+    "model": "gemma3_1b_trained_108",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.8846153846153846,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.92
+      },
+      "Ignition System Malfunctions": {
+        "precision": 0.8518518518518519,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9019607843137255
+      },
+      "Cooling System Anomalies": {
+        "precision": 0.9583333333333334,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9583333333333334
+      },
+      "Brake System Defects": {
+        "precision": 0.9230769230769231,
+        "recall": 1.0,
+        "f1_score": 0.96
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9787234042553191
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 1.0,
+        "recall": 0.75,
+        "f1_score": 0.8571428571428571
+      }
+    },
+    "num_epochs": 6
+  },
+  {
+    "timestamp": "2025-08-12/17:46:51",
+    "test_mode": "zero",
+    "model": "gemma3_1b_trained_108",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.9230769230769231,
+        "recall": 1.0,
+        "f1_score": 0.96
+      },
+      "Ignition System Malfunctions": {
+        "precision": 1.0,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9565217391304348
+      },
+      "Cooling System Anomalies": {
+        "precision": 0.96,
+        "recall": 1.0,
+        "f1_score": 0.9795918367346939
+      },
+      "Brake System Defects": {
+        "precision": 0.9230769230769231,
+        "recall": 1.0,
+        "f1_score": 0.96
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9787234042553191
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 1.0,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9565217391304348
+      }
+    },
+    "num_epochs": 6
+  },
+  {
+    "timestamp": "2025-08-12/17:49:40",
+    "test_mode": "zero",
+    "model": "gemma3_1b_trained_108",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.9230769230769231,
+        "recall": 1.0,
+        "f1_score": 0.96
+      },
+      "Ignition System Malfunctions": {
+        "precision": 1.0,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9565217391304348
+      },
+      "Cooling System Anomalies": {
+        "precision": 0.96,
+        "recall": 1.0,
+        "f1_score": 0.9795918367346939
+      },
+      "Brake System Defects": {
+        "precision": 0.9230769230769231,
+        "recall": 1.0,
+        "f1_score": 0.96
+      },
+      "Transmission Problems": {
+        "precision": 0.9583333333333334,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9583333333333334
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 1.0,
+        "recall": 0.875,
+        "f1_score": 0.9333333333333333
+      }
+    },
+    "num_epochs": 6
+  },
+  {
+    "timestamp": "2025-08-12/17:51:42",
+    "test_mode": "zero",
+    "model": "gemma3_1b_trained_108",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.9230769230769231,
+        "recall": 1.0,
+        "f1_score": 0.96
+      },
+      "Ignition System Malfunctions": {
+        "precision": 1.0,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9565217391304348
+      },
+      "Cooling System Anomalies": {
+        "precision": 0.96,
+        "recall": 1.0,
+        "f1_score": 0.9795918367346939
+      },
+      "Brake System Defects": {
+        "precision": 0.9230769230769231,
+        "recall": 1.0,
+        "f1_score": 0.96
+      },
+      "Transmission Problems": {
+        "precision": 0.9583333333333334,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9583333333333334
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 1.0,
+        "recall": 0.875,
+        "f1_score": 0.9333333333333333
+      }
+    },
+    "num_epochs": 6
+  },
+  {
+    "timestamp": "2025-08-12/17:53:49",
+    "test_mode": "zero",
+    "model": "gemma3_1b_trained_108",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.9230769230769231,
+        "recall": 1.0,
+        "f1_score": 0.96
+      },
+      "Ignition System Malfunctions": {
+        "precision": 1.0,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9565217391304348
+      },
+      "Cooling System Anomalies": {
+        "precision": 0.96,
+        "recall": 1.0,
+        "f1_score": 0.9795918367346939
+      },
+      "Brake System Defects": {
+        "precision": 0.9230769230769231,
+        "recall": 1.0,
+        "f1_score": 0.96
+      },
+      "Transmission Problems": {
+        "precision": 0.9583333333333334,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9583333333333334
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 1.0,
+        "recall": 0.875,
+        "f1_score": 0.9333333333333333
+      }
+    },
+    "num_epochs": 6
+  },
+  {
+    "timestamp": "2025-08-12/18:04:16",
+    "test_mode": "zero",
+    "model": "gemma3_1b_trained_108",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.8275862068965517,
+        "recall": 1.0,
+        "f1_score": 0.9056603773584906
+      },
+      "Ignition System Malfunctions": {
+        "precision": 1.0,
+        "recall": 0.875,
+        "f1_score": 0.9333333333333333
+      },
+      "Cooling System Anomalies": {
+        "precision": 0.9565217391304348,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9361702127659575
+      },
+      "Brake System Defects": {
+        "precision": 0.9230769230769231,
+        "recall": 1.0,
+        "f1_score": 0.96
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9787234042553191
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.9545454545454546,
+        "recall": 0.875,
+        "f1_score": 0.9130434782608695
+      }
+    },
+    "num_epochs": 6
+  },
+  {
+    "timestamp": "2025-08-12/18:06:25",
+    "test_mode": "zero",
+    "model": "gemma3_1b_trained_108",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.8275862068965517,
+        "recall": 1.0,
+        "f1_score": 0.9056603773584906
+      },
+      "Ignition System Malfunctions": {
+        "precision": 1.0,
+        "recall": 0.875,
+        "f1_score": 0.9333333333333333
+      },
+      "Cooling System Anomalies": {
+        "precision": 0.9565217391304348,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9361702127659575
+      },
+      "Brake System Defects": {
+        "precision": 0.9230769230769231,
+        "recall": 1.0,
+        "f1_score": 0.96
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9787234042553191
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.9545454545454546,
+        "recall": 0.875,
+        "f1_score": 0.9130434782608695
+      }
+    },
+    "num_epochs": 6
+  },
+  {
+    "timestamp": "2025-08-12/18:15:30",
+    "test_mode": "zero",
+    "model": "gemma3_1b_trained_108",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.8275862068965517,
+        "recall": 1.0,
+        "f1_score": 0.9056603773584906
+      },
+      "Ignition System Malfunctions": {
+        "precision": 1.0,
+        "recall": 0.875,
+        "f1_score": 0.9333333333333333
+      },
+      "Cooling System Anomalies": {
+        "precision": 0.9565217391304348,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9361702127659575
+      },
+      "Brake System Defects": {
+        "precision": 0.9230769230769231,
+        "recall": 1.0,
+        "f1_score": 0.96
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9787234042553191
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.9545454545454546,
+        "recall": 0.875,
+        "f1_score": 0.9130434782608695
+      }
+    },
+    "num_epochs": 6
+  },
+  {
+    "timestamp": "2025-08-12/18:17:38",
+    "test_mode": "zero",
+    "model": "gemma3_1b_trained_108",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.8275862068965517,
+        "recall": 1.0,
+        "f1_score": 0.9056603773584906
+      },
+      "Ignition System Malfunctions": {
+        "precision": 1.0,
+        "recall": 0.875,
+        "f1_score": 0.9333333333333333
+      },
+      "Cooling System Anomalies": {
+        "precision": 0.9565217391304348,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9361702127659575
+      },
+      "Brake System Defects": {
+        "precision": 0.9230769230769231,
+        "recall": 1.0,
+        "f1_score": 0.96
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9787234042553191
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.9545454545454546,
+        "recall": 0.875,
+        "f1_score": 0.9130434782608695
+      }
+    },
+    "num_epochs": 6
+  },
+  {
+    "timestamp": "2025-08-12/18:23:53",
+    "test_mode": "zero",
+    "model": "gemma3_1b_trained_108",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.8275862068965517,
+        "recall": 1.0,
+        "f1_score": 0.9056603773584906
+      },
+      "Ignition System Malfunctions": {
+        "precision": 1.0,
+        "recall": 0.875,
+        "f1_score": 0.9333333333333333
+      },
+      "Cooling System Anomalies": {
+        "precision": 0.9565217391304348,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9361702127659575
+      },
+      "Brake System Defects": {
+        "precision": 0.9230769230769231,
+        "recall": 1.0,
+        "f1_score": 0.96
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9787234042553191
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.9545454545454546,
+        "recall": 0.875,
+        "f1_score": 0.9130434782608695
+      }
+    },
+    "num_epochs": 6
+  },
+  {
+    "timestamp": "2025-08-12/18:30:11",
+    "test_mode": "zero",
+    "model": "gemma3_1b_trained_108",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.8275862068965517,
+        "recall": 1.0,
+        "f1_score": 0.9056603773584906
+      },
+      "Ignition System Malfunctions": {
+        "precision": 1.0,
+        "recall": 0.875,
+        "f1_score": 0.9333333333333333
+      },
+      "Cooling System Anomalies": {
+        "precision": 0.9565217391304348,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9361702127659575
+      },
+      "Brake System Defects": {
+        "precision": 0.9230769230769231,
+        "recall": 1.0,
+        "f1_score": 0.96
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9787234042553191
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.9545454545454546,
+        "recall": 0.875,
+        "f1_score": 0.9130434782608695
+      }
+    },
+    "num_epochs": 6
+  },
+  {
+    "timestamp": "2025-08-12/18:32:17",
+    "test_mode": "zero",
+    "model": "gemma3_1b",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.9444444444444444,
+        "recall": 0.7083333333333334,
+        "f1_score": 0.8095238095238095
+      },
+      "Ignition System Malfunctions": {
+        "precision": 0.8461538461538461,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.88
+      },
+      "Cooling System Anomalies": {
+        "precision": 0.9166666666666666,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9166666666666666
+      },
+      "Brake System Defects": {
+        "precision": 0.7741935483870968,
+        "recall": 1.0,
+        "f1_score": 0.8727272727272727
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.875,
+        "f1_score": 0.9333333333333333
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.875,
+        "recall": 0.875,
+        "f1_score": 0.875
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-12/18:33:56",
+    "test_mode": "zero",
+    "model": "gemma3_1b",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.9444444444444444,
+        "recall": 0.7083333333333334,
+        "f1_score": 0.8095238095238095
+      },
+      "Ignition System Malfunctions": {
+        "precision": 0.8461538461538461,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.88
+      },
+      "Cooling System Anomalies": {
+        "precision": 0.9166666666666666,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9166666666666666
+      },
+      "Brake System Defects": {
+        "precision": 0.7741935483870968,
+        "recall": 1.0,
+        "f1_score": 0.8727272727272727
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.875,
+        "f1_score": 0.9333333333333333
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.875,
+        "recall": 0.875,
+        "f1_score": 0.875
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-12/18:41:47",
+    "test_mode": "zero",
+    "model": "gemma2",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.9166666666666666,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9166666666666666
+      },
+      "Ignition System Malfunctions": {
+        "precision": 1.0,
+        "recall": 0.5833333333333334,
+        "f1_score": 0.7368421052631579
+      },
+      "Cooling System Anomalies": {
+        "precision": 0.96,
+        "recall": 1.0,
+        "f1_score": 0.9795918367346939
+      },
+      "Brake System Defects": {
+        "precision": 0.96,
+        "recall": 1.0,
+        "f1_score": 0.9795918367346939
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.65625,
+        "recall": 0.875,
+        "f1_score": 0.75
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-12/18:43:28",
+    "test_mode": "zero",
+    "model": "gemma3_1b",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.9444444444444444,
+        "recall": 0.7083333333333334,
+        "f1_score": 0.8095238095238095
+      },
+      "Ignition System Malfunctions": {
+        "precision": 0.8461538461538461,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.88
+      },
+      "Cooling System Anomalies": {
+        "precision": 0.9166666666666666,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9166666666666666
+      },
+      "Brake System Defects": {
+        "precision": 0.7741935483870968,
+        "recall": 1.0,
+        "f1_score": 0.8727272727272727
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.875,
+        "f1_score": 0.9333333333333333
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.875,
+        "recall": 0.875,
+        "f1_score": 0.875
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-12/18:52:11",
+    "test_mode": "zero",
+    "model": "gemma3n_e2b_it",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.9583333333333334,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9583333333333334
+      },
+      "Ignition System Malfunctions": {
+        "precision": 1.0,
+        "recall": 0.625,
+        "f1_score": 0.7692307692307693
+      },
+      "Cooling System Anomalies": {
+        "precision": 1.0,
+        "recall": 0.875,
+        "f1_score": 0.9333333333333333
+      },
+      "Brake System Defects": {
+        "precision": 1.0,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9787234042553191
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9565217391304348
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.6153846153846154,
+        "recall": 1.0,
+        "f1_score": 0.7619047619047619
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-12/18:56:53",
+    "test_mode": "few",
+    "model": "gemma2",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.9166666666666666,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9166666666666666
+      },
+      "Ignition System Malfunctions": {
+        "precision": 1.0,
+        "recall": 0.5833333333333334,
+        "f1_score": 0.7368421052631579
+      },
+      "Cooling System Anomalies": {
+        "precision": 1.0,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9787234042553191
+      },
+      "Brake System Defects": {
+        "precision": 0.9583333333333334,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9583333333333334
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.6285714285714286,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.7457627118644068
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-12/18:58:27",
+    "test_mode": "few",
+    "model": "gemma3_1b",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.9130434782608695,
+        "recall": 0.875,
+        "f1_score": 0.8936170212765957
+      },
+      "Ignition System Malfunctions": {
+        "precision": 0.8518518518518519,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9019607843137255
+      },
+      "Cooling System Anomalies": {
+        "precision": 0.9565217391304348,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9361702127659575
+      },
+      "Brake System Defects": {
+        "precision": 0.8275862068965517,
+        "recall": 1.0,
+        "f1_score": 0.9056603773584906
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.875,
+        "f1_score": 0.9333333333333333
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.9523809523809523,
+        "recall": 0.8333333333333334,
+        "f1_score": 0.8888888888888888
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-12/19:05:30",
+    "test_mode": "few",
+    "model": "gemma3n_e2b_it",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.9545454545454546,
+        "recall": 0.875,
+        "f1_score": 0.9130434782608695
+      },
+      "Ignition System Malfunctions": {
+        "precision": 1.0,
+        "recall": 0.625,
+        "f1_score": 0.7692307692307693
+      },
+      "Cooling System Anomalies": {
+        "precision": 1.0,
+        "recall": 0.75,
+        "f1_score": 0.8571428571428571
+      },
+      "Brake System Defects": {
+        "precision": 1.0,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9787234042553191
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9565217391304348
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.5454545454545454,
+        "recall": 1.0,
+        "f1_score": 0.7058823529411765
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-12/19:21:18",
+    "test_mode": "def",
+    "model": "gemma2",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.8888888888888888,
+        "recall": 1.0,
+        "f1_score": 0.9411764705882353
+      },
+      "Ignition System Malfunctions": {
+        "precision": 0.9523809523809523,
+        "recall": 0.8333333333333334,
+        "f1_score": 0.8888888888888888
+      },
+      "Cooling System Anomalies": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "Brake System Defects": {
+        "precision": 0.96,
+        "recall": 1.0,
+        "f1_score": 0.9795918367346939
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.9130434782608695,
+        "recall": 0.875,
+        "f1_score": 0.8936170212765957
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-12/19:22:50",
+    "test_mode": "def",
+    "model": "gemma3_1b",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.5853658536585366,
+        "recall": 1.0,
+        "f1_score": 0.7384615384615385
+      },
+      "Ignition System Malfunctions": {
+        "precision": 0.9411764705882353,
+        "recall": 0.6666666666666666,
+        "f1_score": 0.7804878048780488
+      },
+      "Cooling System Anomalies": {
+        "precision": 0.9375,
+        "recall": 0.625,
+        "f1_score": 0.75
+      },
+      "Brake System Defects": {
+        "precision": 0.8888888888888888,
+        "recall": 1.0,
+        "f1_score": 0.9411764705882353
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9565217391304348
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.9523809523809523,
+        "recall": 0.8333333333333334,
+        "f1_score": 0.8888888888888888
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-12/19:29:37",
+    "test_mode": "def",
+    "model": "gemma3n_e2b_it",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.9565217391304348,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9361702127659575
+      },
+      "Ignition System Malfunctions": {
+        "precision": 1.0,
+        "recall": 0.625,
+        "f1_score": 0.7692307692307693
+      },
+      "Cooling System Anomalies": {
+        "precision": 1.0,
+        "recall": 0.7916666666666666,
+        "f1_score": 0.8837209302325582
+      },
+      "Brake System Defects": {
+        "precision": 1.0,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9787234042553191
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9565217391304348
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.5714285714285714,
+        "recall": 1.0,
+        "f1_score": 0.7272727272727273
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-12/19:32:00",
+    "test_mode": "def-few",
+    "model": "gemma2",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.8888888888888888,
+        "recall": 1.0,
+        "f1_score": 0.9411764705882353
+      },
+      "Ignition System Malfunctions": {
+        "precision": 0.9545454545454546,
+        "recall": 0.875,
+        "f1_score": 0.9130434782608695
+      },
+      "Cooling System Anomalies": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "Brake System Defects": {
+        "precision": 0.96,
+        "recall": 1.0,
+        "f1_score": 0.9795918367346939
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9787234042553191
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.9545454545454546,
+        "recall": 0.875,
+        "f1_score": 0.9130434782608695
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-12/19:33:42",
+    "test_mode": "def-few",
+    "model": "gemma3_1b",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.6,
+        "recall": 1.0,
+        "f1_score": 0.75
+      },
+      "Ignition System Malfunctions": {
+        "precision": 0.9523809523809523,
+        "recall": 0.8333333333333334,
+        "f1_score": 0.8888888888888888
+      },
+      "Cooling System Anomalies": {
+        "precision": 0.9230769230769231,
+        "recall": 0.5,
+        "f1_score": 0.6486486486486487
+      },
+      "Brake System Defects": {
+        "precision": 0.9230769230769231,
+        "recall": 1.0,
+        "f1_score": 0.96
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.8333333333333334,
+        "f1_score": 0.9090909090909091
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.8333333333333334,
+        "recall": 0.8333333333333334,
+        "f1_score": 0.8333333333333334
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-12/19:41:10",
+    "test_mode": "def-few",
+    "model": "gemma3n_e2b_it",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.9583333333333334,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9583333333333334
+      },
+      "Ignition System Malfunctions": {
+        "precision": 1.0,
+        "recall": 0.625,
+        "f1_score": 0.7692307692307693
+      },
+      "Cooling System Anomalies": {
+        "precision": 1.0,
+        "recall": 0.7083333333333334,
+        "f1_score": 0.8292682926829268
+      },
+      "Brake System Defects": {
+        "precision": 1.0,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9565217391304348
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9565217391304348
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.5454545454545454,
+        "recall": 1.0,
+        "f1_score": 0.7058823529411765
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-12/21:44:27",
+    "test_mode": "def",
+    "model": "gemma3_1b",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.5853658536585366,
+        "recall": 1.0,
+        "f1_score": 0.7384615384615385
+      },
+      "Ignition System Malfunctions": {
+        "precision": 0.9411764705882353,
+        "recall": 0.6666666666666666,
+        "f1_score": 0.7804878048780488
+      },
+      "Cooling System Anomalies": {
+        "precision": 0.9375,
+        "recall": 0.625,
+        "f1_score": 0.75
+      },
+      "Brake System Defects": {
+        "precision": 0.8888888888888888,
+        "recall": 1.0,
+        "f1_score": 0.9411764705882353
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9565217391304348
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.9523809523809523,
+        "recall": 0.8333333333333334,
+        "f1_score": 0.8888888888888888
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-12/21:47:23",
+    "test_mode": "def",
+    "model": "gemma3_1b",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.4444444444444444,
+        "recall": 1.0,
+        "f1_score": 0.6153846153846154
+      },
+      "Ignition System Malfunctions": {
+        "precision": 0.8888888888888888,
+        "recall": 0.3333333333333333,
+        "f1_score": 0.48484848484848486
+      },
+      "Cooling System Anomalies": {
+        "precision": 0.9,
+        "recall": 0.375,
+        "f1_score": 0.5294117647058824
+      },
+      "Brake System Defects": {
+        "precision": 0.9230769230769231,
+        "recall": 1.0,
+        "f1_score": 0.96
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9787234042553191
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.9090909090909091,
+        "recall": 0.8333333333333334,
+        "f1_score": 0.8695652173913043
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-12/21:49:35",
+    "test_mode": "def",
+    "model": "gemma3_1b",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.6,
+        "recall": 1.0,
+        "f1_score": 0.75
+      },
+      "Ignition System Malfunctions": {
+        "precision": 0.9444444444444444,
+        "recall": 0.7083333333333334,
+        "f1_score": 0.8095238095238095
+      },
+      "Cooling System Anomalies": {
+        "precision": 0.9375,
+        "recall": 0.625,
+        "f1_score": 0.75
+      },
+      "Brake System Defects": {
+        "precision": 0.9230769230769231,
+        "recall": 1.0,
+        "f1_score": 0.96
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9787234042553191
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.9523809523809523,
+        "recall": 0.8333333333333334,
+        "f1_score": 0.8888888888888888
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-12/21:52:04",
+    "test_mode": "def-few",
+    "model": "gemma3_1b",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.5454545454545454,
+        "recall": 1.0,
+        "f1_score": 0.7058823529411765
+      },
+      "Ignition System Malfunctions": {
+        "precision": 0.9090909090909091,
+        "recall": 0.8333333333333334,
+        "f1_score": 0.8695652173913043
+      },
+      "Cooling System Anomalies": {
+        "precision": 0.9090909090909091,
+        "recall": 0.4166666666666667,
+        "f1_score": 0.5714285714285714
+      },
+      "Brake System Defects": {
+        "precision": 0.9230769230769231,
+        "recall": 1.0,
+        "f1_score": 0.96
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.7916666666666666,
+        "f1_score": 0.8837209302325582
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.9090909090909091,
+        "recall": 0.8333333333333334,
+        "f1_score": 0.8695652173913043
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-12/21:53:45",
+    "test_mode": "def-few",
+    "model": "gemma3_1b",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.5454545454545454,
+        "recall": 1.0,
+        "f1_score": 0.7058823529411765
+      },
+      "Ignition System Malfunctions": {
+        "precision": 0.9090909090909091,
+        "recall": 0.8333333333333334,
+        "f1_score": 0.8695652173913043
+      },
+      "Cooling System Anomalies": {
+        "precision": 0.9090909090909091,
+        "recall": 0.4166666666666667,
+        "f1_score": 0.5714285714285714
+      },
+      "Brake System Defects": {
+        "precision": 0.9230769230769231,
+        "recall": 1.0,
+        "f1_score": 0.96
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.7916666666666666,
+        "f1_score": 0.8837209302325582
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.9090909090909091,
+        "recall": 0.8333333333333334,
+        "f1_score": 0.8695652173913043
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-12/21:56:20",
+    "test_mode": "def-few",
+    "model": "gemma3_1b",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.5714285714285714,
+        "recall": 1.0,
+        "f1_score": 0.7272727272727273
+      },
+      "Ignition System Malfunctions": {
+        "precision": 1.0,
+        "recall": 0.5,
+        "f1_score": 0.6666666666666666
+      },
+      "Cooling System Anomalies": {
+        "precision": 0.9230769230769231,
+        "recall": 0.5,
+        "f1_score": 0.6486486486486487
+      },
+      "Brake System Defects": {
+        "precision": 0.9230769230769231,
+        "recall": 1.0,
+        "f1_score": 0.96
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.875,
+        "f1_score": 0.9333333333333333
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.8076923076923077,
+        "recall": 0.875,
+        "f1_score": 0.84
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-12/21:59:19",
+    "test_mode": "def-few",
+    "model": "gemma3_1b",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.6,
+        "recall": 1.0,
+        "f1_score": 0.75
+      },
+      "Ignition System Malfunctions": {
+        "precision": 0.9523809523809523,
+        "recall": 0.8333333333333334,
+        "f1_score": 0.8888888888888888
+      },
+      "Cooling System Anomalies": {
+        "precision": 0.9230769230769231,
+        "recall": 0.5,
+        "f1_score": 0.6486486486486487
+      },
+      "Brake System Defects": {
+        "precision": 0.9230769230769231,
+        "recall": 1.0,
+        "f1_score": 0.96
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.8333333333333334,
+        "f1_score": 0.9090909090909091
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.8333333333333334,
+        "recall": 0.8333333333333334,
+        "f1_score": 0.8333333333333334
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-12/22:16:02",
+    "test_mode": "def",
+    "model": "gemma2",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.8888888888888888,
+        "recall": 1.0,
+        "f1_score": 0.9411764705882353
+      },
+      "Ignition System Malfunctions": {
+        "precision": 0.9523809523809523,
+        "recall": 0.8333333333333334,
+        "f1_score": 0.8888888888888888
+      },
+      "Cooling System Anomalies": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "Brake System Defects": {
+        "precision": 0.96,
+        "recall": 1.0,
+        "f1_score": 0.9795918367346939
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.9130434782608695,
+        "recall": 0.875,
+        "f1_score": 0.8936170212765957
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-12/22:17:39",
+    "test_mode": "def",
+    "model": "gemma3_1b",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.5853658536585366,
+        "recall": 1.0,
+        "f1_score": 0.7384615384615385
+      },
+      "Ignition System Malfunctions": {
+        "precision": 0.9411764705882353,
+        "recall": 0.6666666666666666,
+        "f1_score": 0.7804878048780488
+      },
+      "Cooling System Anomalies": {
+        "precision": 0.9375,
+        "recall": 0.625,
+        "f1_score": 0.75
+      },
+      "Brake System Defects": {
+        "precision": 0.8888888888888888,
+        "recall": 1.0,
+        "f1_score": 0.9411764705882353
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9565217391304348
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.9523809523809523,
+        "recall": 0.8333333333333334,
+        "f1_score": 0.8888888888888888
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-12/22:20:53",
+    "test_mode": "def",
+    "model": "gemma3n_e2b_it",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.9565217391304348,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9361702127659575
+      },
+      "Ignition System Malfunctions": {
+        "precision": 1.0,
+        "recall": 0.625,
+        "f1_score": 0.7692307692307693
+      },
+      "Cooling System Anomalies": {
+        "precision": 1.0,
+        "recall": 0.7916666666666666,
+        "f1_score": 0.8837209302325582
+      },
+      "Brake System Defects": {
+        "precision": 1.0,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9787234042553191
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9565217391304348
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.5714285714285714,
+        "recall": 1.0,
+        "f1_score": 0.7272727272727273
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-12/22:25:12",
+    "test_mode": "def-few",
+    "model": "gemma3_1b",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.6,
+        "recall": 1.0,
+        "f1_score": 0.75
+      },
+      "Ignition System Malfunctions": {
+        "precision": 0.9523809523809523,
+        "recall": 0.8333333333333334,
+        "f1_score": 0.8888888888888888
+      },
+      "Cooling System Anomalies": {
+        "precision": 0.9230769230769231,
+        "recall": 0.5,
+        "f1_score": 0.6486486486486487
+      },
+      "Brake System Defects": {
+        "precision": 0.9230769230769231,
+        "recall": 1.0,
+        "f1_score": 0.96
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.8333333333333334,
+        "f1_score": 0.9090909090909091
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.8333333333333334,
+        "recall": 0.8333333333333334,
+        "f1_score": 0.8333333333333334
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-12/22:28:24",
+    "test_mode": "def-few",
+    "model": "gemma3n_e2b_it",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.9583333333333334,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9583333333333334
+      },
+      "Ignition System Malfunctions": {
+        "precision": 1.0,
+        "recall": 0.625,
+        "f1_score": 0.7692307692307693
+      },
+      "Cooling System Anomalies": {
+        "precision": 1.0,
+        "recall": 0.7083333333333334,
+        "f1_score": 0.8292682926829268
+      },
+      "Brake System Defects": {
+        "precision": 1.0,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9565217391304348
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9565217391304348
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.5454545454545454,
+        "recall": 1.0,
+        "f1_score": 0.7058823529411765
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-12/23:12:51",
+    "test_mode": "zero",
+    "model": "gemma3_1b",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.9444444444444444,
+        "recall": 0.7083333333333334,
+        "f1_score": 0.8095238095238095
+      },
+      "Ignition System Malfunctions": {
+        "precision": 0.8461538461538461,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.88
+      },
+      "Cooling System Anomalies": {
+        "precision": 0.9166666666666666,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9166666666666666
+      },
+      "Brake System Defects": {
+        "precision": 0.7741935483870968,
+        "recall": 1.0,
+        "f1_score": 0.8727272727272727
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.875,
+        "f1_score": 0.9333333333333333
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.875,
+        "recall": 0.875,
+        "f1_score": 0.875
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-12/23:18:02",
+    "test_mode": "zero",
+    "model": "gemma3_1b",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.9444444444444444,
+        "recall": 0.7083333333333334,
+        "f1_score": 0.8095238095238095
+      },
+      "Ignition System Malfunctions": {
+        "precision": 0.8461538461538461,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.88
+      },
+      "Cooling System Anomalies": {
+        "precision": 0.9166666666666666,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9166666666666666
+      },
+      "Brake System Defects": {
+        "precision": 0.7741935483870968,
+        "recall": 1.0,
+        "f1_score": 0.8727272727272727
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.875,
+        "f1_score": 0.9333333333333333
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.875,
+        "recall": 0.875,
+        "f1_score": 0.875
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-12/23:21:34",
+    "test_mode": "zero",
+    "model": "gemma3_1b",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.9444444444444444,
+        "recall": 0.7083333333333334,
+        "f1_score": 0.8095238095238095
+      },
+      "Ignition System Malfunctions": {
+        "precision": 0.8461538461538461,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.88
+      },
+      "Cooling System Anomalies": {
+        "precision": 0.9166666666666666,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9166666666666666
+      },
+      "Brake System Defects": {
+        "precision": 0.7741935483870968,
+        "recall": 1.0,
+        "f1_score": 0.8727272727272727
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.875,
+        "f1_score": 0.9333333333333333
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.875,
+        "recall": 0.875,
+        "f1_score": 0.875
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-12/23:23:38",
+    "test_mode": "zero",
+    "model": "gemma3_1b",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.9444444444444444,
+        "recall": 0.7083333333333334,
+        "f1_score": 0.8095238095238095
+      },
+      "Ignition System Malfunctions": {
+        "precision": 0.8461538461538461,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.88
+      },
+      "Cooling System Anomalies": {
+        "precision": 0.9166666666666666,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9166666666666666
+      },
+      "Brake System Defects": {
+        "precision": 0.7741935483870968,
+        "recall": 1.0,
+        "f1_score": 0.8727272727272727
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.875,
+        "f1_score": 0.9333333333333333
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.875,
+        "recall": 0.875,
+        "f1_score": 0.875
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-12/23:28:52",
+    "test_mode": "zero",
+    "model": "gemma2",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.9166666666666666,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9166666666666666
+      },
+      "Ignition System Malfunctions": {
+        "precision": 1.0,
+        "recall": 0.5833333333333334,
+        "f1_score": 0.7368421052631579
+      },
+      "Cooling System Anomalies": {
+        "precision": 0.96,
+        "recall": 1.0,
+        "f1_score": 0.9795918367346939
+      },
+      "Brake System Defects": {
+        "precision": 0.96,
+        "recall": 1.0,
+        "f1_score": 0.9795918367346939
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.65625,
+        "recall": 0.875,
+        "f1_score": 0.75
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-12/23:30:35",
+    "test_mode": "zero",
+    "model": "gemma3_1b",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.9444444444444444,
+        "recall": 0.7083333333333334,
+        "f1_score": 0.8095238095238095
+      },
+      "Ignition System Malfunctions": {
+        "precision": 0.8461538461538461,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.88
+      },
+      "Cooling System Anomalies": {
+        "precision": 0.9166666666666666,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9166666666666666
+      },
+      "Brake System Defects": {
+        "precision": 0.7741935483870968,
+        "recall": 1.0,
+        "f1_score": 0.8727272727272727
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.875,
+        "f1_score": 0.9333333333333333
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.875,
+        "recall": 0.875,
+        "f1_score": 0.875
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-12/23:33:39",
+    "test_mode": "zero",
+    "model": "gemma3n_e2b_it",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.9583333333333334,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9583333333333334
+      },
+      "Ignition System Malfunctions": {
+        "precision": 1.0,
+        "recall": 0.625,
+        "f1_score": 0.7692307692307693
+      },
+      "Cooling System Anomalies": {
+        "precision": 1.0,
+        "recall": 0.875,
+        "f1_score": 0.9333333333333333
+      },
+      "Brake System Defects": {
+        "precision": 1.0,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9787234042553191
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9565217391304348
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.6153846153846154,
+        "recall": 1.0,
+        "f1_score": 0.7619047619047619
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-12/23:35:48",
+    "test_mode": "few",
+    "model": "gemma2",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.9166666666666666,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9166666666666666
+      },
+      "Ignition System Malfunctions": {
+        "precision": 1.0,
+        "recall": 0.5833333333333334,
+        "f1_score": 0.7368421052631579
+      },
+      "Cooling System Anomalies": {
+        "precision": 1.0,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9787234042553191
+      },
+      "Brake System Defects": {
+        "precision": 0.9583333333333334,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9583333333333334
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.6285714285714286,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.7457627118644068
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-12/23:37:26",
+    "test_mode": "few",
+    "model": "gemma3_1b",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.9130434782608695,
+        "recall": 0.875,
+        "f1_score": 0.8936170212765957
+      },
+      "Ignition System Malfunctions": {
+        "precision": 0.8518518518518519,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9019607843137255
+      },
+      "Cooling System Anomalies": {
+        "precision": 0.9565217391304348,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9361702127659575
+      },
+      "Brake System Defects": {
+        "precision": 0.8275862068965517,
+        "recall": 1.0,
+        "f1_score": 0.9056603773584906
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.875,
+        "f1_score": 0.9333333333333333
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.9523809523809523,
+        "recall": 0.8333333333333334,
+        "f1_score": 0.8888888888888888
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-12/23:40:30",
+    "test_mode": "few",
+    "model": "gemma3n_e2b_it",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.9545454545454546,
+        "recall": 0.875,
+        "f1_score": 0.9130434782608695
+      },
+      "Ignition System Malfunctions": {
+        "precision": 1.0,
+        "recall": 0.625,
+        "f1_score": 0.7692307692307693
+      },
+      "Cooling System Anomalies": {
+        "precision": 1.0,
+        "recall": 0.75,
+        "f1_score": 0.8571428571428571
+      },
+      "Brake System Defects": {
+        "precision": 1.0,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9787234042553191
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9565217391304348
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.5454545454545454,
+        "recall": 1.0,
+        "f1_score": 0.7058823529411765
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-12/23:42:47",
+    "test_mode": "def",
+    "model": "gemma2",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.8888888888888888,
+        "recall": 1.0,
+        "f1_score": 0.9411764705882353
+      },
+      "Ignition System Malfunctions": {
+        "precision": 0.9523809523809523,
+        "recall": 0.8333333333333334,
+        "f1_score": 0.8888888888888888
+      },
+      "Cooling System Anomalies": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "Brake System Defects": {
+        "precision": 0.96,
+        "recall": 1.0,
+        "f1_score": 0.9795918367346939
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.9130434782608695,
+        "recall": 0.875,
+        "f1_score": 0.8936170212765957
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-12/23:44:21",
+    "test_mode": "def",
+    "model": "gemma3_1b",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.5853658536585366,
+        "recall": 1.0,
+        "f1_score": 0.7384615384615385
+      },
+      "Ignition System Malfunctions": {
+        "precision": 0.9411764705882353,
+        "recall": 0.6666666666666666,
+        "f1_score": 0.7804878048780488
+      },
+      "Cooling System Anomalies": {
+        "precision": 0.9375,
+        "recall": 0.625,
+        "f1_score": 0.75
+      },
+      "Brake System Defects": {
+        "precision": 0.8888888888888888,
+        "recall": 1.0,
+        "f1_score": 0.9411764705882353
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9565217391304348
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.9523809523809523,
+        "recall": 0.8333333333333334,
+        "f1_score": 0.8888888888888888
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-12/23:47:27",
+    "test_mode": "def",
+    "model": "gemma3n_e2b_it",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.9565217391304348,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9361702127659575
+      },
+      "Ignition System Malfunctions": {
+        "precision": 1.0,
+        "recall": 0.625,
+        "f1_score": 0.7692307692307693
+      },
+      "Cooling System Anomalies": {
+        "precision": 1.0,
+        "recall": 0.7916666666666666,
+        "f1_score": 0.8837209302325582
+      },
+      "Brake System Defects": {
+        "precision": 1.0,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9787234042553191
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9565217391304348
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.5714285714285714,
+        "recall": 1.0,
+        "f1_score": 0.7272727272727273
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-12/23:49:50",
+    "test_mode": "def-few",
+    "model": "gemma2",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.8888888888888888,
+        "recall": 1.0,
+        "f1_score": 0.9411764705882353
+      },
+      "Ignition System Malfunctions": {
+        "precision": 0.9545454545454546,
+        "recall": 0.875,
+        "f1_score": 0.9130434782608695
+      },
+      "Cooling System Anomalies": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "Brake System Defects": {
+        "precision": 0.96,
+        "recall": 1.0,
+        "f1_score": 0.9795918367346939
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9787234042553191
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.9545454545454546,
+        "recall": 0.875,
+        "f1_score": 0.9130434782608695
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-12/23:51:35",
+    "test_mode": "def-few",
+    "model": "gemma3_1b",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.6,
+        "recall": 1.0,
+        "f1_score": 0.75
+      },
+      "Ignition System Malfunctions": {
+        "precision": 0.9523809523809523,
+        "recall": 0.8333333333333334,
+        "f1_score": 0.8888888888888888
+      },
+      "Cooling System Anomalies": {
+        "precision": 0.9230769230769231,
+        "recall": 0.5,
+        "f1_score": 0.6486486486486487
+      },
+      "Brake System Defects": {
+        "precision": 0.9230769230769231,
+        "recall": 1.0,
+        "f1_score": 0.96
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.8333333333333334,
+        "f1_score": 0.9090909090909091
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.8333333333333334,
+        "recall": 0.8333333333333334,
+        "f1_score": 0.8333333333333334
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-12/23:54:37",
+    "test_mode": "def-few",
+    "model": "gemma3n_e2b_it",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.9583333333333334,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9583333333333334
+      },
+      "Ignition System Malfunctions": {
+        "precision": 1.0,
+        "recall": 0.625,
+        "f1_score": 0.7692307692307693
+      },
+      "Cooling System Anomalies": {
+        "precision": 1.0,
+        "recall": 0.7083333333333334,
+        "f1_score": 0.8292682926829268
+      },
+      "Brake System Defects": {
+        "precision": 1.0,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9565217391304348
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9565217391304348
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.5454545454545454,
+        "recall": 1.0,
+        "f1_score": 0.7058823529411765
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-13/10:08:13",
+    "test_mode": "paraph",
+    "model": "gemma2",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.9166666666666666,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9166666666666666
+      },
+      "Ignition System Malfunctions": {
+        "precision": 1.0,
+        "recall": 0.5833333333333334,
+        "f1_score": 0.7368421052631579
+      },
+      "Cooling System Anomalies": {
+        "precision": 0.9230769230769231,
+        "recall": 1.0,
+        "f1_score": 0.96
+      },
+      "Brake System Defects": {
+        "precision": 0.96,
+        "recall": 1.0,
+        "f1_score": 0.9795918367346939
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9787234042553191
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.65625,
+        "recall": 0.875,
+        "f1_score": 0.75
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-13/10:22:50",
+    "test_mode": "paraph",
+    "model": "gemma3_1b",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.9444444444444444,
+        "recall": 0.7083333333333334,
+        "f1_score": 0.8095238095238095
+      },
+      "Ignition System Malfunctions": {
+        "precision": 0.84,
+        "recall": 0.875,
+        "f1_score": 0.8571428571428571
+      },
+      "Cooling System Anomalies": {
+        "precision": 0.88,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.8979591836734694
+      },
+      "Brake System Defects": {
+        "precision": 0.7741935483870968,
+        "recall": 1.0,
+        "f1_score": 0.8727272727272727
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.875,
+        "f1_score": 0.9333333333333333
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.875,
+        "recall": 0.875,
+        "f1_score": 0.875
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-13/10:43:09",
+    "test_mode": "paraph",
+    "model": "gemma3n_e2b_it",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.9565217391304348,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9361702127659575
+      },
+      "Ignition System Malfunctions": {
+        "precision": 1.0,
+        "recall": 0.625,
+        "f1_score": 0.7692307692307693
+      },
+      "Cooling System Anomalies": {
+        "precision": 1.0,
+        "recall": 0.875,
+        "f1_score": 0.9333333333333333
+      },
+      "Brake System Defects": {
+        "precision": 1.0,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9787234042553191
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9565217391304348
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.6,
+        "recall": 1.0,
+        "f1_score": 0.75
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-13/11:07:35",
+    "test_mode": "paraph",
+    "model": "gemma2",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.9166666666666666,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9166666666666666
+      },
+      "Ignition System Malfunctions": {
+        "precision": 1.0,
+        "recall": 0.5833333333333334,
+        "f1_score": 0.7368421052631579
+      },
+      "Cooling System Anomalies": {
+        "precision": 0.9230769230769231,
+        "recall": 1.0,
+        "f1_score": 0.96
+      },
+      "Brake System Defects": {
+        "precision": 0.96,
+        "recall": 1.0,
+        "f1_score": 0.9795918367346939
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9787234042553191
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.65625,
+        "recall": 0.875,
+        "f1_score": 0.75
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-13/11:33:29",
+    "test_mode": "paraph",
+    "model": "gemma2",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.9166666666666666,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9166666666666666
+      },
+      "Ignition System Malfunctions": {
+        "precision": 1.0,
+        "recall": 0.5833333333333334,
+        "f1_score": 0.7368421052631579
+      },
+      "Cooling System Anomalies": {
+        "precision": 0.9230769230769231,
+        "recall": 1.0,
+        "f1_score": 0.96
+      },
+      "Brake System Defects": {
+        "precision": 0.96,
+        "recall": 1.0,
+        "f1_score": 0.9795918367346939
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9787234042553191
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.65625,
+        "recall": 0.875,
+        "f1_score": 0.75
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-13/11:47:23",
+    "test_mode": "paraph",
+    "model": "gemma3_1b",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.9473684210526315,
+        "recall": 0.75,
+        "f1_score": 0.8372093023255814
+      },
+      "Ignition System Malfunctions": {
+        "precision": 0.84,
+        "recall": 0.875,
+        "f1_score": 0.8571428571428571
+      },
+      "Cooling System Anomalies": {
+        "precision": 0.9166666666666666,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9166666666666666
+      },
+      "Brake System Defects": {
+        "precision": 0.7666666666666667,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.8518518518518519
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.875,
+        "f1_score": 0.9333333333333333
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.875,
+        "recall": 0.875,
+        "f1_score": 0.875
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-13/12:02:42",
+    "test_mode": "paraph",
+    "model": "gemma3n_e2b_it",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.9565217391304348,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9361702127659575
+      },
+      "Ignition System Malfunctions": {
+        "precision": 1.0,
+        "recall": 0.5833333333333334,
+        "f1_score": 0.7368421052631579
+      },
+      "Cooling System Anomalies": {
+        "precision": 1.0,
+        "recall": 0.7916666666666666,
+        "f1_score": 0.8837209302325582
+      },
+      "Brake System Defects": {
+        "precision": 1.0,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9565217391304348
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9565217391304348
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.5454545454545454,
+        "recall": 1.0,
+        "f1_score": 0.7058823529411765
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-13/12:17:24",
+    "test_mode": "paraph",
+    "model": "gemma2",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.9166666666666666,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9166666666666666
+      },
+      "Ignition System Malfunctions": {
+        "precision": 1.0,
+        "recall": 0.5833333333333334,
+        "f1_score": 0.7368421052631579
+      },
+      "Cooling System Anomalies": {
+        "precision": 0.9230769230769231,
+        "recall": 1.0,
+        "f1_score": 0.96
+      },
+      "Brake System Defects": {
+        "precision": 0.96,
+        "recall": 1.0,
+        "f1_score": 0.9795918367346939
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9787234042553191
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.65625,
+        "recall": 0.875,
+        "f1_score": 0.75
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-13/12:31:19",
+    "test_mode": "paraph",
+    "model": "gemma3_1b",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.9473684210526315,
+        "recall": 0.75,
+        "f1_score": 0.8372093023255814
+      },
+      "Ignition System Malfunctions": {
+        "precision": 0.875,
+        "recall": 0.875,
+        "f1_score": 0.875
+      },
+      "Cooling System Anomalies": {
+        "precision": 0.88,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.8979591836734694
+      },
+      "Brake System Defects": {
+        "precision": 0.8,
+        "recall": 1.0,
+        "f1_score": 0.8888888888888888
+      },
+      "Transmission Problems": {
+        "precision": 0.9545454545454546,
+        "recall": 0.875,
+        "f1_score": 0.9130434782608695
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.875,
+        "recall": 0.875,
+        "f1_score": 0.875
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-13/12:46:11",
+    "test_mode": "paraph",
+    "model": "gemma3n_e2b_it",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.9565217391304348,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9361702127659575
+      },
+      "Ignition System Malfunctions": {
+        "precision": 1.0,
+        "recall": 0.5416666666666666,
+        "f1_score": 0.7027027027027027
+      },
+      "Cooling System Anomalies": {
+        "precision": 1.0,
+        "recall": 0.7916666666666666,
+        "f1_score": 0.8837209302325582
+      },
+      "Brake System Defects": {
+        "precision": 1.0,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9787234042553191
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9565217391304348
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.5454545454545454,
+        "recall": 1.0,
+        "f1_score": 0.7058823529411765
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-13/13:10:03",
+    "test_mode": "paraph",
+    "model": "gemma2",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.9166666666666666,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9166666666666666
+      },
+      "Ignition System Malfunctions": {
+        "precision": 1.0,
+        "recall": 0.5833333333333334,
+        "f1_score": 0.7368421052631579
+      },
+      "Cooling System Anomalies": {
+        "precision": 0.9230769230769231,
+        "recall": 1.0,
+        "f1_score": 0.96
+      },
+      "Brake System Defects": {
+        "precision": 0.96,
+        "recall": 1.0,
+        "f1_score": 0.9795918367346939
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9787234042553191
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.65625,
+        "recall": 0.875,
+        "f1_score": 0.75
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-13/13:24:01",
+    "test_mode": "paraph",
+    "model": "gemma3_1b",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.9473684210526315,
+        "recall": 0.75,
+        "f1_score": 0.8372093023255814
+      },
+      "Ignition System Malfunctions": {
+        "precision": 0.84,
+        "recall": 0.875,
+        "f1_score": 0.8571428571428571
+      },
+      "Cooling System Anomalies": {
+        "precision": 0.9166666666666666,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9166666666666666
+      },
+      "Brake System Defects": {
+        "precision": 0.7741935483870968,
+        "recall": 1.0,
+        "f1_score": 0.8727272727272727
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.875,
+        "f1_score": 0.9333333333333333
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.875,
+        "recall": 0.875,
+        "f1_score": 0.875
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-13/13:38:48",
+    "test_mode": "paraph",
+    "model": "gemma3n_e2b_it",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.9565217391304348,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9361702127659575
+      },
+      "Ignition System Malfunctions": {
+        "precision": 1.0,
+        "recall": 0.5833333333333334,
+        "f1_score": 0.7368421052631579
+      },
+      "Cooling System Anomalies": {
+        "precision": 1.0,
+        "recall": 0.8333333333333334,
+        "f1_score": 0.9090909090909091
+      },
+      "Brake System Defects": {
+        "precision": 1.0,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9787234042553191
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9565217391304348
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.5714285714285714,
+        "recall": 1.0,
+        "f1_score": 0.7272727272727273
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-13/14:21:28",
+    "test_mode": "paraph",
+    "model": "gemma2",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.9166666666666666,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9166666666666666
+      },
+      "Ignition System Malfunctions": {
+        "precision": 1.0,
+        "recall": 0.5833333333333334,
+        "f1_score": 0.7368421052631579
+      },
+      "Cooling System Anomalies": {
+        "precision": 0.9230769230769231,
+        "recall": 1.0,
+        "f1_score": 0.96
+      },
+      "Brake System Defects": {
+        "precision": 0.96,
+        "recall": 1.0,
+        "f1_score": 0.9795918367346939
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9787234042553191
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.65625,
+        "recall": 0.875,
+        "f1_score": 0.75
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-13/14:35:20",
+    "test_mode": "paraph",
+    "model": "gemma3_1b",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.95,
+        "recall": 0.7916666666666666,
+        "f1_score": 0.8636363636363636
+      },
+      "Ignition System Malfunctions": {
+        "precision": 0.875,
+        "recall": 0.875,
+        "f1_score": 0.875
+      },
+      "Cooling System Anomalies": {
+        "precision": 0.9166666666666666,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9166666666666666
+      },
+      "Brake System Defects": {
+        "precision": 0.7741935483870968,
+        "recall": 1.0,
+        "f1_score": 0.8727272727272727
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.875,
+        "f1_score": 0.9333333333333333
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.875,
+        "recall": 0.875,
+        "f1_score": 0.875
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-13/14:50:13",
+    "test_mode": "paraph",
+    "model": "gemma3n_e2b_it",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.9565217391304348,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9361702127659575
+      },
+      "Ignition System Malfunctions": {
+        "precision": 1.0,
+        "recall": 0.5833333333333334,
+        "f1_score": 0.7368421052631579
+      },
+      "Cooling System Anomalies": {
+        "precision": 1.0,
+        "recall": 0.8333333333333334,
+        "f1_score": 0.9090909090909091
+      },
+      "Brake System Defects": {
+        "precision": 1.0,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9787234042553191
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9565217391304348
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.5714285714285714,
+        "recall": 1.0,
+        "f1_score": 0.7272727272727273
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-13/15:06:08",
+    "test_mode": "paraph",
+    "model": "gemma3n_e2b_it",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.9565217391304348,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9361702127659575
+      },
+      "Ignition System Malfunctions": {
+        "precision": 1.0,
+        "recall": 0.625,
+        "f1_score": 0.7692307692307693
+      },
+      "Cooling System Anomalies": {
+        "precision": 1.0,
+        "recall": 0.8333333333333334,
+        "f1_score": 0.9090909090909091
+      },
+      "Brake System Defects": {
+        "precision": 1.0,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9787234042553191
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9565217391304348
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.5853658536585366,
+        "recall": 1.0,
+        "f1_score": 0.7384615384615385
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-13/15:32:22",
+    "test_mode": "paraph",
+    "model": "gemma3n_e2b_it",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.9565217391304348,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9361702127659575
+      },
+      "Ignition System Malfunctions": {
+        "precision": 1.0,
+        "recall": 0.625,
+        "f1_score": 0.7692307692307693
+      },
+      "Cooling System Anomalies": {
+        "precision": 1.0,
+        "recall": 0.875,
+        "f1_score": 0.9333333333333333
+      },
+      "Brake System Defects": {
+        "precision": 1.0,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9787234042553191
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9565217391304348
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.6,
+        "recall": 1.0,
+        "f1_score": 0.75
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-13/16:23:15",
+    "test_mode": "zero",
+    "model": "gemma2_trained_108",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.8888888888888888,
+        "recall": 1.0,
+        "f1_score": 0.9411764705882353
+      },
+      "Ignition System Malfunctions": {
+        "precision": 0.9545454545454546,
+        "recall": 0.875,
+        "f1_score": 0.9130434782608695
+      },
+      "Cooling System Anomalies": {
+        "precision": 1.0,
+        "recall": 0.875,
+        "f1_score": 0.9333333333333333
+      },
+      "Brake System Defects": {
+        "precision": 0.96,
+        "recall": 1.0,
+        "f1_score": 0.9795918367346939
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.9130434782608695,
+        "recall": 0.875,
+        "f1_score": 0.8936170212765957
+      }
+    },
+    "num_epochs": 5
+  },
+  {
+    "timestamp": "2025-08-13/16:29:23",
+    "test_mode": "zero",
+    "model": "gemma3_1b_trained_108",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.8275862068965517,
+        "recall": 1.0,
+        "f1_score": 0.9056603773584906
+      },
+      "Ignition System Malfunctions": {
+        "precision": 1.0,
+        "recall": 0.875,
+        "f1_score": 0.9333333333333333
+      },
+      "Cooling System Anomalies": {
+        "precision": 0.9565217391304348,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9361702127659575
+      },
+      "Brake System Defects": {
+        "precision": 0.9230769230769231,
+        "recall": 1.0,
+        "f1_score": 0.96
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9787234042553191
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.9545454545454546,
+        "recall": 0.875,
+        "f1_score": 0.9130434782608695
+      }
+    },
+    "num_epochs": 6
+  },
+  {
+    "timestamp": "2025-08-13/16:44:35",
+    "test_mode": "zero",
+    "model": "gemma3n_e2b_it_trained_108",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.8888888888888888,
+        "recall": 1.0,
+        "f1_score": 0.9411764705882353
+      },
+      "Ignition System Malfunctions": {
+        "precision": 1.0,
+        "recall": 0.7916666666666666,
+        "f1_score": 0.8837209302325582
+      },
+      "Cooling System Anomalies": {
+        "precision": 1.0,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9565217391304348
+      },
+      "Brake System Defects": {
+        "precision": 0.96,
+        "recall": 1.0,
+        "f1_score": 0.9795918367346939
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9565217391304348
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.8148148148148148,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.8627450980392157
+      }
+    },
+    "num_epochs": 5
+  },
+  {
+    "timestamp": "2025-08-13/16:51:53",
+    "test_mode": "zero",
+    "model": "gemma2_trained_216",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.8888888888888888,
+        "recall": 1.0,
+        "f1_score": 0.9411764705882353
+      },
+      "Ignition System Malfunctions": {
+        "precision": 0.9565217391304348,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9361702127659575
+      },
+      "Cooling System Anomalies": {
+        "precision": 1.0,
+        "recall": 0.875,
+        "f1_score": 0.9333333333333333
+      },
+      "Brake System Defects": {
+        "precision": 0.96,
+        "recall": 1.0,
+        "f1_score": 0.9795918367346939
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 1.0,
+        "recall": 0.875,
+        "f1_score": 0.9333333333333333
+      }
+    },
+    "num_epochs": 4
+  },
+  {
+    "timestamp": "2025-08-13/17:00:17",
+    "test_mode": "zero",
+    "model": "gemma2_trained_324",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.8888888888888888,
+        "recall": 1.0,
+        "f1_score": 0.9411764705882353
+      },
+      "Ignition System Malfunctions": {
+        "precision": 0.9565217391304348,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9361702127659575
+      },
+      "Cooling System Anomalies": {
+        "precision": 1.0,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9787234042553191
+      },
+      "Brake System Defects": {
+        "precision": 0.96,
+        "recall": 1.0,
+        "f1_score": 0.9795918367346939
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.9545454545454546,
+        "recall": 0.875,
+        "f1_score": 0.9130434782608695
+      }
+    },
+    "num_epochs": 4
+  },
+  {
+    "timestamp": "2025-08-13/17:10:20",
+    "test_mode": "zero",
+    "model": "gemma2_trained_432",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.8846153846153846,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.92
+      },
+      "Ignition System Malfunctions": {
+        "precision": 0.9565217391304348,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9361702127659575
+      },
+      "Cooling System Anomalies": {
+        "precision": 0.96,
+        "recall": 1.0,
+        "f1_score": 0.9795918367346939
+      },
+      "Brake System Defects": {
+        "precision": 0.96,
+        "recall": 1.0,
+        "f1_score": 0.9795918367346939
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 1.0,
+        "recall": 0.875,
+        "f1_score": 0.9333333333333333
+      }
+    },
+    "num_epochs": 4
+  },
+  {
+    "timestamp": "2025-08-13/17:18:00",
+    "test_mode": "zero",
+    "model": "gemma3_1b_trained_216",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.8888888888888888,
+        "recall": 1.0,
+        "f1_score": 0.9411764705882353
+      },
+      "Ignition System Malfunctions": {
+        "precision": 1.0,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9565217391304348
+      },
+      "Cooling System Anomalies": {
+        "precision": 1.0,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9565217391304348
+      },
+      "Brake System Defects": {
+        "precision": 0.9230769230769231,
+        "recall": 1.0,
+        "f1_score": 0.96
+      },
+      "Transmission Problems": {
+        "precision": 0.9583333333333334,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9583333333333334
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.9565217391304348,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9361702127659575
+      }
+    },
+    "num_epochs": 5
+  },
+  {
+    "timestamp": "2025-08-13/17:26:18",
+    "test_mode": "zero",
+    "model": "gemma3_1b_trained_324",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.8275862068965517,
+        "recall": 1.0,
+        "f1_score": 0.9056603773584906
+      },
+      "Ignition System Malfunctions": {
+        "precision": 1.0,
+        "recall": 0.875,
+        "f1_score": 0.9333333333333333
+      },
+      "Cooling System Anomalies": {
+        "precision": 1.0,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9565217391304348
+      },
+      "Brake System Defects": {
+        "precision": 0.96,
+        "recall": 1.0,
+        "f1_score": 0.9795918367346939
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.875,
+        "f1_score": 0.9333333333333333
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.8846153846153846,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.92
+      }
+    },
+    "num_epochs": 4
+  },
+  {
+    "timestamp": "2025-08-13/17:36:17",
+    "test_mode": "zero",
+    "model": "gemma3_1b_trained_432",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.92,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9387755102040817
+      },
+      "Ignition System Malfunctions": {
+        "precision": 0.9565217391304348,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9361702127659575
+      },
+      "Cooling System Anomalies": {
+        "precision": 1.0,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9565217391304348
+      },
+      "Brake System Defects": {
+        "precision": 0.8888888888888888,
+        "recall": 1.0,
+        "f1_score": 0.9411764705882353
+      },
+      "Transmission Problems": {
+        "precision": 0.9583333333333334,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9583333333333334
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.9565217391304348,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9361702127659575
+      }
+    },
+    "num_epochs": 4
+  },
+  {
+    "timestamp": "2025-08-13/18:04:08",
+    "test_mode": "zero",
+    "model": "gemma3n_e2b_it_trained_216",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.7272727272727273,
+        "recall": 1.0,
+        "f1_score": 0.8421052631578947
+      },
+      "Ignition System Malfunctions": {
+        "precision": 1.0,
+        "recall": 0.625,
+        "f1_score": 0.7692307692307693
+      },
+      "Cooling System Anomalies": {
+        "precision": 1.0,
+        "recall": 0.875,
+        "f1_score": 0.9333333333333333
+      },
+      "Brake System Defects": {
+        "precision": 0.96,
+        "recall": 1.0,
+        "f1_score": 0.9795918367346939
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9565217391304348
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.88,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.8979591836734694
+      }
+    },
+    "num_epochs": 5
+  },
+  {
+    "timestamp": "2025-08-13/18:34:41",
+    "test_mode": "zero",
+    "model": "gemma3n_e2b_it_trained_324",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.8,
+        "recall": 1.0,
+        "f1_score": 0.8888888888888888
+      },
+      "Ignition System Malfunctions": {
+        "precision": 0.9090909090909091,
+        "recall": 0.8333333333333334,
+        "f1_score": 0.8695652173913043
+      },
+      "Cooling System Anomalies": {
+        "precision": 0.9523809523809523,
+        "recall": 0.8333333333333334,
+        "f1_score": 0.8888888888888888
+      },
+      "Brake System Defects": {
+        "precision": 0.96,
+        "recall": 1.0,
+        "f1_score": 0.9795918367346939
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.875,
+        "f1_score": 0.9333333333333333
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 1.0,
+        "recall": 0.625,
+        "f1_score": 0.7692307692307693
+      }
+    },
+    "num_epochs": 4
+  },
+  {
+    "timestamp": "2025-08-13/19:12:14",
+    "test_mode": "zero",
+    "model": "gemma3n_e2b_it_trained_432",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.8275862068965517,
+        "recall": 1.0,
+        "f1_score": 0.9056603773584906
+      },
+      "Ignition System Malfunctions": {
+        "precision": 1.0,
+        "recall": 0.7916666666666666,
+        "f1_score": 0.8837209302325582
+      },
+      "Cooling System Anomalies": {
+        "precision": 0.9565217391304348,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9361702127659575
+      },
+      "Brake System Defects": {
+        "precision": 0.96,
+        "recall": 1.0,
+        "f1_score": 0.9795918367346939
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9787234042553191
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.84,
+        "recall": 0.875,
+        "f1_score": 0.8571428571428571
+      }
+    },
+    "num_epochs": 4
+  },
+  {
+    "timestamp": "2025-08-14/10:09:44",
+    "test_mode": "zero",
+    "model": "gemma2_trained_108",
+    "metrics_per_class": {
+      "Fuel System Problems": {
+        "precision": 0.8888888888888888,
+        "recall": 1.0,
+        "f1_score": 0.9411764705882353
+      },
+      "Ignition System Malfunctions": {
+        "precision": 0.9545454545454546,
+        "recall": 0.875,
+        "f1_score": 0.9130434782608695
+      },
+      "Cooling System Anomalies": {
+        "precision": 1.0,
+        "recall": 0.875,
+        "f1_score": 0.9333333333333333
+      },
+      "Brake System Defects": {
+        "precision": 0.96,
+        "recall": 1.0,
+        "f1_score": 0.9795918367346939
+      },
+      "Transmission Problems": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "Electrical/Electronic Failures": {
+        "precision": 0.9130434782608695,
+        "recall": 0.875,
+        "f1_score": 0.8936170212765957
+      }
+    },
+    "num_epochs": 5
+  },
+  {
+    "timestamp": "2025-08-14/11:51:44",
+    "test_mode": "zero",
+    "model": "gemma2_trained_108",
+    "metrics_per_class": {
+      "fuel system problems": {
+        "precision": 0.8888888888888888,
+        "recall": 1.0,
+        "f1_score": 0.9411764705882353
+      },
+      "ignition system malfunctions": {
+        "precision": 0.9545454545454546,
+        "recall": 0.875,
+        "f1_score": 0.9130434782608695
+      },
+      "cooling system anomalies": {
+        "precision": 1.0,
+        "recall": 0.875,
+        "f1_score": 0.9333333333333333
+      },
+      "brake system defects": {
+        "precision": 0.96,
+        "recall": 1.0,
+        "f1_score": 0.9795918367346939
+      },
+      "transmission problems": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "electrical/electronic failures": {
+        "precision": 0.9130434782608695,
+        "recall": 0.875,
+        "f1_score": 0.8936170212765957
+      }
+    },
+    "num_epochs": 5
+  },
+  {
+    "timestamp": "2025-08-14/11:53:52",
+    "test_mode": "zero",
+    "model": "gemma2_trained_108",
+    "metrics_per_class": {
+      "fuel system problems": {
+        "precision": 0.8888888888888888,
+        "recall": 1.0,
+        "f1_score": 0.9411764705882353
+      },
+      "ignition system malfunctions": {
+        "precision": 0.9545454545454546,
+        "recall": 0.875,
+        "f1_score": 0.9130434782608695
+      },
+      "cooling system anomalies": {
+        "precision": 1.0,
+        "recall": 0.875,
+        "f1_score": 0.9333333333333333
+      },
+      "brake system defects": {
+        "precision": 0.96,
+        "recall": 1.0,
+        "f1_score": 0.9795918367346939
+      },
+      "transmission problems": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "electrical/electronic failures": {
+        "precision": 0.9130434782608695,
+        "recall": 0.875,
+        "f1_score": 0.8936170212765957
+      }
+    },
+    "num_epochs": 5
+  },
+  {
+    "timestamp": "2025-08-14/11:57:54",
+    "test_mode": "zero",
+    "model": "gemma3_1b_trained_108",
+    "metrics_per_class": {
+      "fuel system problems": {
+        "precision": 0.8275862068965517,
+        "recall": 1.0,
+        "f1_score": 0.9056603773584906
+      },
+      "ignition system malfunctions": {
+        "precision": 1.0,
+        "recall": 0.875,
+        "f1_score": 0.9333333333333333
+      },
+      "cooling system anomalies": {
+        "precision": 0.9565217391304348,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9361702127659575
+      },
+      "brake system defects": {
+        "precision": 0.9230769230769231,
+        "recall": 1.0,
+        "f1_score": 0.96
+      },
+      "transmission problems": {
+        "precision": 1.0,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9787234042553191
+      },
+      "electrical/electronic failures": {
+        "precision": 0.9545454545454546,
+        "recall": 0.875,
+        "f1_score": 0.9130434782608695
+      }
+    },
+    "num_epochs": 6
+  },
+  {
+    "timestamp": "2025-08-14/12:00:28",
+    "test_mode": "zero",
+    "model": "gemma2",
+    "metrics_per_class": {
+      "fuel system problems": {
+        "precision": 0.9166666666666666,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9166666666666666
+      },
+      "ignition system malfunctions": {
+        "precision": 1.0,
+        "recall": 0.5833333333333334,
+        "f1_score": 0.7368421052631579
+      },
+      "cooling system anomalies": {
+        "precision": 0.96,
+        "recall": 1.0,
+        "f1_score": 0.9795918367346939
+      },
+      "brake system defects": {
+        "precision": 0.96,
+        "recall": 1.0,
+        "f1_score": 0.9795918367346939
+      },
+      "transmission problems": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "electrical/electronic failures": {
+        "precision": 0.65625,
+        "recall": 0.875,
+        "f1_score": 0.75
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-14/12:11:00",
+    "test_mode": "zero",
+    "model": "gemma2_trained_108",
+    "metrics_per_class": {
+      "fuel system problems": {
+        "precision": 0.8888888888888888,
+        "recall": 1.0,
+        "f1_score": 0.9411764705882353
+      },
+      "ignition system malfunctions": {
+        "precision": 0.9545454545454546,
+        "recall": 0.875,
+        "f1_score": 0.9130434782608695
+      },
+      "cooling system anomalies": {
+        "precision": 1.0,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9787234042553191
+      },
+      "brake system defects": {
+        "precision": 0.96,
+        "recall": 1.0,
+        "f1_score": 0.9795918367346939
+      },
+      "transmission problems": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "electrical/electronic failures": {
+        "precision": 0.9130434782608695,
+        "recall": 0.875,
+        "f1_score": 0.8936170212765957
+      }
+    },
+    "num_epochs": 5
+  },
+  {
+    "timestamp": "2025-08-15/10:34:33",
+    "test_mode": "zero",
+    "model": "gemma2_trained_108",
+    "metrics_per_class": {
+      "fuel system problems": {
+        "precision": 0.8888888888888888,
+        "recall": 1.0,
+        "f1_score": 0.9411764705882353
+      },
+      "ignition system malfunctions": {
+        "precision": 0.9545454545454546,
+        "recall": 0.875,
+        "f1_score": 0.9130434782608695
+      },
+      "cooling system anomalies": {
+        "precision": 1.0,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9787234042553191
+      },
+      "brake system defects": {
+        "precision": 0.96,
+        "recall": 1.0,
+        "f1_score": 0.9795918367346939
+      },
+      "transmission problems": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "electrical/electronic failures": {
+        "precision": 0.9130434782608695,
+        "recall": 0.875,
+        "f1_score": 0.8936170212765957
+      }
+    },
+    "num_epochs": 3
+  },
+  {
+    "timestamp": "2025-08-15/10:39:52",
+    "test_mode": "zero",
+    "model": "gemma3_1b_trained_108",
+    "metrics_per_class": {
+      "fuel system problems": {
+        "precision": 0.8275862068965517,
+        "recall": 1.0,
+        "f1_score": 0.9056603773584906
+      },
+      "ignition system malfunctions": {
+        "precision": 1.0,
+        "recall": 0.875,
+        "f1_score": 0.9333333333333333
+      },
+      "cooling system anomalies": {
+        "precision": 0.9565217391304348,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9361702127659575
+      },
+      "brake system defects": {
+        "precision": 0.9230769230769231,
+        "recall": 1.0,
+        "f1_score": 0.96
+      },
+      "transmission problems": {
+        "precision": 1.0,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9787234042553191
+      },
+      "electrical/electronic failures": {
+        "precision": 0.9545454545454546,
+        "recall": 0.875,
+        "f1_score": 0.9130434782608695
+      }
+    },
+    "num_epochs": 4
+  },
+  {
+    "timestamp": "2025-08-15/10:47:41",
+    "test_mode": "zero",
+    "model": "gemma3n_e2b_it_trained_108",
+    "metrics_per_class": {
+      "fuel system problems": {
+        "precision": 0.8888888888888888,
+        "recall": 1.0,
+        "f1_score": 0.9411764705882353
+      },
+      "ignition system malfunctions": {
+        "precision": 1.0,
+        "recall": 0.7916666666666666,
+        "f1_score": 0.8837209302325582
+      },
+      "cooling system anomalies": {
+        "precision": 1.0,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9565217391304348
+      },
+      "brake system defects": {
+        "precision": 0.96,
+        "recall": 1.0,
+        "f1_score": 0.9795918367346939
+      },
+      "transmission problems": {
+        "precision": 1.0,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9565217391304348
+      },
+      "electrical/electronic failures": {
+        "precision": 0.8148148148148148,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.8627450980392157
+      }
+    },
+    "num_epochs": 3
+  },
+  {
+    "timestamp": "2025-08-16/01:08:20",
+    "test_mode": "zero",
+    "model": "gemma2_trained_216",
+    "metrics_per_class": {
+      "fuel system problems": {
+        "precision": 0.8888888888888888,
+        "recall": 1.0,
+        "f1_score": 0.9411764705882353
+      },
+      "ignition system malfunctions": {
+        "precision": 0.9565217391304348,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9361702127659575
+      },
+      "cooling system anomalies": {
+        "precision": 1.0,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9787234042553191
+      },
+      "brake system defects": {
+        "precision": 0.96,
+        "recall": 1.0,
+        "f1_score": 0.9795918367346939
+      },
+      "transmission problems": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "electrical/electronic failures": {
+        "precision": 1.0,
+        "recall": 0.875,
+        "f1_score": 0.9333333333333333
+      }
+    },
+    "num_epochs": 2
+  },
+  {
+    "timestamp": "2025-08-16/01:14:22",
+    "test_mode": "zero",
+    "model": "gemma3_1b_trained_216",
+    "metrics_per_class": {
+      "fuel system problems": {
+        "precision": 0.8888888888888888,
+        "recall": 1.0,
+        "f1_score": 0.9411764705882353
+      },
+      "ignition system malfunctions": {
+        "precision": 1.0,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9565217391304348
+      },
+      "cooling system anomalies": {
+        "precision": 1.0,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9565217391304348
+      },
+      "brake system defects": {
+        "precision": 0.9230769230769231,
+        "recall": 1.0,
+        "f1_score": 0.96
+      },
+      "transmission problems": {
+        "precision": 0.9583333333333334,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9583333333333334
+      },
+      "electrical/electronic failures": {
+        "precision": 0.9565217391304348,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9361702127659575
+      }
+    },
+    "num_epochs": 3
+  },
+  {
+    "timestamp": "2025-08-16/01:31:59",
+    "test_mode": "zero",
+    "model": "gemma3n_e2b_it_trained_216",
+    "metrics_per_class": {
+      "fuel system problems": {
+        "precision": 0.7272727272727273,
+        "recall": 1.0,
+        "f1_score": 0.8421052631578947
+      },
+      "ignition system malfunctions": {
+        "precision": 1.0,
+        "recall": 0.625,
+        "f1_score": 0.7692307692307693
+      },
+      "cooling system anomalies": {
+        "precision": 1.0,
+        "recall": 0.875,
+        "f1_score": 0.9333333333333333
+      },
+      "brake system defects": {
+        "precision": 0.96,
+        "recall": 1.0,
+        "f1_score": 0.9795918367346939
+      },
+      "transmission problems": {
+        "precision": 1.0,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9565217391304348
+      },
+      "electrical/electronic failures": {
+        "precision": 0.88,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.8979591836734694
+      }
+    },
+    "num_epochs": 3
+  },
+  {
+    "timestamp": "2025-08-16/01:38:13",
+    "test_mode": "zero",
+    "model": "gemma2_trained_324",
+    "metrics_per_class": {
+      "fuel system problems": {
+        "precision": 0.8888888888888888,
+        "recall": 1.0,
+        "f1_score": 0.9411764705882353
+      },
+      "ignition system malfunctions": {
+        "precision": 0.9565217391304348,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9361702127659575
+      },
+      "cooling system anomalies": {
+        "precision": 1.0,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9787234042553191
+      },
+      "brake system defects": {
+        "precision": 0.96,
+        "recall": 1.0,
+        "f1_score": 0.9795918367346939
+      },
+      "transmission problems": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "electrical/electronic failures": {
+        "precision": 0.9545454545454546,
+        "recall": 0.875,
+        "f1_score": 0.9130434782608695
+      }
+    },
+    "num_epochs": 2
+  },
+  {
+    "timestamp": "2025-08-16/01:44:16",
+    "test_mode": "zero",
+    "model": "gemma3_1b_trained_324",
+    "metrics_per_class": {
+      "fuel system problems": {
+        "precision": 0.8275862068965517,
+        "recall": 1.0,
+        "f1_score": 0.9056603773584906
+      },
+      "ignition system malfunctions": {
+        "precision": 1.0,
+        "recall": 0.875,
+        "f1_score": 0.9333333333333333
+      },
+      "cooling system anomalies": {
+        "precision": 1.0,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9565217391304348
+      },
+      "brake system defects": {
+        "precision": 0.96,
+        "recall": 1.0,
+        "f1_score": 0.9795918367346939
+      },
+      "transmission problems": {
+        "precision": 1.0,
+        "recall": 0.875,
+        "f1_score": 0.9333333333333333
+      },
+      "electrical/electronic failures": {
+        "precision": 0.8846153846153846,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.92
+      }
+    },
+    "num_epochs": 2
+  },
+  {
+    "timestamp": "2025-08-16/01:59:33",
+    "test_mode": "zero",
+    "model": "gemma3n_e2b_it_trained_324",
+    "metrics_per_class": {
+      "fuel system problems": {
+        "precision": 0.8,
+        "recall": 1.0,
+        "f1_score": 0.8888888888888888
+      },
+      "ignition system malfunctions": {
+        "precision": 0.9090909090909091,
+        "recall": 0.8333333333333334,
+        "f1_score": 0.8695652173913043
+      },
+      "cooling system anomalies": {
+        "precision": 0.9523809523809523,
+        "recall": 0.8333333333333334,
+        "f1_score": 0.8888888888888888
+      },
+      "brake system defects": {
+        "precision": 0.96,
+        "recall": 1.0,
+        "f1_score": 0.9795918367346939
+      },
+      "transmission problems": {
+        "precision": 1.0,
+        "recall": 0.875,
+        "f1_score": 0.9333333333333333
+      },
+      "electrical/electronic failures": {
+        "precision": 1.0,
+        "recall": 0.625,
+        "f1_score": 0.7692307692307693
+      }
+    },
+    "num_epochs": 2
+  },
+  {
+    "timestamp": "2025-08-16/02:06:36",
+    "test_mode": "zero",
+    "model": "gemma2_trained_432",
+    "metrics_per_class": {
+      "fuel system problems": {
+        "precision": 0.8846153846153846,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.92
+      },
+      "ignition system malfunctions": {
+        "precision": 0.9565217391304348,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9361702127659575
+      },
+      "cooling system anomalies": {
+        "precision": 0.96,
+        "recall": 1.0,
+        "f1_score": 0.9795918367346939
+      },
+      "brake system defects": {
+        "precision": 0.96,
+        "recall": 1.0,
+        "f1_score": 0.9795918367346939
+      },
+      "transmission problems": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "electrical/electronic failures": {
+        "precision": 1.0,
+        "recall": 0.875,
+        "f1_score": 0.9333333333333333
+      }
+    },
+    "num_epochs": 2
+  },
+  {
+    "timestamp": "2025-08-16/02:13:30",
+    "test_mode": "zero",
+    "model": "gemma3_1b_trained_432",
+    "metrics_per_class": {
+      "fuel system problems": {
+        "precision": 0.92,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9387755102040817
+      },
+      "ignition system malfunctions": {
+        "precision": 0.9565217391304348,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9361702127659575
+      },
+      "cooling system anomalies": {
+        "precision": 1.0,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9565217391304348
+      },
+      "brake system defects": {
+        "precision": 0.8888888888888888,
+        "recall": 1.0,
+        "f1_score": 0.9411764705882353
+      },
+      "transmission problems": {
+        "precision": 0.9583333333333334,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9583333333333334
+      },
+      "electrical/electronic failures": {
+        "precision": 0.9565217391304348,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9361702127659575
+      }
+    },
+    "num_epochs": 2
+  },
+  {
+    "timestamp": "2025-08-16/02:31:32",
+    "test_mode": "zero",
+    "model": "gemma3n_e2b_it_trained_432",
+    "metrics_per_class": {
+      "fuel system problems": {
+        "precision": 0.8275862068965517,
+        "recall": 1.0,
+        "f1_score": 0.9056603773584906
+      },
+      "ignition system malfunctions": {
+        "precision": 1.0,
+        "recall": 0.7916666666666666,
+        "f1_score": 0.8837209302325582
+      },
+      "cooling system anomalies": {
+        "precision": 0.9565217391304348,
+        "recall": 0.9166666666666666,
+        "f1_score": 0.9361702127659575
+      },
+      "brake system defects": {
+        "precision": 0.96,
+        "recall": 1.0,
+        "f1_score": 0.9795918367346939
+      },
+      "transmission problems": {
+        "precision": 1.0,
+        "recall": 0.9583333333333334,
+        "f1_score": 0.9787234042553191
+      },
+      "electrical/electronic failures": {
+        "precision": 0.84,
+        "recall": 0.875,
+        "f1_score": 0.8571428571428571
+      }
+    },
+    "num_epochs": 2
+  },
+  {
+    "timestamp": "2025-08-16/21:25:21",
+    "test_mode": "zero",
+    "model": "gemma2",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 1.0,
+        "recall": 0.4230769230769231,
+        "f1_score": 0.5945945945945946
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 1.0,
+        "recall": 0.75,
+        "f1_score": 0.8571428571428571
+      },
+      "politics": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "finance": {
+        "precision": 0.4444444444444444,
+        "recall": 1.0,
+        "f1_score": 0.6153846153846154
+      },
+      "culture": {
+        "precision": 0.26666666666666666,
+        "recall": 1.0,
+        "f1_score": 0.42105263157894735
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-16/21:26:06",
+    "test_mode": "zero",
+    "model": "gemma3_1b",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 1.0,
+        "recall": 0.6538461538461539,
+        "f1_score": 0.7906976744186046
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "politics": {
+        "precision": 0.8,
+        "recall": 1.0,
+        "f1_score": 0.8888888888888888
+      },
+      "finance": {
+        "precision": 0.375,
+        "recall": 0.75,
+        "f1_score": 0.5
+      },
+      "culture": {
+        "precision": 0.5714285714285714,
+        "recall": 1.0,
+        "f1_score": 0.7272727272727273
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-16/21:32:34",
+    "test_mode": "zero",
+    "model": "gemma3n_e2b_it",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 1.0,
+        "recall": 0.8846153846153846,
+        "f1_score": 0.9387755102040817
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "politics": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "finance": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "culture": {
+        "precision": 0.5714285714285714,
+        "recall": 1.0,
+        "f1_score": 0.7272727272727273
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-16/21:33:47",
+    "test_mode": "few",
+    "model": "gemma2",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 1.0,
+        "recall": 0.5769230769230769,
+        "f1_score": 0.7317073170731707
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "politics": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "finance": {
+        "precision": 0.42857142857142855,
+        "recall": 0.75,
+        "f1_score": 0.5454545454545454
+      },
+      "culture": {
+        "precision": 0.4,
+        "recall": 1.0,
+        "f1_score": 0.5714285714285714
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-16/21:34:32",
+    "test_mode": "few",
+    "model": "gemma3_1b",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 1.0,
+        "recall": 0.5769230769230769,
+        "f1_score": 0.7317073170731707
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "politics": {
+        "precision": 0.8,
+        "recall": 1.0,
+        "f1_score": 0.8888888888888888
+      },
+      "finance": {
+        "precision": 0.42857142857142855,
+        "recall": 0.75,
+        "f1_score": 0.5454545454545454
+      },
+      "culture": {
+        "precision": 0.5,
+        "recall": 1.0,
+        "f1_score": 0.6666666666666666
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-16/21:40:47",
+    "test_mode": "few",
+    "model": "gemma3n_e2b_it",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 1.0,
+        "recall": 0.8846153846153846,
+        "f1_score": 0.9387755102040817
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "politics": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "finance": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "culture": {
+        "precision": 0.5714285714285714,
+        "recall": 1.0,
+        "f1_score": 0.7272727272727273
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-16/21:41:59",
+    "test_mode": "def",
+    "model": "gemma2",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 1.0,
+        "recall": 0.46153846153846156,
+        "f1_score": 0.631578947368421
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "politics": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "finance": {
+        "precision": 0.5714285714285714,
+        "recall": 1.0,
+        "f1_score": 0.7272727272727273
+      },
+      "culture": {
+        "precision": 0.26666666666666666,
+        "recall": 1.0,
+        "f1_score": 0.42105263157894735
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-16/21:42:43",
+    "test_mode": "def",
+    "model": "gemma3_1b",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 0.5,
+        "f1_score": 0.6666666666666666
+      },
+      "advertisement": {
+        "precision": 0.9333333333333333,
+        "recall": 0.5384615384615384,
+        "f1_score": 0.6829268292682927
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 0.9615384615384616,
+        "f1_score": 0.9803921568627451
+      },
+      "gossip": {
+        "precision": 1.0,
+        "recall": 0.75,
+        "f1_score": 0.8571428571428571
+      },
+      "politics": {
+        "precision": 0.17391304347826086,
+        "recall": 1.0,
+        "f1_score": 0.2962962962962963
+      },
+      "finance": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1_score": 0.0
+      },
+      "culture": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1_score": 0.0
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-16/21:48:20",
+    "test_mode": "def",
+    "model": "gemma3n_e2b_it",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 1.0,
+        "recall": 0.9615384615384616,
+        "f1_score": 0.9803921568627451
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "politics": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "finance": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "culture": {
+        "precision": 0.8,
+        "recall": 1.0,
+        "f1_score": 0.8888888888888888
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-17/00:05:34",
+    "test_mode": "few",
+    "model": "gemma3_1b",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 1.0,
+        "recall": 0.5769230769230769,
+        "f1_score": 0.7317073170731707
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "politics": {
+        "precision": 0.8,
+        "recall": 1.0,
+        "f1_score": 0.8888888888888888
+      },
+      "finance": {
+        "precision": 0.42857142857142855,
+        "recall": 0.75,
+        "f1_score": 0.5454545454545454
+      },
+      "culture": {
+        "precision": 0.5,
+        "recall": 1.0,
+        "f1_score": 0.6666666666666666
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-17/00:16:02",
+    "test_mode": "few",
+    "model": "gemma3_1b",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 1.0,
+        "recall": 0.5769230769230769,
+        "f1_score": 0.7317073170731707
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "politics": {
+        "precision": 0.8,
+        "recall": 1.0,
+        "f1_score": 0.8888888888888888
+      },
+      "finance": {
+        "precision": 0.42857142857142855,
+        "recall": 0.75,
+        "f1_score": 0.5454545454545454
+      },
+      "culture": {
+        "precision": 0.5,
+        "recall": 1.0,
+        "f1_score": 0.6666666666666666
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-17/00:16:49",
+    "test_mode": "few",
+    "model": "gemma3_1b",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1_score": 0.0
+      },
+      "advertisement": {
+        "precision": 1.0,
+        "recall": 0.19230769230769232,
+        "f1_score": 0.3225806451612903
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 0.8,
+        "recall": 1.0,
+        "f1_score": 0.8888888888888888
+      },
+      "politics": {
+        "precision": 0.2857142857142857,
+        "recall": 1.0,
+        "f1_score": 0.4444444444444444
+      },
+      "finance": {
+        "precision": 0.3333333333333333,
+        "recall": 0.25,
+        "f1_score": 0.2857142857142857
+      },
+      "culture": {
+        "precision": 0.26666666666666666,
+        "recall": 1.0,
+        "f1_score": 0.42105263157894735
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-17/00:22:49",
+    "test_mode": "def-few",
+    "model": "gemma3_1b",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 0.9230769230769231,
+        "recall": 0.9230769230769231,
+        "f1_score": 0.9230769230769231
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "politics": {
+        "precision": 0.6666666666666666,
+        "recall": 1.0,
+        "f1_score": 0.8
+      },
+      "finance": {
+        "precision": 0.5,
+        "recall": 0.25,
+        "f1_score": 0.3333333333333333
+      },
+      "culture": {
+        "precision": 1.0,
+        "recall": 0.25,
+        "f1_score": 0.4
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-17/00:23:53",
+    "test_mode": "def-few",
+    "model": "gemma3_1b",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1_score": 0.0
+      },
+      "advertisement": {
+        "precision": 1.0,
+        "recall": 0.6153846153846154,
+        "f1_score": 0.7619047619047619
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 0.38461538461538464,
+        "f1_score": 0.5555555555555556
+      },
+      "gossip": {
+        "precision": 0.10526315789473684,
+        "recall": 1.0,
+        "f1_score": 0.19047619047619047
+      },
+      "politics": {
+        "precision": 0.4,
+        "recall": 0.5,
+        "f1_score": 0.4444444444444444
+      },
+      "finance": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1_score": 0.0
+      },
+      "culture": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1_score": 0.0
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-17/00:41:38",
+    "test_mode": "zero",
+    "model": "gemma2",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 1.0,
+        "recall": 0.4230769230769231,
+        "f1_score": 0.5945945945945946
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 1.0,
+        "recall": 0.75,
+        "f1_score": 0.8571428571428571
+      },
+      "politics": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "finance": {
+        "precision": 0.4444444444444444,
+        "recall": 1.0,
+        "f1_score": 0.6153846153846154
+      },
+      "culture": {
+        "precision": 0.26666666666666666,
+        "recall": 1.0,
+        "f1_score": 0.42105263157894735
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-17/00:42:22",
+    "test_mode": "zero",
+    "model": "gemma3_1b",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 1.0,
+        "recall": 0.6538461538461539,
+        "f1_score": 0.7906976744186046
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "politics": {
+        "precision": 0.8,
+        "recall": 1.0,
+        "f1_score": 0.8888888888888888
+      },
+      "finance": {
+        "precision": 0.375,
+        "recall": 0.75,
+        "f1_score": 0.5
+      },
+      "culture": {
+        "precision": 0.5714285714285714,
+        "recall": 1.0,
+        "f1_score": 0.7272727272727273
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-17/00:44:58",
+    "test_mode": "zero",
+    "model": "gemma3n_e2b_it",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 1.0,
+        "recall": 0.8846153846153846,
+        "f1_score": 0.9387755102040817
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "politics": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "finance": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "culture": {
+        "precision": 0.5714285714285714,
+        "recall": 1.0,
+        "f1_score": 0.7272727272727273
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-17/00:46:08",
+    "test_mode": "few",
+    "model": "gemma2",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 1.0,
+        "recall": 0.5769230769230769,
+        "f1_score": 0.7317073170731707
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "politics": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "finance": {
+        "precision": 0.42857142857142855,
+        "recall": 0.75,
+        "f1_score": 0.5454545454545454
+      },
+      "culture": {
+        "precision": 0.4,
+        "recall": 1.0,
+        "f1_score": 0.5714285714285714
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-17/00:46:54",
+    "test_mode": "few",
+    "model": "gemma3_1b",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 1.0,
+        "recall": 0.5769230769230769,
+        "f1_score": 0.7317073170731707
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "politics": {
+        "precision": 0.8,
+        "recall": 1.0,
+        "f1_score": 0.8888888888888888
+      },
+      "finance": {
+        "precision": 0.42857142857142855,
+        "recall": 0.75,
+        "f1_score": 0.5454545454545454
+      },
+      "culture": {
+        "precision": 0.5,
+        "recall": 1.0,
+        "f1_score": 0.6666666666666666
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-17/00:49:32",
+    "test_mode": "few",
+    "model": "gemma3n_e2b_it",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 1.0,
+        "recall": 0.8846153846153846,
+        "f1_score": 0.9387755102040817
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "politics": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "finance": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "culture": {
+        "precision": 0.5714285714285714,
+        "recall": 1.0,
+        "f1_score": 0.7272727272727273
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-17/00:50:41",
+    "test_mode": "def",
+    "model": "gemma2",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 1.0,
+        "recall": 0.46153846153846156,
+        "f1_score": 0.631578947368421
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "politics": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "finance": {
+        "precision": 0.42857142857142855,
+        "recall": 0.75,
+        "f1_score": 0.5454545454545454
+      },
+      "culture": {
+        "precision": 0.3076923076923077,
+        "recall": 1.0,
+        "f1_score": 0.47058823529411764
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-17/00:51:27",
+    "test_mode": "def",
+    "model": "gemma3_1b",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1_score": 0.0
+      },
+      "advertisement": {
+        "precision": 1.0,
+        "recall": 0.6538461538461539,
+        "f1_score": 0.7906976744186046
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "politics": {
+        "precision": 0.26666666666666666,
+        "recall": 1.0,
+        "f1_score": 0.42105263157894735
+      },
+      "finance": {
+        "precision": 0.25,
+        "recall": 0.25,
+        "f1_score": 0.25
+      },
+      "culture": {
+        "precision": 0.6666666666666666,
+        "recall": 1.0,
+        "f1_score": 0.8
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-17/00:57:44",
+    "test_mode": "def",
+    "model": "gemma3n_e2b_it",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 1.0,
+        "recall": 0.9230769230769231,
+        "f1_score": 0.96
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "politics": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "finance": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "culture": {
+        "precision": 0.6666666666666666,
+        "recall": 1.0,
+        "f1_score": 0.8
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-17/00:59:01",
+    "test_mode": "def-few",
+    "model": "gemma2",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 1.0,
+        "recall": 0.4230769230769231,
+        "f1_score": 0.5945945945945946
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "politics": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "finance": {
+        "precision": 0.4444444444444444,
+        "recall": 1.0,
+        "f1_score": 0.6153846153846154
+      },
+      "culture": {
+        "precision": 0.2857142857142857,
+        "recall": 1.0,
+        "f1_score": 0.4444444444444444
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-17/00:59:46",
+    "test_mode": "def-few",
+    "model": "gemma3_1b",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 0.9230769230769231,
+        "recall": 0.9230769230769231,
+        "f1_score": 0.9230769230769231
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "politics": {
+        "precision": 0.6666666666666666,
+        "recall": 1.0,
+        "f1_score": 0.8
+      },
+      "finance": {
+        "precision": 0.5,
+        "recall": 0.25,
+        "f1_score": 0.3333333333333333
+      },
+      "culture": {
+        "precision": 1.0,
+        "recall": 0.25,
+        "f1_score": 0.4
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-17/01:06:04",
+    "test_mode": "def-few",
+    "model": "gemma3n_e2b_it",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 1.0,
+        "recall": 0.9230769230769231,
+        "f1_score": 0.96
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 0.8,
+        "recall": 1.0,
+        "f1_score": 0.8888888888888888
+      },
+      "politics": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "finance": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "culture": {
+        "precision": 0.6,
+        "recall": 0.75,
+        "f1_score": 0.6666666666666666
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-17/01:13:18",
+    "test_mode": "paraph",
+    "model": "gemma2",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 1.0,
+        "recall": 0.19230769230769232,
+        "f1_score": 0.3225806451612903
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 1.0,
+        "recall": 0.75,
+        "f1_score": 0.8571428571428571
+      },
+      "politics": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "finance": {
+        "precision": 0.36363636363636365,
+        "recall": 1.0,
+        "f1_score": 0.5333333333333333
+      },
+      "culture": {
+        "precision": 0.21052631578947367,
+        "recall": 1.0,
+        "f1_score": 0.34782608695652173
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-17/01:19:30",
+    "test_mode": "paraph",
+    "model": "gemma3_1b",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 0.5,
+        "f1_score": 0.6666666666666666
+      },
+      "advertisement": {
+        "precision": 1.0,
+        "recall": 0.5,
+        "f1_score": 0.6666666666666666
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 1.0,
+        "recall": 0.75,
+        "f1_score": 0.8571428571428571
+      },
+      "politics": {
+        "precision": 0.5,
+        "recall": 1.0,
+        "f1_score": 0.6666666666666666
+      },
+      "finance": {
+        "precision": 0.4,
+        "recall": 1.0,
+        "f1_score": 0.5714285714285714
+      },
+      "culture": {
+        "precision": 0.4444444444444444,
+        "recall": 1.0,
+        "f1_score": 0.6153846153846154
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-17/01:29:55",
+    "test_mode": "paraph",
+    "model": "gemma3n_e2b_it",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 1.0,
+        "recall": 0.7307692307692307,
+        "f1_score": 0.8444444444444444
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "politics": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "finance": {
+        "precision": 0.8,
+        "recall": 1.0,
+        "f1_score": 0.8888888888888888
+      },
+      "culture": {
+        "precision": 0.4444444444444444,
+        "recall": 1.0,
+        "f1_score": 0.6153846153846154
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-17/01:33:52",
+    "test_mode": "zero",
+    "model": "gemma2_trained_58",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "politics": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "finance": {
+        "precision": 1.0,
+        "recall": 0.75,
+        "f1_score": 0.8571428571428571
+      },
+      "culture": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      }
+    },
+    "num_epochs": 4
+  },
+  {
+    "timestamp": "2025-08-17/01:37:51",
+    "test_mode": "zero",
+    "model": "gemma3_1b_trained_58",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 1.0,
+        "recall": 0.4230769230769231,
+        "f1_score": 0.5945945945945946
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "politics": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "finance": {
+        "precision": 0.5,
+        "recall": 0.75,
+        "f1_score": 0.6
+      },
+      "culture": {
+        "precision": 0.25,
+        "recall": 1.0,
+        "f1_score": 0.4
+      }
+    },
+    "num_epochs": 5
+  },
+  {
+    "timestamp": "2025-08-17/01:54:20",
+    "test_mode": "zero",
+    "model": "gemma3n_e2b_it_trained_58",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 1.0,
+        "recall": 0.9615384615384616,
+        "f1_score": 0.9803921568627451
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "politics": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "finance": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "culture": {
+        "precision": 0.8,
+        "recall": 1.0,
+        "f1_score": 0.8888888888888888
+      }
+    },
+    "num_epochs": 4
+  },
+  {
+    "timestamp": "2025-08-17/01:58:40",
+    "test_mode": "zero",
+    "model": "gemma2_trained_116",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 0.9615384615384616,
+        "recall": 0.9615384615384616,
+        "f1_score": 0.9615384615384616
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "politics": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "finance": {
+        "precision": 1.0,
+        "recall": 0.75,
+        "f1_score": 0.8571428571428571
+      },
+      "culture": {
+        "precision": 0.8,
+        "recall": 1.0,
+        "f1_score": 0.8888888888888888
+      }
+    },
+    "num_epochs": 3
+  },
+  {
+    "timestamp": "2025-08-17/02:02:27",
+    "test_mode": "zero",
+    "model": "gemma3_1b_trained_116",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 1.0,
+        "recall": 0.6923076923076923,
+        "f1_score": 0.8181818181818182
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "politics": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "finance": {
+        "precision": 0.8,
+        "recall": 1.0,
+        "f1_score": 0.8888888888888888
+      },
+      "culture": {
+        "precision": 1.0,
+        "recall": 0.75,
+        "f1_score": 0.8571428571428571
+      }
+    },
+    "num_epochs": 3
+  },
+  {
+    "timestamp": "2025-08-17/10:01:53",
+    "test_mode": "zero",
+    "model": "gemma3n_e2b_it_trained_116",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 0.9629629629629629,
+        "recall": 1.0,
+        "f1_score": 0.9811320754716981
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 0.8,
+        "recall": 1.0,
+        "f1_score": 0.8888888888888888
+      },
+      "politics": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "finance": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "culture": {
+        "precision": 1.0,
+        "recall": 0.5,
+        "f1_score": 0.6666666666666666
+      }
+    },
+    "num_epochs": 3
+  },
+  {
+    "timestamp": "2025-08-17/10:06:06",
+    "test_mode": "zero",
+    "model": "gemma2_trained_174",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 0.9629629629629629,
+        "recall": 1.0,
+        "f1_score": 0.9811320754716981
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "politics": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "finance": {
+        "precision": 1.0,
+        "recall": 0.75,
+        "f1_score": 0.8571428571428571
+      },
+      "culture": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      }
+    },
+    "num_epochs": 2
+  },
+  {
+    "timestamp": "2025-08-17/10:10:35",
+    "test_mode": "zero",
+    "model": "gemma3_1b_trained_174",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 0.8571428571428571,
+        "recall": 0.9230769230769231,
+        "f1_score": 0.8888888888888888
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "politics": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "finance": {
+        "precision": 1.0,
+        "recall": 0.25,
+        "f1_score": 0.4
+      },
+      "culture": {
+        "precision": 1.0,
+        "recall": 0.25,
+        "f1_score": 0.4
+      }
+    },
+    "num_epochs": 3
+  },
+  {
+    "timestamp": "2025-08-17/10:33:34",
+    "test_mode": "zero",
+    "model": "gemma3n_e2b_it_trained_174",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 0.9629629629629629,
+        "recall": 1.0,
+        "f1_score": 0.9811320754716981
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "politics": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "finance": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "culture": {
+        "precision": 1.0,
+        "recall": 0.75,
+        "f1_score": 0.8571428571428571
+      }
+    },
+    "num_epochs": 2
+  },
+  {
+    "timestamp": "2025-08-17/10:38:05",
+    "test_mode": "zero",
+    "model": "gemma2_trained_232",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 0.5,
+        "f1_score": 0.6666666666666666
+      },
+      "advertisement": {
+        "precision": 0.8888888888888888,
+        "recall": 0.9230769230769231,
+        "f1_score": 0.9056603773584906
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "politics": {
+        "precision": 0.6666666666666666,
+        "recall": 1.0,
+        "f1_score": 0.8
+      },
+      "finance": {
+        "precision": 0.6,
+        "recall": 0.75,
+        "f1_score": 0.6666666666666666
+      },
+      "culture": {
+        "precision": 1.0,
+        "recall": 0.5,
+        "f1_score": 0.6666666666666666
+      }
+    },
+    "num_epochs": 2
+  },
+  {
+    "timestamp": "2025-08-17/10:42:13",
+    "test_mode": "zero",
+    "model": "gemma3_1b_trained_232",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 1.0,
+        "recall": 0.8076923076923077,
+        "f1_score": 0.8936170212765957
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 1.0,
+        "recall": 0.75,
+        "f1_score": 0.8571428571428571
+      },
+      "politics": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "finance": {
+        "precision": 1.0,
+        "recall": 0.75,
+        "f1_score": 0.8571428571428571
+      },
+      "culture": {
+        "precision": 0.5714285714285714,
+        "recall": 1.0,
+        "f1_score": 0.7272727272727273
+      }
+    },
+    "num_epochs": 2
+  },
+  {
+    "timestamp": "2025-08-17/10:52:59",
+    "test_mode": "zero",
+    "model": "gemma3n_e2b_it_trained_232",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 0.9629629629629629,
+        "recall": 1.0,
+        "f1_score": 0.9811320754716981
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 0.8,
+        "recall": 1.0,
+        "f1_score": 0.8888888888888888
+      },
+      "politics": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "finance": {
+        "precision": 1.0,
+        "recall": 0.75,
+        "f1_score": 0.8571428571428571
+      },
+      "culture": {
+        "precision": 1.0,
+        "recall": 0.5,
+        "f1_score": 0.6666666666666666
+      }
+    },
+    "num_epochs": 2
+  },
+  {
+    "timestamp": "2025-08-17/10:58:50",
+    "test_mode": "zero",
+    "model": "gemma3_1b_trained_58",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 1.0,
+        "recall": 0.4230769230769231,
+        "f1_score": 0.5945945945945946
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "politics": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "finance": {
+        "precision": 0.5,
+        "recall": 0.75,
+        "f1_score": 0.6
+      },
+      "culture": {
+        "precision": 0.25,
+        "recall": 1.0,
+        "f1_score": 0.4
+      }
+    },
+    "num_epochs": 5
+  },
+  {
+    "timestamp": "2025-08-17/11:05:28",
+    "test_mode": "zero",
+    "model": "gemma3_1b_trained_58",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 0.8,
+        "recall": 1.0,
+        "f1_score": 0.8888888888888888
+      },
+      "advertisement": {
+        "precision": 1.0,
+        "recall": 0.8461538461538461,
+        "f1_score": 0.9166666666666666
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "politics": {
+        "precision": 0.6666666666666666,
+        "recall": 1.0,
+        "f1_score": 0.8
+      },
+      "finance": {
+        "precision": 1.0,
+        "recall": 0.5,
+        "f1_score": 0.6666666666666666
+      },
+      "culture": {
+        "precision": 0.75,
+        "recall": 0.75,
+        "f1_score": 0.75
+      }
+    },
+    "num_epochs": 5
+  },
+  {
+    "timestamp": "2025-08-17/11:07:51",
+    "test_mode": "zero",
+    "model": "gemma2",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 1.0,
+        "recall": 0.4230769230769231,
+        "f1_score": 0.5945945945945946
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 1.0,
+        "recall": 0.75,
+        "f1_score": 0.8571428571428571
+      },
+      "politics": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "finance": {
+        "precision": 0.4444444444444444,
+        "recall": 1.0,
+        "f1_score": 0.6153846153846154
+      },
+      "culture": {
+        "precision": 0.26666666666666666,
+        "recall": 1.0,
+        "f1_score": 0.42105263157894735
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-17/11:08:32",
+    "test_mode": "few",
+    "model": "gemma3_1b",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 1.0,
+        "recall": 0.5384615384615384,
+        "f1_score": 0.7
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "politics": {
+        "precision": 0.8,
+        "recall": 1.0,
+        "f1_score": 0.8888888888888888
+      },
+      "finance": {
+        "precision": 0.375,
+        "recall": 0.75,
+        "f1_score": 0.5
+      },
+      "culture": {
+        "precision": 0.5,
+        "recall": 1.0,
+        "f1_score": 0.6666666666666666
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-17/11:09:13",
+    "test_mode": "def",
+    "model": "gemma3_1b",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1_score": 0.0
+      },
+      "advertisement": {
+        "precision": 1.0,
+        "recall": 0.6153846153846154,
+        "f1_score": 0.7619047619047619
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "politics": {
+        "precision": 0.25,
+        "recall": 1.0,
+        "f1_score": 0.4
+      },
+      "finance": {
+        "precision": 0.25,
+        "recall": 0.25,
+        "f1_score": 0.25
+      },
+      "culture": {
+        "precision": 0.5,
+        "recall": 0.75,
+        "f1_score": 0.6
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-17/11:09:52",
+    "test_mode": "def-few",
+    "model": "gemma3_1b",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 0.5,
+        "f1_score": 0.6666666666666666
+      },
+      "advertisement": {
+        "precision": 0.9230769230769231,
+        "recall": 0.9230769230769231,
+        "f1_score": 0.9230769230769231
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "politics": {
+        "precision": 0.5,
+        "recall": 1.0,
+        "f1_score": 0.6666666666666666
+      },
+      "finance": {
+        "precision": 0.75,
+        "recall": 0.75,
+        "f1_score": 0.75
+      },
+      "culture": {
+        "precision": 1.0,
+        "recall": 0.5,
+        "f1_score": 0.6666666666666666
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-17/11:16:10",
+    "test_mode": "paraph",
+    "model": "gemma3_1b",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 1.0,
+        "recall": 0.5384615384615384,
+        "f1_score": 0.7
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 1.0,
+        "recall": 0.75,
+        "f1_score": 0.8571428571428571
+      },
+      "politics": {
+        "precision": 0.5714285714285714,
+        "recall": 1.0,
+        "f1_score": 0.7272727272727273
+      },
+      "finance": {
+        "precision": 0.375,
+        "recall": 0.75,
+        "f1_score": 0.5
+      },
+      "culture": {
+        "precision": 0.4444444444444444,
+        "recall": 1.0,
+        "f1_score": 0.6153846153846154
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-17/11:20:18",
+    "test_mode": "zero",
+    "model": "gemma3_1b_trained_116",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 1.0,
+        "recall": 0.11538461538461539,
+        "f1_score": 0.20689655172413793
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "politics": {
+        "precision": 0.8,
+        "recall": 1.0,
+        "f1_score": 0.8888888888888888
+      },
+      "finance": {
+        "precision": 1.0,
+        "recall": 0.25,
+        "f1_score": 0.4
+      },
+      "culture": {
+        "precision": 0.5,
+        "recall": 0.25,
+        "f1_score": 0.3333333333333333
+      }
+    },
+    "num_epochs": 3
+  },
+  {
+    "timestamp": "2025-08-17/11:24:41",
+    "test_mode": "zero",
+    "model": "gemma3_1b_trained_174",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 0.9230769230769231,
+        "recall": 0.9230769230769231,
+        "f1_score": 0.9230769230769231
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 0.8,
+        "recall": 1.0,
+        "f1_score": 0.8888888888888888
+      },
+      "politics": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "finance": {
+        "precision": 1.0,
+        "recall": 0.25,
+        "f1_score": 0.4
+      },
+      "culture": {
+        "precision": 1.0,
+        "recall": 0.25,
+        "f1_score": 0.4
+      }
+    },
+    "num_epochs": 3
+  },
+  {
+    "timestamp": "2025-08-17/11:28:42",
+    "test_mode": "zero",
+    "model": "gemma3_1b_trained_232",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 1.0,
+        "recall": 0.2692307692307692,
+        "f1_score": 0.42424242424242425
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "politics": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "finance": {
+        "precision": 1.0,
+        "recall": 0.25,
+        "f1_score": 0.4
+      },
+      "culture": {
+        "precision": 1.0,
+        "recall": 0.25,
+        "f1_score": 0.4
+      }
+    },
+    "num_epochs": 2
+  },
+  {
+    "timestamp": "2025-08-17/11:35:05",
+    "test_mode": "zero",
+    "model": "gemma2",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 1.0,
+        "recall": 0.4230769230769231,
+        "f1_score": 0.5945945945945946
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 1.0,
+        "recall": 0.75,
+        "f1_score": 0.8571428571428571
+      },
+      "politics": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "finance": {
+        "precision": 0.4444444444444444,
+        "recall": 1.0,
+        "f1_score": 0.6153846153846154
+      },
+      "culture": {
+        "precision": 0.26666666666666666,
+        "recall": 1.0,
+        "f1_score": 0.42105263157894735
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-17/11:41:49",
+    "test_mode": "paraph",
+    "model": "gemma2",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 1.0,
+        "recall": 0.19230769230769232,
+        "f1_score": 0.3225806451612903
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 1.0,
+        "recall": 0.75,
+        "f1_score": 0.8571428571428571
+      },
+      "politics": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "finance": {
+        "precision": 0.36363636363636365,
+        "recall": 1.0,
+        "f1_score": 0.5333333333333333
+      },
+      "culture": {
+        "precision": 0.21052631578947367,
+        "recall": 1.0,
+        "f1_score": 0.34782608695652173
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-17/15:52:53",
+    "test_mode": "zero",
+    "model": "gemma2",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 1.0,
+        "recall": 0.4230769230769231,
+        "f1_score": 0.5945945945945946
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 1.0,
+        "recall": 0.75,
+        "f1_score": 0.8571428571428571
+      },
+      "politics": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "finance": {
+        "precision": 0.4444444444444444,
+        "recall": 1.0,
+        "f1_score": 0.6153846153846154
+      },
+      "culture": {
+        "precision": 0.26666666666666666,
+        "recall": 1.0,
+        "f1_score": 0.42105263157894735
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-17/15:53:38",
+    "test_mode": "zero",
+    "model": "gemma3_1b",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 1.0,
+        "recall": 0.6538461538461539,
+        "f1_score": 0.7906976744186046
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "politics": {
+        "precision": 0.8,
+        "recall": 1.0,
+        "f1_score": 0.8888888888888888
+      },
+      "finance": {
+        "precision": 0.375,
+        "recall": 0.75,
+        "f1_score": 0.5
+      },
+      "culture": {
+        "precision": 0.5714285714285714,
+        "recall": 1.0,
+        "f1_score": 0.7272727272727273
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-17/15:56:40",
+    "test_mode": "zero",
+    "model": "gemma3n_e2b_it",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 1.0,
+        "recall": 0.8846153846153846,
+        "f1_score": 0.9387755102040817
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "politics": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "finance": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "culture": {
+        "precision": 0.5714285714285714,
+        "recall": 1.0,
+        "f1_score": 0.7272727272727273
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-17/15:57:50",
+    "test_mode": "few",
+    "model": "gemma2",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 1.0,
+        "recall": 0.5769230769230769,
+        "f1_score": 0.7317073170731707
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "politics": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "finance": {
+        "precision": 0.42857142857142855,
+        "recall": 0.75,
+        "f1_score": 0.5454545454545454
+      },
+      "culture": {
+        "precision": 0.4,
+        "recall": 1.0,
+        "f1_score": 0.5714285714285714
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-17/15:58:37",
+    "test_mode": "few",
+    "model": "gemma3_1b",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 1.0,
+        "recall": 0.6923076923076923,
+        "f1_score": 0.8181818181818182
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "politics": {
+        "precision": 0.8,
+        "recall": 1.0,
+        "f1_score": 0.8888888888888888
+      },
+      "finance": {
+        "precision": 0.42857142857142855,
+        "recall": 0.75,
+        "f1_score": 0.5454545454545454
+      },
+      "culture": {
+        "precision": 0.5714285714285714,
+        "recall": 1.0,
+        "f1_score": 0.7272727272727273
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-17/16:01:12",
+    "test_mode": "few",
+    "model": "gemma3n_e2b_it",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 1.0,
+        "recall": 0.8846153846153846,
+        "f1_score": 0.9387755102040817
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "politics": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "finance": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "culture": {
+        "precision": 0.5714285714285714,
+        "recall": 1.0,
+        "f1_score": 0.7272727272727273
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-17/16:02:20",
+    "test_mode": "def",
+    "model": "gemma2",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 1.0,
+        "recall": 0.46153846153846156,
+        "f1_score": 0.631578947368421
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "politics": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "finance": {
+        "precision": 0.42857142857142855,
+        "recall": 0.75,
+        "f1_score": 0.5454545454545454
+      },
+      "culture": {
+        "precision": 0.3076923076923077,
+        "recall": 1.0,
+        "f1_score": 0.47058823529411764
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-17/16:03:06",
+    "test_mode": "def",
+    "model": "gemma3_1b",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1_score": 0.0
+      },
+      "advertisement": {
+        "precision": 1.0,
+        "recall": 0.6538461538461539,
+        "f1_score": 0.7906976744186046
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "politics": {
+        "precision": 0.25,
+        "recall": 1.0,
+        "f1_score": 0.4
+      },
+      "finance": {
+        "precision": 0.25,
+        "recall": 0.25,
+        "f1_score": 0.25
+      },
+      "culture": {
+        "precision": 0.6,
+        "recall": 0.75,
+        "f1_score": 0.6666666666666666
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-17/16:05:40",
+    "test_mode": "def",
+    "model": "gemma3n_e2b_it",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 1.0,
+        "recall": 0.9230769230769231,
+        "f1_score": 0.96
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 0.8,
+        "recall": 1.0,
+        "f1_score": 0.8888888888888888
+      },
+      "politics": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "finance": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "culture": {
+        "precision": 0.6,
+        "recall": 0.75,
+        "f1_score": 0.6666666666666666
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-17/16:06:53",
+    "test_mode": "def-few",
+    "model": "gemma2",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 1.0,
+        "recall": 0.4230769230769231,
+        "f1_score": 0.5945945945945946
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "politics": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "finance": {
+        "precision": 0.4444444444444444,
+        "recall": 1.0,
+        "f1_score": 0.6153846153846154
+      },
+      "culture": {
+        "precision": 0.2857142857142857,
+        "recall": 1.0,
+        "f1_score": 0.4444444444444444
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-17/16:07:36",
+    "test_mode": "def-few",
+    "model": "gemma3_1b",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 0.5,
+        "f1_score": 0.6666666666666666
+      },
+      "advertisement": {
+        "precision": 0.9230769230769231,
+        "recall": 0.9230769230769231,
+        "f1_score": 0.9230769230769231
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 0.8,
+        "recall": 1.0,
+        "f1_score": 0.8888888888888888
+      },
+      "politics": {
+        "precision": 0.4,
+        "recall": 1.0,
+        "f1_score": 0.5714285714285714
+      },
+      "finance": {
+        "precision": 0.5,
+        "recall": 0.25,
+        "f1_score": 0.3333333333333333
+      },
+      "culture": {
+        "precision": 1.0,
+        "recall": 0.25,
+        "f1_score": 0.4
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-17/16:10:14",
+    "test_mode": "def-few",
+    "model": "gemma3n_e2b_it",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 1.0,
+        "recall": 0.9230769230769231,
+        "f1_score": 0.96
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 0.8,
+        "recall": 1.0,
+        "f1_score": 0.8888888888888888
+      },
+      "politics": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "finance": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "culture": {
+        "precision": 0.6,
+        "recall": 0.75,
+        "f1_score": 0.6666666666666666
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-17/16:17:15",
+    "test_mode": "paraph",
+    "model": "gemma2",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 1.0,
+        "recall": 0.19230769230769232,
+        "f1_score": 0.3225806451612903
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 1.0,
+        "recall": 0.75,
+        "f1_score": 0.8571428571428571
+      },
+      "politics": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "finance": {
+        "precision": 0.36363636363636365,
+        "recall": 1.0,
+        "f1_score": 0.5333333333333333
+      },
+      "culture": {
+        "precision": 0.21052631578947367,
+        "recall": 1.0,
+        "f1_score": 0.34782608695652173
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-17/16:23:27",
+    "test_mode": "paraph",
+    "model": "gemma3_1b",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 1.0,
+        "recall": 0.5769230769230769,
+        "f1_score": 0.7317073170731707
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 1.0,
+        "recall": 0.75,
+        "f1_score": 0.8571428571428571
+      },
+      "politics": {
+        "precision": 0.5,
+        "recall": 1.0,
+        "f1_score": 0.6666666666666666
+      },
+      "finance": {
+        "precision": 0.375,
+        "recall": 0.75,
+        "f1_score": 0.5
+      },
+      "culture": {
+        "precision": 0.5,
+        "recall": 1.0,
+        "f1_score": 0.6666666666666666
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-17/16:31:50",
+    "test_mode": "paraph",
+    "model": "gemma3n_e2b_it",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 1.0,
+        "recall": 0.7307692307692307,
+        "f1_score": 0.8444444444444444
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "politics": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "finance": {
+        "precision": 0.8,
+        "recall": 1.0,
+        "f1_score": 0.8888888888888888
+      },
+      "culture": {
+        "precision": 0.4444444444444444,
+        "recall": 1.0,
+        "f1_score": 0.6153846153846154
+      }
+    }
+  },
+  {
+    "timestamp": "2025-08-17/16:35:40",
+    "test_mode": "zero",
+    "model": "gemma2_trained_58",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 0.9629629629629629,
+        "recall": 1.0,
+        "f1_score": 0.9811320754716981
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "politics": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "finance": {
+        "precision": 1.0,
+        "recall": 0.75,
+        "f1_score": 0.8571428571428571
+      },
+      "culture": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      }
+    },
+    "num_epochs": 4
+  },
+  {
+    "timestamp": "2025-08-17/16:39:19",
+    "test_mode": "zero",
+    "model": "gemma3_1b_trained_58",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 0.96,
+        "recall": 0.9230769230769231,
+        "f1_score": 0.9411764705882353
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 1.0,
+        "recall": 0.75,
+        "f1_score": 0.8571428571428571
+      },
+      "politics": {
+        "precision": 0.5714285714285714,
+        "recall": 1.0,
+        "f1_score": 0.7272727272727273
+      },
+      "finance": {
+        "precision": 1.0,
+        "recall": 0.25,
+        "f1_score": 0.4
+      },
+      "culture": {
+        "precision": 1.0,
+        "recall": 0.5,
+        "f1_score": 0.6666666666666666
+      }
+    },
+    "num_epochs": 5
+  },
+  {
+    "timestamp": "2025-08-17/16:50:43",
+    "test_mode": "zero",
+    "model": "gemma3n_e2b_it_trained_58",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 1.0,
+        "recall": 0.9615384615384616,
+        "f1_score": 0.9803921568627451
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "politics": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "finance": {
+        "precision": 1.0,
+        "recall": 0.75,
+        "f1_score": 0.8571428571428571
+      },
+      "culture": {
+        "precision": 0.8,
+        "recall": 1.0,
+        "f1_score": 0.8888888888888888
+      }
+    },
+    "num_epochs": 4
+  },
+  {
+    "timestamp": "2025-08-17/16:54:54",
+    "test_mode": "zero",
+    "model": "gemma2_trained_116",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 0.9629629629629629,
+        "recall": 1.0,
+        "f1_score": 0.9811320754716981
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "politics": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "finance": {
+        "precision": 1.0,
+        "recall": 0.75,
+        "f1_score": 0.8571428571428571
+      },
+      "culture": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      }
+    },
+    "num_epochs": 3
+  },
+  {
+    "timestamp": "2025-08-17/16:58:40",
+    "test_mode": "zero",
+    "model": "gemma3_1b_trained_116",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 0.92,
+        "recall": 0.8846153846153846,
+        "f1_score": 0.9019607843137255
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 1.0,
+        "recall": 0.25,
+        "f1_score": 0.4
+      },
+      "politics": {
+        "precision": 0.4444444444444444,
+        "recall": 1.0,
+        "f1_score": 0.6153846153846154
+      },
+      "finance": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1_score": 0.0
+      },
+      "culture": {
+        "precision": 1.0,
+        "recall": 0.25,
+        "f1_score": 0.4
+      }
+    },
+    "num_epochs": 3
+  },
+  {
+    "timestamp": "2025-08-17/17:09:29",
+    "test_mode": "zero",
+    "model": "gemma3n_e2b_it_trained_116",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 0.9285714285714286,
+        "recall": 1.0,
+        "f1_score": 0.9629629629629629
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 0.6666666666666666,
+        "recall": 1.0,
+        "f1_score": 0.8
+      },
+      "politics": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "finance": {
+        "precision": 1.0,
+        "recall": 0.75,
+        "f1_score": 0.8571428571428571
+      },
+      "culture": {
+        "precision": 1.0,
+        "recall": 0.25,
+        "f1_score": 0.4
+      }
+    },
+    "num_epochs": 3
+  },
+  {
+    "timestamp": "2025-08-17/17:13:37",
+    "test_mode": "zero",
+    "model": "gemma2_trained_174",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 0.896551724137931,
+        "recall": 1.0,
+        "f1_score": 0.9454545454545454
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "politics": {
+        "precision": 0.6666666666666666,
+        "recall": 1.0,
+        "f1_score": 0.8
+      },
+      "finance": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1_score": 0.0
+      },
+      "culture": {
+        "precision": 1.0,
+        "recall": 0.75,
+        "f1_score": 0.8571428571428571
+      }
+    },
+    "num_epochs": 2
+  },
+  {
+    "timestamp": "2025-08-17/17:18:06",
+    "test_mode": "zero",
+    "model": "gemma3_1b_trained_174",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 0.8125,
+        "recall": 1.0,
+        "f1_score": 0.896551724137931
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "politics": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "finance": {
+        "precision": 1.0,
+        "recall": 0.25,
+        "f1_score": 0.4
+      },
+      "culture": {
+        "precision": 1.0,
+        "recall": 0.25,
+        "f1_score": 0.4
+      }
+    },
+    "num_epochs": 3
+  },
+  {
+    "timestamp": "2025-08-17/17:27:37",
+    "test_mode": "zero",
+    "model": "gemma3n_e2b_it_trained_174",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 0.9629629629629629,
+        "recall": 1.0,
+        "f1_score": 0.9811320754716981
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 0.8,
+        "recall": 1.0,
+        "f1_score": 0.8888888888888888
+      },
+      "politics": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "finance": {
+        "precision": 1.0,
+        "recall": 0.75,
+        "f1_score": 0.8571428571428571
+      },
+      "culture": {
+        "precision": 1.0,
+        "recall": 0.5,
+        "f1_score": 0.6666666666666666
+      }
+    },
+    "num_epochs": 2
+  },
+  {
+    "timestamp": "2025-08-17/17:32:53",
+    "test_mode": "zero",
+    "model": "gemma2_trained_232",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 1.0,
+        "recall": 0.9615384615384616,
+        "f1_score": 0.9803921568627451
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "politics": {
+        "precision": 0.8,
+        "recall": 1.0,
+        "f1_score": 0.8888888888888888
+      },
+      "finance": {
+        "precision": 1.0,
+        "recall": 0.75,
+        "f1_score": 0.8571428571428571
+      },
+      "culture": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      }
+    },
+    "num_epochs": 2
+  },
+  {
+    "timestamp": "2025-08-17/17:37:01",
+    "test_mode": "zero",
+    "model": "gemma3_1b_trained_232",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 0.9230769230769231,
+        "recall": 0.9230769230769231,
+        "f1_score": 0.9230769230769231
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1_score": 0.0
+      },
+      "politics": {
+        "precision": 0.6666666666666666,
+        "recall": 1.0,
+        "f1_score": 0.8
+      },
+      "finance": {
+        "precision": 1.0,
+        "recall": 0.25,
+        "f1_score": 0.4
+      },
+      "culture": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1_score": 0.0
+      }
+    },
+    "num_epochs": 2
+  },
+  {
+    "timestamp": "2025-08-17/17:47:10",
+    "test_mode": "zero",
+    "model": "gemma3n_e2b_it_trained_232",
+    "metrics_per_class": {
+      "crime": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "advertisement": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "weather": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "gossip": {
+        "precision": 0.6666666666666666,
+        "recall": 1.0,
+        "f1_score": 0.8
+      },
+      "politics": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "finance": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "culture": {
+        "precision": 1.0,
+        "recall": 0.5,
+        "f1_score": 0.6666666666666666
+      }
+    },
+    "num_epochs": 2
+  },
+  {
+    "timestamp": "2025-08-21/22:23:38",
+    "test_mode": "def",
+    "model": "gemma2",
+    "metrics_per_class": {
+      "fuel system problems": {
+        "precision": 0.8888888888888888,
+        "recall": 1.0,
+        "f1_score": 0.9411764705882353
+      },
+      "ignition system malfunctions": {
+        "precision": 0.9523809523809523,
+        "recall": 0.8333333333333334,
+        "f1_score": 0.8888888888888888
+      },
+      "cooling system anomalies": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "brake system defects": {
+        "precision": 0.96,
+        "recall": 1.0,
+        "f1_score": 0.9795918367346939
+      },
+      "transmission problems": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1_score": 1.0
+      },
+      "electrical/electronic failures": {
+        "precision": 0.9130434782608695,
+        "recall": 0.875,
+        "f1_score": 0.8936170212765957
+      }
+    }
+  }
+]

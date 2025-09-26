@@ -1,4 +1,6 @@
 import pandas as pd
+import numpy as np
+import random
 import argparse
 # import bitsandbytes as bnb
 import accelerate as aclrt
@@ -17,11 +19,17 @@ import torch
 from trl import SFTTrainer
 import shutil
 import gc
+import json
 
-TESTING_DATASET_PATH = "dataset_large.tsv"  # dataset.tsv is the default
-# TESTING_DATASET_PATH = "./dataset/testing/news_test_dataset.tsv" #alternative dataset for dishomogeneous dataset
+RANDOM_SEED = 3407
+
+TESTING_DATASET_PATH = "dataset_medium.tsv"  # dataset.tsv is the default
 TRAINING_DATASET_PATH = "examples.tsv"  # training_dataset.tsv is the default
 VALIDATION_DATASET_PATH = "eval_dataset.tsv"  # eval_dataset.tsv is the default
+
+# TESTING_DATASET_PATH = "./dataset/alternative_dataset/news_test_dataset.tsv" #alternative dataset for dishomogeneous dataset
+# TRAINING_DATASET_PATH = "./dataset/alternative_dataset/news_training_dataset.tsv"  # training_dataset.tsv is the default
+# VALIDATION_DATASET_PATH = "./dataset/alternative_dataset/news_eval_dataset.tsv"  # eval_dataset.tsv is the default
 
 
 def create_model_and_tokenizer(model_name, device, trained, perform_new_training, examples_path=None):
@@ -45,9 +53,6 @@ def create_model_and_tokenizer(model_name, device, trained, perform_new_training
         case "gemma3_1b":
             model_id = "google/gemma-3-1b-it"
             model_name_normalized = "gemma3_1b"
-        case "gemma3_4b":
-            model_id = "google/gemma-3-4b-it"
-            model_name_normalized = "gemma3_4b"
         case "gemma3n_e2b_it":
             model_id = "google/gemma-3n-E2B-it"
             model_name_normalized = "gemma3n_e2b_it"
@@ -220,7 +225,8 @@ class Paraphraser:
         extended_df = pd.DataFrame(new_rows)
         extended_df = extended_df.sample(frac=1).reset_index(drop=True)
 
-        output_dir = "./dataset/training/"
+        # output_dir = "./dataset/training/"
+        output_dir = "./dataset/alternative_dataset/extended_training_datasets/"
         os.makedirs(output_dir, exist_ok=True)
         
         # save the extended dataset to a new file
@@ -251,6 +257,13 @@ class FineTuningClassifier:
         self.eval_loss = None
         self.train_loss = None
         self.eval_accuracy = None
+        
+        torch.manual_seed(RANDOM_SEED)
+        random.seed(RANDOM_SEED)
+        np.random.seed(RANDOM_SEED)
+        torch.cuda.manual_seed_all(RANDOM_SEED)
+        torch.backends.cudnn.deterministic = True
+        torch.backends.cudnn.benchmark = False
 
         print(f"Running in: {test_mode} mode [{'trained]' if self.trained else 'base (untrained)]'}")
         print(f"Running with {self.model_id} model")
@@ -258,7 +271,7 @@ class FineTuningClassifier:
         # load dataset, examples and set categories
         self.test_df = pd.read_csv(dataset_path, sep="\t")
         
-        if self.dataset_path == "./dataset/testing/news_test_dataset.tsv": # categories for not homogeneous news dataset
+        if self.dataset_path == "./dataset/alternative_dataset/news_test_dataset.tsv": # categories for not homogeneous news dataset
             self.categories = [
                 "crime",
                 "advertisement",
@@ -335,6 +348,9 @@ class FineTuningClassifier:
             
             # Load context examples specifically for few-shot modes
             context_examples_df = pd.read_csv("context_examples.tsv", sep="\t")
+            
+            if self.dataset_path == "./dataset/alternative_dataset/news_test_dataset.tsv":
+                context_examples_df = pd.read_csv("./dataset/alternative_dataset/news_context_examples_dataset.tsv", sep="\t")
 
             # get 1 example per category
             few_shot_rows = []
@@ -375,6 +391,15 @@ class FineTuningClassifier:
             f"{', '.join(self.categories)}.\n"
             "using the following examples:\n"
         )
+        
+        if self.dataset_path == "./dataset/alternative_dataset/news_test_dataset.tsv":
+            prompt = (  #circa 88% con gemma3
+                f"Classify the following news article: "
+                f"{phrase}\n"
+                "into one of these categories: "
+                f"{', '.join(self.categories)}.\n"
+                "using the following examples:\n"
+            )
 
         if self.adjusted_example_pool_size > 0:
             prompt += f"Examples:\n"
@@ -405,7 +430,7 @@ class FineTuningClassifier:
             f"{', '.join(self.categories)}.\n\n"
         )
         
-        if self.dataset_path == "./dataset/testing/news_test_dataset.tsv": # categories for not homogeneous news dataset
+        if self.dataset_path == "./dataset/alternative_dataset/news_test_dataset.tsv": # categories for not homogeneous news dataset
             prompt = (  
                 f"Classify the following news article: " #for some reason keeping the automotive failure phrase increases accuracy by about 5% IN GEMMA 3 BUT GEMMA TWO LIKES THIS PROMPT
                 f"{phrase}\n"
@@ -416,7 +441,7 @@ class FineTuningClassifier:
         return prompt
 
 
-    def build_definitions_prompt(self, phrase  ):
+    def build_definitions_prompt(self, phrase):
         """
          Prompt construction function for test with category definitions.
         :param phrase:
@@ -448,6 +473,22 @@ class FineTuningClassifier:
             "Transmission Problems: Issues within the system responsible for transmitting power from the engine to the wheels, including automatic or manual transmissions. Common problems involve slipping gears, delayed shifting, or leaks in the transmission fluid. Symptoms include unusual noises and difficulty in shifting gears.\n"
             "Electrical/Electronic Failures: Faults in the vehicle's electrical or electronic systems, including the battery, alternator, wiring, or onboard computers. These can manifest as flickering lights, dead batteries, or malfunctioning electronic components like power windows or dashboard instruments. \n"
         )
+        
+        if self.dataset_path == "./dataset/alternative_dataset/news_test_dataset.tsv":
+            prompt = ( 
+                f"Classify the following news article: "
+                f"{phrase}\n"
+                "into one of these categories: "
+                f"{', '.join(self.categories)}.\n"
+                "using the following definitions:\n"
+                "crime: the focus on the stories related to the commitment of crimes (e.g., bank robbery, murder) or the potential criminal activity (e.g., corporate ethics, fraud)\n"
+                "advertisement: the activity or profession of producing advertisements for commercial products or services\n"
+                "weather: The study, prediction and reporting of meteorological phenomena\n"
+                "gossip: the part of a newspaper in which you find stories about the social and private lives of famous people\n"
+                "politics: A news produced by the mainstream media, such as news TV channel, that contains information related with politics, public issues and policies and political affairs.\n"
+                "finance: News about the arts and other manifestations of human intellectual achievement regarded collectively\n"
+                "culture: any news that pertains to money and investments, including news on markets\n"
+            )
 
         return prompt
 
@@ -472,9 +513,26 @@ class FineTuningClassifier:
             "Electrical/Electronic Failures: Faults in the vehicle's electrical or electronic systems, including the battery, alternator, wiring, or onboard computers. These can manifest as flickering lights, dead batteries, or malfunctioning electronic components like power windows or dashboard instruments. \n"
             "With the following examples:\n"
         )
+        
+        if self.dataset_path == "./dataset/alternative_dataset/news_test_dataset.tsv":
+            prompt = (
+                f"Classify the following news article: "
+                f"{phrase}\n"
+                "into one of these categories: "
+                f"{', '.join(self.categories)}.\n"
+                "using the following definitions:\n"
+                "crime: the focus on the stories related to the commitment of crimes (e.g., bank robbery, murder) or the potential criminal activity (e.g., corporate ethics, fraud)\n"
+                "advertisement: the activity or profession of producing advertisements for commercial products or services\n"
+                "weather: The study, prediction and reporting of meteorological phenomena\n"
+                "gossip: the part of a newspaper in which you find stories about the social and private lives of famous people\n"
+                "politics: A news produced by the mainstream media, such as news TV channel, that contains information related with politics, public issues and policies and political affairs.\n"
+                "finance: News about the arts and other manifestations of human intellectual achievement regarded collectively\n"
+                "culture: any news that pertains to money and investments, including news on markets\n"
+                "With the following examples:\n"
+            )
 
         if self.adjusted_example_pool_size > 0:
-            for example in examples: #circa 75% con gemma3,
+            for example in examples:
                 # prompt += f"Failure: {example['phrase']}\nCategory: {example['category']}\n\n"
                 prompt += f"{example['category']}: {example['phrase']}\n"
 
@@ -517,7 +575,7 @@ class FineTuningClassifier:
         inputs = {k: v.to(self.device) for k, v in inputs.items()}
 
         with torch.inference_mode():
-            torch.manual_seed(3407)
+            torch.manual_seed(RANDOM_SEED)
             outputs = self.model.generate(**inputs, max_new_tokens=30)
 
         decoded = self.tokenizer.batch_decode(outputs, skip_special_tokens=True)
@@ -540,7 +598,7 @@ class FineTuningClassifier:
             'bias':"none",        # Supports any, but = "none" is optimized
              # [NEW] "unsloth" uses 30% less VRAM, fits 2x larger batch sizes!
             'use_gradient_checkpointing':"unsloth",  # True or "unsloth" for very long context
-            'random_state':3407, #x riproducibilità esperimento
+            'random_state':RANDOM_SEED, #x riproducibilità esperimento
             'use_rslora':False,  # We support rank stabilized LoRA
             'loftq_config':None  # And LoftQ
         }
@@ -553,7 +611,7 @@ class FineTuningClassifier:
                             "gate_proj", "up_proj", "down_proj"], #target all linear layers for lora (full fine-tuning like performance)
             lora_dropout=0.1,  # changed from 0.05 24/07/25
             bias="none",
-            # random_state=3407,  # For reproducibility DOESN'T WORK
+            # random_state=RANDOM_SEED,  # For reproducibility DOESN'T WORK
             task_type="CAUSAL_LM",
         )
         return config
@@ -572,8 +630,8 @@ class FineTuningClassifier:
             "optim": "adamw_8bit",
             "weight_decay": 0.01,
             "lr_scheduler_type": "linear",
-            "seed": 3407,
-            "data_seed": 3407,
+            "seed": RANDOM_SEED,
+            "data_seed": RANDOM_SEED,
             "report_to": "none",  # Use this for WandB etc
         }
 
@@ -639,6 +697,9 @@ class FineTuningClassifier:
             category = examples["category"][i]
             # Format each row into a prompt-response string
             text = f"Classify the following automotive failure: {phrase}\ninto one of these categories: {', '.join(self.categories)}.\nCategory: {category}"
+            
+            if self.dataset_path == "./dataset/alternative_dataset/news_test_dataset.tsv":
+                text = f"Classify the following news article: {phrase}\ninto one of these categories: {', '.join(self.categories)}.\nCategory: {category}"
             texts.append(text)
         return {"text": texts}
 
@@ -674,7 +735,7 @@ class FineTuningClassifier:
             train_params = self.__get_train_params_default(temp_output_dir, use_epochs=use_epochs, num_epochs=num_epochs)
 
         # Store the training parameters used for logging
-        if use_epochs:
+        if use_epochs or self.use_early_stopping:
             self.num_epochs = train_params.num_train_epochs
             self.max_steps = train_params.max_steps
 
@@ -690,7 +751,7 @@ class FineTuningClassifier:
         callbacks_ = None
         eval_dataset_ = None
         if self.use_early_stopping:
-            callbacks_ = [EarlyStoppingCallback(early_stopping_patience=3)]
+            callbacks_ = [EarlyStoppingCallback(early_stopping_patience=1)] 
             eval_dataset_ = Dataset.from_pandas(self.eval_df) 
             eval_dataset_ = eval_dataset_.map(self.formatting_prompts_func, batched=True)
         elif num_epochs is not None: # Also enable evaluation for epoch experiment
@@ -767,11 +828,18 @@ class FineTuningClassifier:
     def sklearn_metrics(self, topics, expected_labels, predicted_labels):
         """
         Calculate performance metrics using sklearn (confusion matrix, precision score, recall score, accuracy score).
-        :return:
+        :return: Dictionary containing all metrics data
         """
         expected_labels_normalized = [label.lower() for label in expected_labels]
         predicted_labels_normalized = [label.lower() for label in predicted_labels]
         topics_normalized = [topic.lower() for topic in topics]
+        
+        # associate predicted labels that contain expected labels as substrings
+        for i, predicted_label in enumerate(predicted_labels_normalized):
+            for expected_label in expected_labels_normalized:
+                if expected_label in predicted_label and expected_label != predicted_label:
+                    predicted_labels_normalized[i] = expected_label
+                    break
 
         accuracy = accuracy_score(expected_labels_normalized, predicted_labels_normalized)
 
@@ -784,24 +852,61 @@ class FineTuningClassifier:
         f1_per_label = f1_score(expected_labels_normalized, predicted_labels_normalized, labels=topics_normalized, average=None, zero_division=0)
 
         # Stampa i risultati per ogni label
-
-        for label, precision, recall, f1 in zip(topics, precision_per_label, recall_per_label, f1_per_label):
+        metrics_data = {}
+        for label, precision, recall, f1 in zip(topics_normalized, precision_per_label, recall_per_label, f1_per_label):
             print(f"Risultati per '{label}':")
-
             print(f"  Precisione: {precision:.4f}")
-
             print(f"  Recall: {recall:.4f}")
-
             print(f"  F1-Score: {f1:.4f}")
+            
+            # Store metrics for JSON export
+            metrics_data[label] = {
+                "precision": float(precision),
+                "recall": float(recall),
+                "f1_score": float(f1)
+            }
 
         # confusion matrix
         confusion = confusion_matrix(expected_labels_normalized, predicted_labels_normalized, labels=topics_normalized)
 
-        disp = ConfusionMatrixDisplay(confusion_matrix=confusion, display_labels=topics_normalized)
+        # Add line breaks to category names for better readability
+        display_labels = []
+        for label in topics_normalized:
+            # Split long category names and add line breaks
+            if len(label) > 15:  # Adjust threshold as needed
+                words = label.split()
+                if len(words) > 1:
+                    mid_point = len(words) // 2
+                    line1 = ' '.join(words[:mid_point])
+                    line2 = ' '.join(words[mid_point:])
+                    display_labels.append(f"{line1}\n{line2}")
+                else:
+                    display_labels.append(label)
+            else:
+                display_labels.append(label)
 
-        fig, ax = plt.subplots(figsize=(12, 10))
+        disp = ConfusionMatrixDisplay(confusion_matrix=confusion, display_labels=display_labels)
+
+        # Create figure with higher DPI and larger size
+        fig, ax = plt.subplots(figsize=(16, 14), dpi=200)
 
         disp.plot(ax=ax, xticks_rotation=45)
+
+        # Improve text readability with even larger fonts
+        ax.set_xlabel('Predicted Label', fontsize=24, fontweight='bold')
+        ax.set_ylabel('True Label', fontsize=24, fontweight='bold')
+
+        # Make tick labels even larger and bold
+        ax.tick_params(axis='both', which='major', labelsize=16)
+        for label in ax.get_xticklabels():
+            label.set_fontweight('bold')
+        for label in ax.get_yticklabels():
+            label.set_fontweight('bold')
+
+        # Make the numbers in the matrix even larger and bold
+        for text in disp.text_.ravel():
+            text.set_fontsize(20)
+            text.set_fontweight('bold')
 
         plt.tight_layout()
 
@@ -809,31 +914,37 @@ class FineTuningClassifier:
         trained_df_len = len(self.train_df) if self.trained and self.train_df is not None else 0
         model_suffix = f"{self.model_name}{'_trained_' + str(trained_df_len) if self.trained and trained_df_len > 0 else ''}"
 
+        fileName = "vehicularFailures" if self.dataset_path == "./dataset/alternative_dataset/vehicular_failures_test_dataset.tsv" else "news"
         match self.test_mode:
             case "few":
-                plt.savefig(f"{base_path}/{model_suffix}_vehicularFailures_few-shot.png")
+                plt.savefig(f"{base_path}/{model_suffix}_{fileName}_few-shot.png", dpi=200, bbox_inches='tight')
             case "paraph":
-                plt.savefig(f"{base_path}/{model_suffix}_vehicularFailures_paraph.png")
+                plt.savefig(f"{base_path}/{model_suffix}_{fileName}_paraph.png", dpi=200, bbox_inches='tight')
             case "zero":
-                plt.savefig(f"{base_path}/{model_suffix}_vehicularFailures_zero-shot.png")
+                plt.savefig(f"{base_path}/{model_suffix}_{fileName}_zero-shot.png", dpi=200, bbox_inches='tight')
             case "def":
-                plt.savefig(f"{base_path}/{model_suffix}_vehicularFailures_definitions-test.png")
+                plt.savefig(f"{base_path}/{model_suffix}_{fileName}_definitions-test.png", dpi=200, bbox_inches='tight')
             case "def-few":
-                plt.savefig(f"{base_path}/{model_suffix}_vehicularFailures_definitions-and_examples-test.png")
+                plt.savefig(f"{base_path}/{model_suffix}_{fileName}_definitions-and_examples-test.png", dpi=200, bbox_inches='tight')
 
-    def log_results_to_csv(self, accuracy, process_time):
+        return metrics_data
+
+    def log_results_to_csv(self, accuracy, process_time, detailed_metrics=None):
         """
-         Log accuracy results to a CSV file.
+         Log accuracy results to a CSV file and detailed metrics to JSON file.
         :param accuracy:
         :param process_time:
+        :param detailed_metrics: Dictionary containing precision, recall, f1-score per class
         :return:
         """
         model_log_name = self.model_name
         if self.trained:
             model_log_name = f"{self.model_name}_trained_{self.training_dataset_length}"
 
+        timestamp = datetime.now().strftime("%Y-%m-%d/%H:%M:%S")
+        
         new_row = {
-            "Timestamp": datetime.now().strftime("%Y-%m-%d/%H:%M:%S"),
+            "Timestamp": timestamp,
             "Test mode": self.test_mode,
             "Model": model_log_name,
             "Process_time(s)": process_time,
@@ -900,6 +1011,57 @@ class FineTuningClassifier:
         df = df.reindex(columns=[col for col in all_columns if col in df.columns])
 
         df.to_csv(self.csv_result_file, index=False, sep=";")
+        
+        # Save detailed metrics to JSON if provided
+        if detailed_metrics is not None:
+            self.save_sklearn_metrics_to_json(timestamp, model_log_name, detailed_metrics)
+
+    def save_sklearn_metrics_to_json(self, timestamp, model_log_name, detailed_metrics):
+        """
+        Save detailed sklearn metrics to a JSON file.
+        :param timestamp: Test run timestamp
+        :param model_log_name: Model identifier
+        :param detailed_metrics: Dictionary containing precision, recall, f1-score per class
+        """
+        json_filename = self.csv_result_file.replace('.csv', '_sklearn_metrics.json')
+        
+        # Create test run record
+        test_run_record = {
+            "timestamp": timestamp,
+            "test_mode": self.test_mode,
+            "model": model_log_name,
+            "metrics_per_class": detailed_metrics
+        }
+        
+        # Add additional context if available
+        if self.examples_per_category is not None:
+            test_run_record["training_examples_per_category"] = self.examples_per_category
+        if self.trained and self.num_epochs is not None:
+            test_run_record["num_epochs"] = int(self.num_epochs)
+        if self.eval_loss is not None:
+            test_run_record["eval_loss"] = self.eval_loss
+        if self.train_loss is not None:
+            test_run_record["train_loss"] = self.train_loss
+        
+        # Load existing data or create new
+        if os.path.exists(json_filename):
+            try:
+                with open(json_filename, 'r', encoding='utf-8') as f:
+                    all_metrics = json.load(f)
+            except (json.JSONDecodeError, FileNotFoundError):
+                all_metrics = []
+        else:
+            all_metrics = []
+        
+        # Append new record
+        all_metrics.append(test_run_record)
+        
+        # Save updated data
+        os.makedirs(os.path.dirname(json_filename) if os.path.dirname(json_filename) else '.', exist_ok=True)
+        with open(json_filename, 'w', encoding='utf-8') as f:
+            json.dump(all_metrics, f, indent=2, ensure_ascii=False)
+        
+        print(f"Sklearn metrics saved to: {json_filename}")
 
     def evaluate_train_eval_accuracy(self, training_dataset, validation_dataset):
         """
@@ -1007,9 +1169,10 @@ class FineTuningClassifier:
 
         accuracy, correct, total = self.evaluate_accuracy(predictions, self.test_df)
         print(f"\nModel Accuracy: {accuracy:.2f}% ({correct}/{total} correct) |Test Mode: {self.test_mode} |Process time: {process_time:.2f} seconds")
-        self.log_results_to_csv(accuracy, process_time)
-
-        self.sklearn_metrics(self.categories, self.test_df['category'].to_list(), predictions)
+        
+        # Calculate detailed metrics and save to JSON
+        detailed_metrics = self.sklearn_metrics(self.categories, self.test_df['category'].to_list(), predictions)
+        self.log_results_to_csv(accuracy, process_time, detailed_metrics)
 
 
 def run_training_experiment(args, device):
@@ -1036,7 +1199,7 @@ def run_training_experiment(args, device):
             model_name=model_name,
             device=device,
             dataset_path=TESTING_DATASET_PATH,
-            eval_dataset_path="eval_dataset.tsv",
+            eval_dataset_path="./dataset/alternative_dataset/news_test_dataset.tsv",
             trained=True,
             examples_path=args.examples_path,
             csv_result_file="./training_set_size_accuracy.csv", # specific CSV for this experiment
@@ -1049,13 +1212,12 @@ def run_training_experiment(args, device):
 
     print("--- Training Examples Experiment Finished ---")
 
-
-def run_epoch_experiment(args, device):
+def run_epoch_experiment(args, device, epoch_number_max):
     """Runs an experiment to test model accuracy and loss with a varying number of training epochs."""
     print("--- Starting Epoch vs. Accuracy/Loss Experiment ---")
-    MAX_EPOCHS = 16  # Maximum number of epochs to test
+    MAX_EPOCHS = 13  # Maximum number of epochs to test
     
-    for epoch_num in range(1, MAX_EPOCHS + 1):
+    for epoch_num in range(epoch_number_max,epoch_number_max+1 ): #MAX_EPOCHS + 1
         print(f"\n--- Running experiment with {epoch_num} epochs ---")
         
         # Always load the base model for each training run
@@ -1088,7 +1250,7 @@ def run_epoch_experiment(args, device):
             model_name=model_name,
             device=device,
             dataset_path=TRAINING_DATASET_PATH,   #CALCULATE ACCURACY ON THE TRAINING DATASET
-            eval_dataset_path="eval_dataset.tsv",
+            eval_dataset_path="./dataset/alternative_dataset/news_test_dataset.tsv",
             trained=True,
             examples_path=args.examples_path,
             csv_result_file="./epoch_vs_accuracy_loss.csv", # specific CSV for this experiment
@@ -1103,8 +1265,15 @@ def run_epoch_experiment(args, device):
         del model
         del tokenizer
         del classifier
+        model = None,
+        tokenizer = None
+        classifier = None
         gc.collect()
-        torch.cuda.empty_cache()
+        with torch.no_grad():
+            torch.cuda.empty_cache()
+            torch.cuda.synchronize()
+            torch.cuda.empty_cache()
+            torch.cuda.ipc_collect() 
         
     print("--- Epoch vs. Accuracy/Loss Experiment Finished ---")
 
@@ -1113,7 +1282,7 @@ if __name__ == "__main__":
     #snapshot_download(repo_id="google/gemma-3-1b-it") #Use only the first time to install the model locally
 
     # --- FLAG TO FORCE RETRAINING ---
-    PERFORM_NEW_TRAINING = False # Set to True to force retraining even if a trained model exists
+    PERFORM_NEW_TRAINING = True # Set to True to force retraining even if a trained model exists
 
     parser = argparse.ArgumentParser(description="Fine-tuning classifier for automotive failure detection.")
 
@@ -1124,6 +1293,15 @@ if __name__ == "__main__":
         default="gemma3_1b",  # Default value from the classifier initialization
         choices=["gemma2", "gemma3_1b", "gemma3n_e2b_it"],
         help="Choose model between gemma2, gemma3_1b. Default is 'gemma3_1b'."
+    )
+    
+    parser.add_argument(
+        "--epoch_number_max",
+        type=int,
+        nargs='?',
+        const=3,  # Default value if flag is present without a number
+        default=None, # Default value if flag is not present
+        help="Paraphrase and extend the training dataset. Optionally specify the number of paraphrases per phrase (default: 3)."
     )
 
     # change model type used
@@ -1211,7 +1389,7 @@ if __name__ == "__main__":
     elif args.training_examples_experiment:
         run_training_experiment(args, device)
     elif args.epoch_experiment:
-        run_epoch_experiment(args, device)
+        run_epoch_experiment(args, device, args.epoch_number_max)
     else:
         # Create model and tokenizer outside the class
         model, tokenizer, model_id, model_name, training_dataset_length, num_epochs = create_model_and_tokenizer(
@@ -1229,7 +1407,7 @@ if __name__ == "__main__":
             model_name=model_name,
             device=device,
             dataset_path=TESTING_DATASET_PATH,
-            eval_dataset_path="eval_dataset.tsv",
+            eval_dataset_path="./dataset/alternative_dataset/news_test_dataset.tsv",
             trained=args.training,
             examples_path=args.examples_path,
             csv_result_file="./accuracy_example_pool_sizes.csv",
